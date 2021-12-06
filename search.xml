@@ -63,8 +63,8 @@
       </tags>
   </entry>
   <entry>
-    <title>hexo执行 hexo g 会导致自定义域名丢失的问题</title>
-    <url>/2021/12/06/%E4%BC%9A%E5%AF%BC%E8%87%B4%E8%87%AA%E5%AE%9A%E4%B9%89%E5%9F%9F%E5%90%8D%E4%B8%A2%E5%A4%B1%E7%9A%84%E9%97%AE%E9%A2%98/</url>
+    <title>hexo执行 hexo d 会导致自定义域名丢失的问题</title>
+    <url>/2021/12/06/hexo%E6%89%A7%E8%A1%8Chexo%20d%20%E4%BC%9A%E5%AF%BC%E8%87%B4%E8%87%AA%E5%AE%9A%E4%B9%89%E5%9F%9F%E5%90%8D%E4%B8%A2%E5%A4%B1%E7%9A%84%E9%97%AE%E9%A2%98/</url>
     <content><![CDATA[<h2 id="1-原因"><a href="#1-原因" class="headerlink" title="1.原因"></a>1.原因</h2><h3 id="hexo会自动清空存储库，删除无关的文件，导致github项目中-setting-里的-Custom-domain被重置"><a href="#hexo会自动清空存储库，删除无关的文件，导致github项目中-setting-里的-Custom-domain被重置" class="headerlink" title="hexo会自动清空存储库，删除无关的文件，导致github项目中 setting 里的 Custom domain被重置"></a>hexo会自动清空存储库，删除无关的文件，导致github项目中 <code>setting</code> 里的 <code>Custom domain</code>被重置</h3><span id="more"></span>
 
 <h2 id="2-解决办法"><a href="#2-解决办法" class="headerlink" title="2.解决办法"></a>2.解决办法</h2><h3 id="2-1-在项目的source目录中添加名字为CNAME的文件，注意：没有后缀名，没有点"><a href="#2-1-在项目的source目录中添加名字为CNAME的文件，注意：没有后缀名，没有点" class="headerlink" title="2.1.在项目的source目录中添加名字为CNAME的文件，注意：没有后缀名，没有点"></a>2.1.在项目的source目录中添加名字为<code>CNAME</code>的文件，注意：没有后缀名，没有点</h3><h3 id="2-2-编辑器打开该文件将你自己的域名添加到文件中"><a href="#2-2-编辑器打开该文件将你自己的域名添加到文件中" class="headerlink" title="2.2.编辑器打开该文件将你自己的域名添加到文件中"></a>2.2.编辑器打开该文件将你自己的域名添加到文件中</h3><h3 id="2-3-保存文件后重新执行-hexo-clean-hexo-g-hexo-d重新上传到github即可"><a href="#2-3-保存文件后重新执行-hexo-clean-hexo-g-hexo-d重新上传到github即可" class="headerlink" title="2.3.保存文件后重新执行 hexo clean hexo g hexo d重新上传到github即可"></a>2.3.保存文件后重新执行 <code>hexo clean</code> <code>hexo g</code> <code>hexo d</code>重新上传到github即可</h3>]]></content>
