@@ -12,7 +12,7 @@
   <meta name="description" content="千城墨白,博客,blog,记录生活">
   
   <title>
-    关于我 |
+    test |
     
     千城墨白
   </title>
@@ -35,7 +35,7 @@
 <body>
   <main class="content">
     <section class="outer">
-  <article id="about-" class="article article-type-about" itemscope
+  <article id="post-test" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
   <div class="article-inner">
     
@@ -43,7 +43,7 @@
       
 
 <h1 class="article-title" itemprop="name">
-  关于我
+  test
 </h1>
 
 
@@ -52,22 +52,36 @@
     
 
     
+    <div class="article-meta">
+      <a href="/2021/12/09/test/" class="article-date">
+  <time datetime="2021-12-09T08:14:19.000Z" itemprop="datePublished">2021-12-09</time>
+</a>
+      
+      &emsp;<i class="fe fe-bar-chart"></i> <span>全文共：</span> <span class="post-count">0</span>字
+      &emsp;<i class="fe fe-clock"></i> <span>需要阅读：</span> <span class="post-count">1</span>分钟
+    </div>
+    
 
     
 
+    
+    
     
 
     <div class="article-entry" itemprop="articleBody">
       
       
       
-      
+      <p><img src="http://cdn.wangxinwei.cn/qiniuimg/gaoshan-008.jpg" alt="gaoshan"></p>
+
       
     </div>
     <footer class="article-footer">
-      <!-- <a data-url="http://example.com/about/index.html" data-id="ckwyso2ff0002ysva24pd51ry" class="article-share-link">
+      <!-- <a data-url="http://example.com/2021/12/09/test/" data-id="ckwyso2fj0007ysvaawzb4njh" class="article-share-link">
         分享
       </a> -->
+      
+        <div style="text-align:center;color: #ccc;font-size:14px;">------------- 本文&nbsp;<i class="fe fe-smile"></i>&nbsp; 结束 -------------</div>
       
       
     </footer>
@@ -76,8 +90,38 @@
 
   
   
+<nav class="article-nav">
+  
+  
+  <a href="/2021/12/06/hexo%E5%B0%86gitpage%E9%A1%B5%E9%9D%A2%E7%BB%91%E5%AE%9A%E5%88%B0%E8%87%AA%E5%B7%B1%E7%9A%84%E5%9F%9F%E5%90%8D/" class="article-nav-link">
+    <strong class="article-nav-caption">后一篇</strong>
+    <div class="article-nav-title">hexo将gitpage页面绑定到自己的域名</div>
+  </a>
+  
+</nav>
+
   
 
+  
+  
+<div class="vcomments" id="vcomments"></div>
+
+<script src="https://unpkg.com/valine/dist/Valine.min.js"></script>
+
+<script>
+  new Valine({
+    el: '#vcomments',
+    appId: '2jI9t7zCvDNRQaX2Ve60gfUh-gzGzoHsz',
+    appKey: 'kYCOfraJGWpe3yJ4fDleSxLG',
+    notify: 'false',
+    verify: 'true',
+    avatar: 'mp',
+    pageSize: '10',
+    placeholder: '请输入...'
+  })
+</script>
+
+  
   
 
 </article>
@@ -88,6 +132,8 @@
       <ul class="list-inline">
   
   <li><i class="fe fe-smile-alt"></i> <span>访客数：</span> <span id="busuanzi_value_site_uv"></span></li>
+  
+  <li><i class="fe fe-bookmark"></i> <span>文章访问量：</span> <span id="busuanzi_value_page_pv"></span></li>
   
 </ul>
 
@@ -192,6 +238,23 @@
 
 
 
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+  });
+</script>
 
 
 
