@@ -1,40 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>javascript 执行上下文</title>
-    <url>/2021/12/06/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87/</url>
-    <content><![CDATA[<h2 id="执行上下文分类"><a href="#执行上下文分类" class="headerlink" title="执行上下文分类"></a>执行上下文分类</h2><ul>
-<li>全局执行上下文  默认/基础上下文 任何不在函数内部的代码都是在全局执行上下文中， 它会执行两件事：创建一个全局的 window 对象（浏览器的情况下），并且设置 <code>this</code> 的值等于这个全局对象。一个程序中只会有一个全局执行上下文。 </li>
-</ul>
+    <title>JavaScript 垃圾回收机制</title>
+    <url>/2021/12/02/JavaScript%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/</url>
+    <content><![CDATA[<blockquote>
+<p>垃圾回收有两种方式，即标记清理和引用计数</p>
+</blockquote>
 <span id="more"></span>
 
-<ul>
-<li><p>函数执行上下文  每当一个函数执行时，都会为该函数创建一个新的上下文，每个函数都有他自己的执行上下文，不过实在函数被调用的时候创建的，函数执行上下文可以有多个，每当一个新的执行上下文被创建 ，他会按定义的顺序执行一系列步骤</p>
-</li>
-<li><p>Eval 函数执行上下文  执行在eval函数内部的代码 ，他会有自己的执行上下文 </p>
-</li>
-</ul>
-<h2 id="执行栈"><a href="#执行栈" class="headerlink" title="执行栈"></a>执行栈</h2><p>执行栈是一种拥有先进先出数据结构的栈，被用来储存代码运行时创建的所有的执行上下文</p>
-<p>当JavaScript引擎第一次遇到你的脚本时，他会创建一个全局的执行上下文并且压入执行上下文栈，每当引擎遇到一个函数调用，他会为该函数创建一个新的执行上下文栈并压入栈的顶部</p>
-<p>引擎会执行那些执行上下文位于栈顶的函数，当该函数执行时，执行上下文从栈中弹出，控制流程到大当前栈中的下一个上下文</p>
-<h2 id="如何创建执行上下文"><a href="#如何创建执行上下文" class="headerlink" title="如何创建执行上下文"></a>如何创建执行上下文</h2><h3 id="创建执行上下文有两个阶段"><a href="#创建执行上下文有两个阶段" class="headerlink" title="创建执行上下文有两个阶段"></a>创建执行上下文有两个阶段</h3><ol>
-<li><p>创建阶段 </p>
-<h4 id="在JavaScript执行之前-执行上下文会经理创建阶段在创建阶段会发生三件事"><a href="#在JavaScript执行之前-执行上下文会经理创建阶段在创建阶段会发生三件事" class="headerlink" title="在JavaScript执行之前  执行上下文会经理创建阶段在创建阶段会发生三件事"></a>在JavaScript执行之前  执行上下文会经理创建阶段在创建阶段会发生三件事</h4><ul>
-<li><p>this值的决定，即我们熟知的this绑定  在全局执行上下文中 this的值指向全局对象 在浏览器中this引用window对象，在函数执行上下文中，this的值取决于该函数是如何被调用的，如果他被一个引用对象调用，那么this会设置成那个对象，否则this的值被设置为全局对象或者undefined (严格模式下)</p>
-</li>
-<li><p>创建词法环境组件  词法环境是一种规范类型 ，基于ECMAScript代码的词法嵌套结构来定义标识符和具体变量和函数的关联。一个词法环境由环境记录器和一个可能的引用外部词法环境的空值组成 环境记录器是存储变量和函数生命的实际位置  外部环境引用以为着它可以访问其父级词法环境（作用域），环境齐鲁漆也分为两种类型第一种是声明式环境记录器 用来存储变量函数和参数  另一种是对象环境记录器 用来定义在全局上下文中的变量和函数的关系  简而言之 在全局环境中环境记录器是对象环境记录器 在对象环境中 环境记录器是声明式环境记录器  </p>
-<p>注意：对于函数环境，声明式环境记录器还包含了一个传递给函数的arguments对象，此对象存储索引和参数的映射 和传递给函数的参数的参数length</p>
-<p>变量环境同样是一个词法环境，其环境记录器持有变量生命语句在执行上下文中创建的绑定关系 变量环境也是一个词法环境 所以他有着上面定义的词法环境的所有属性 在ES6 中 词法环境和变量环境的一个不同就是前者被用来存储函数的声明和变量 （let 和const）绑定，而后者只用来存储var变量绑定</p>
-</li>
-<li><p>创建变量环境组件 </p>
-</li>
-</ul>
-</li>
-<li><p>执行阶段</p>
-<p>在此阶段 完成对所有这些变量的分配 最后执行代码。</p>
-<p>注意：在执行阶段 如果JavaScript引擎不能再源码中生命的实际位置找到let变量的值 他会被赋值为undefined </p>
-</li>
-</ol>
+<p>标记清理：</p>
+<p>JavaScript最常用的垃圾回收策略是标记清理，垃圾回收程序运行的时候，会标记内存中存储的所有的变量（标记方法多种），然后他会将所有在上下文中的变量以及被在上下文中的变量引用的变量的标记去掉。再次之后再被加上标记的变量就是待删除的了，因为在上下文中的变量都访问不到它了，随后垃圾回收程序做一次内存清理，销毁带标记的所有值并收回它们的内存。</p>
+<p>引用计数：</p>
+<p>另外一种不太常用的策略就是引用计数，思路是对每个值都记录他被引用的次数，声明变量并给他赋一个引用值时，这个值的引用数为1，如果同一个值又被赋值给另一个变量，那么引用次数加1，如果保存对该值引用的变量被其他值覆盖了，那么引用数减1，当一个值的引用数为0时，就说明没办法在访问这个值了，就可以安全的收回该内存了，垃圾回收程序下次运行的时候就会释放引用数为0的值的内存</p>
+<p>引用计数存在的问题：</p>
+<p>如下：对象A中有一个指针指向对象B，对象B也引用了对象A。</p>
+<p> 在引用计数策略下，  对象A 和 对象B 在函数结束后还会存在，因为它们的引用数永远不会变成 0。如果函数被多次调 用，则会导致大量内存永远不会被释放。 而使用标记清理则不会出现这种问题</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">problem</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"> <span class="keyword">let</span> objectA = <span class="keyword">new</span> <span class="built_in">Object</span>();</span><br><span class="line"> <span class="keyword">let</span> objectB = <span class="keyword">new</span> <span class="built_in">Object</span>();</span><br><span class="line"> objectA.someOtherObject = objectB;</span><br><span class="line"> objectB.anotherObject = objectA;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+<p>第二个例子：</p>
+<p>在 IE8 及更早版本的 IE 中，并非所有对象都是原生 JavaScript 对象。BOM 和 DOM 中的对象是 C++ 实现的组件对象模型（COM，Component Object Model）对象，而 COM 对象使用引用计数实现垃圾回 收。因此，即使这些版本 IE 的 JavaScript 引擎使用标记清理，JavaScript 存取的 COM 对象依旧使用引用 计数。换句话说，只要涉及 COM 对象，就无法避开循环引用问题。下面这个简单的例子展示了涉及 COM 对象的循环引用问题： </p>
+<p>这个例子在一个 DOM 对象（element）和一个原生 JavaScript 对象（myObject）之间制造了循环 引用。myObject 变量有一个名为 element 的属性指向 DOM 对象 element，而 element 对象有一个 someObject 属性指回 myObject 对象。由于存在循环引用，因此 DOM 元素的内存永远不会被回收， 即使它已经被从页面上删除了也是如此。 </p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> element = <span class="built_in">document</span>.getElementById(<span class="string">&quot;some_element&quot;</span>);</span><br><span class="line"><span class="keyword">let</span> myObject = <span class="keyword">new</span> <span class="built_in">Object</span>();</span><br><span class="line">myObject.element = element;</span><br><span class="line">element.someObject = myObject; </span><br></pre></td></tr></table></figure>
+
+<p>为避免类似的循环引用问题，应该在确保不使用的情况下切断原生 JavaScript 对象与 DOM 元素之 间的连接。比如，通过以下代码可以清除前面的例子中建立的循环引用： </p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">myObject.element = null;</span><br><span class="line">element.someObject = null; </span><br></pre></td></tr></table></figure>
+
+<p>把变量设置为 null 实际上会切断变量与其之前引用值之间的关系。当下次垃圾回收程序运行时， 这些值就会被删除，内存也会被回收。 为了补救这一点，IE9 把 BOM 和 DOM 对象都改成了 JavaScript 对象，这同时也避免了由于存在两 套垃圾回收算法而导致的问题，还消除了常见的内存泄漏现象。 </p>
 ]]></content>
       <categories>
         <category>JavaScript</category>
@@ -44,22 +35,28 @@
       </tags>
   </entry>
   <entry>
-    <title>ubuntu中n切换node版本无效的解决办法</title>
-    <url>/2021/12/06/ubuntu%E4%B8%ADn%E5%88%87%E6%8D%A2node%E7%89%88%E6%9C%AC%E6%97%A0%E6%95%88%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</url>
-    <content><![CDATA[<h2 id="1-使用vim打开-bash-profile-文件"><a href="#1-使用vim打开-bash-profile-文件" class="headerlink" title="1.使用vim打开 .bash_profile 文件"></a>1.使用vim打开 <code>.bash_profile</code> 文件</h2><span id="more"></span>
+    <title>firefox打开网站被限制</title>
+    <url>/2021/12/06/firefox%20%E6%89%93%E5%BC%80%E7%BD%91%E7%AB%99%E8%A2%AB%E9%99%90%E5%88%B6/</url>
+    <content><![CDATA[<blockquote>
+<p>具体原因是此网址使用了一个通常用于网络浏览以外目的的端口。出于安全原因，Firefox 取消了该请求。</p>
+</blockquote>
+<span id="more"></span>
 
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vim ~/.bash_profile</span><br></pre></td></tr></table></figure>
-
-<h2 id="2-添加下面的代码"><a href="#2-添加下面的代码" class="headerlink" title="2.添加下面的代码"></a>2.添加下面的代码</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">export NODE_HOME=/usr/local</span><br><span class="line">export PATH=$NODE_HOME/bin:$PATH</span><br><span class="line">export NODE_PATH=$NODE_HOME/lib/node_modules:$PATH</span><br></pre></td></tr></table></figure>
-
-
+<h2 id="解决方法："><a href="#解决方法：" class="headerlink" title="解决方法："></a>解决方法：</h2><ol>
+<li>地址栏中输入：about:config</li>
+<li>点击“接受风险并继续”按钮</li>
+<li>在上面的输入栏中输入：network.security.ports.banned.override</li>
+<li>在下面列表内出现这个选项，有三个方式：布尔值，数值，和字符串，</li>
+<li>选择字符串</li>
+<li>输入你要解除频闭的端口。点+号，就行了。</li>
+</ol>
 ]]></content>
       <categories>
-        <category>Linux</category>
+        <category>浏览器</category>
       </categories>
       <tags>
-        <tag>Ubuntu</tag>
-        <tag>Node</tag>
+        <tag>浏览器</tag>
+        <tag>Firefox</tag>
       </tags>
   </entry>
   <entry>
@@ -98,56 +95,59 @@
       </tags>
   </entry>
   <entry>
-    <title>firefox打开网站被限制</title>
-    <url>/2021/12/06/firefox%20%E6%89%93%E5%BC%80%E7%BD%91%E7%AB%99%E8%A2%AB%E9%99%90%E5%88%B6/</url>
-    <content><![CDATA[<blockquote>
-<p>具体原因是此网址使用了一个通常用于网络浏览以外目的的端口。出于安全原因，Firefox 取消了该请求。</p>
-</blockquote>
-<span id="more"></span>
+    <title>ubuntu中n切换node版本无效的解决办法</title>
+    <url>/2021/12/06/ubuntu%E4%B8%ADn%E5%88%87%E6%8D%A2node%E7%89%88%E6%9C%AC%E6%97%A0%E6%95%88%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</url>
+    <content><![CDATA[<h2 id="1-使用vim打开-bash-profile-文件"><a href="#1-使用vim打开-bash-profile-文件" class="headerlink" title="1.使用vim打开 .bash_profile 文件"></a>1.使用vim打开 <code>.bash_profile</code> 文件</h2><span id="more"></span>
 
-<h2 id="解决方法："><a href="#解决方法：" class="headerlink" title="解决方法："></a>解决方法：</h2><ol>
-<li>地址栏中输入：about:config</li>
-<li>点击“接受风险并继续”按钮</li>
-<li>在上面的输入栏中输入：network.security.ports.banned.override</li>
-<li>在下面列表内出现这个选项，有三个方式：布尔值，数值，和字符串，</li>
-<li>选择字符串</li>
-<li>输入你要解除频闭的端口。点+号，就行了。</li>
-</ol>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vim ~/.bash_profile</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-添加下面的代码"><a href="#2-添加下面的代码" class="headerlink" title="2.添加下面的代码"></a>2.添加下面的代码</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">export NODE_HOME=/usr/local</span><br><span class="line">export PATH=$NODE_HOME/bin:$PATH</span><br><span class="line">export NODE_PATH=$NODE_HOME/lib/node_modules:$PATH</span><br></pre></td></tr></table></figure>
+
+
 ]]></content>
       <categories>
-        <category>浏览器</category>
+        <category>Linux</category>
       </categories>
       <tags>
-        <tag>浏览器</tag>
-        <tag>Firefox</tag>
+        <tag>Ubuntu</tag>
+        <tag>Node</tag>
       </tags>
   </entry>
   <entry>
-    <title>JavaScript 垃圾回收机制</title>
-    <url>/2021/12/02/JavaScript%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/</url>
-    <content><![CDATA[<blockquote>
-<p>垃圾回收有两种方式，即标记清理和引用计数</p>
-</blockquote>
+    <title>javascript 执行上下文</title>
+    <url>/2021/12/06/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87/</url>
+    <content><![CDATA[<h2 id="执行上下文分类"><a href="#执行上下文分类" class="headerlink" title="执行上下文分类"></a>执行上下文分类</h2><ul>
+<li>全局执行上下文  默认/基础上下文 任何不在函数内部的代码都是在全局执行上下文中， 它会执行两件事：创建一个全局的 window 对象（浏览器的情况下），并且设置 <code>this</code> 的值等于这个全局对象。一个程序中只会有一个全局执行上下文。 </li>
+</ul>
 <span id="more"></span>
 
-<p>标记清理：</p>
-<p>JavaScript最常用的垃圾回收策略是标记清理，垃圾回收程序运行的时候，会标记内存中存储的所有的变量（标记方法多种），然后他会将所有在上下文中的变量以及被在上下文中的变量引用的变量的标记去掉。再次之后再被加上标记的变量就是待删除的了，因为在上下文中的变量都访问不到它了，随后垃圾回收程序做一次内存清理，销毁带标记的所有值并收回它们的内存。</p>
-<p>引用计数：</p>
-<p>另外一种不太常用的策略就是引用计数，思路是对每个值都记录他被引用的次数，声明变量并给他赋一个引用值时，这个值的引用数为1，如果同一个值又被赋值给另一个变量，那么引用次数加1，如果保存对该值引用的变量被其他值覆盖了，那么引用数减1，当一个值的引用数为0时，就说明没办法在访问这个值了，就可以安全的收回该内存了，垃圾回收程序下次运行的时候就会释放引用数为0的值的内存</p>
-<p>引用计数存在的问题：</p>
-<p>如下：对象A中有一个指针指向对象B，对象B也引用了对象A。</p>
-<p> 在引用计数策略下，  对象A 和 对象B 在函数结束后还会存在，因为它们的引用数永远不会变成 0。如果函数被多次调 用，则会导致大量内存永远不会被释放。 而使用标记清理则不会出现这种问题</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">problem</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"> <span class="keyword">let</span> objectA = <span class="keyword">new</span> <span class="built_in">Object</span>();</span><br><span class="line"> <span class="keyword">let</span> objectB = <span class="keyword">new</span> <span class="built_in">Object</span>();</span><br><span class="line"> objectA.someOtherObject = objectB;</span><br><span class="line"> objectB.anotherObject = objectA;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
-
-<p>第二个例子：</p>
-<p>在 IE8 及更早版本的 IE 中，并非所有对象都是原生 JavaScript 对象。BOM 和 DOM 中的对象是 C++ 实现的组件对象模型（COM，Component Object Model）对象，而 COM 对象使用引用计数实现垃圾回 收。因此，即使这些版本 IE 的 JavaScript 引擎使用标记清理，JavaScript 存取的 COM 对象依旧使用引用 计数。换句话说，只要涉及 COM 对象，就无法避开循环引用问题。下面这个简单的例子展示了涉及 COM 对象的循环引用问题： </p>
-<p>这个例子在一个 DOM 对象（element）和一个原生 JavaScript 对象（myObject）之间制造了循环 引用。myObject 变量有一个名为 element 的属性指向 DOM 对象 element，而 element 对象有一个 someObject 属性指回 myObject 对象。由于存在循环引用，因此 DOM 元素的内存永远不会被回收， 即使它已经被从页面上删除了也是如此。 </p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> element = <span class="built_in">document</span>.getElementById(<span class="string">&quot;some_element&quot;</span>);</span><br><span class="line"><span class="keyword">let</span> myObject = <span class="keyword">new</span> <span class="built_in">Object</span>();</span><br><span class="line">myObject.element = element;</span><br><span class="line">element.someObject = myObject; </span><br></pre></td></tr></table></figure>
-
-<p>为避免类似的循环引用问题，应该在确保不使用的情况下切断原生 JavaScript 对象与 DOM 元素之 间的连接。比如，通过以下代码可以清除前面的例子中建立的循环引用： </p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">myObject.element = null;</span><br><span class="line">element.someObject = null; </span><br></pre></td></tr></table></figure>
-
-<p>把变量设置为 null 实际上会切断变量与其之前引用值之间的关系。当下次垃圾回收程序运行时， 这些值就会被删除，内存也会被回收。 为了补救这一点，IE9 把 BOM 和 DOM 对象都改成了 JavaScript 对象，这同时也避免了由于存在两 套垃圾回收算法而导致的问题，还消除了常见的内存泄漏现象。 </p>
+<ul>
+<li><p>函数执行上下文  每当一个函数执行时，都会为该函数创建一个新的上下文，每个函数都有他自己的执行上下文，不过实在函数被调用的时候创建的，函数执行上下文可以有多个，每当一个新的执行上下文被创建 ，他会按定义的顺序执行一系列步骤</p>
+</li>
+<li><p>Eval 函数执行上下文  执行在eval函数内部的代码 ，他会有自己的执行上下文 </p>
+</li>
+</ul>
+<h2 id="执行栈"><a href="#执行栈" class="headerlink" title="执行栈"></a>执行栈</h2><p>执行栈是一种拥有先进先出数据结构的栈，被用来储存代码运行时创建的所有的执行上下文</p>
+<p>当JavaScript引擎第一次遇到你的脚本时，他会创建一个全局的执行上下文并且压入执行上下文栈，每当引擎遇到一个函数调用，他会为该函数创建一个新的执行上下文栈并压入栈的顶部</p>
+<p>引擎会执行那些执行上下文位于栈顶的函数，当该函数执行时，执行上下文从栈中弹出，控制流程到大当前栈中的下一个上下文</p>
+<h2 id="如何创建执行上下文"><a href="#如何创建执行上下文" class="headerlink" title="如何创建执行上下文"></a>如何创建执行上下文</h2><h3 id="创建执行上下文有两个阶段"><a href="#创建执行上下文有两个阶段" class="headerlink" title="创建执行上下文有两个阶段"></a>创建执行上下文有两个阶段</h3><ol>
+<li><p>创建阶段 </p>
+<h4 id="在JavaScript执行之前-执行上下文会经理创建阶段在创建阶段会发生三件事"><a href="#在JavaScript执行之前-执行上下文会经理创建阶段在创建阶段会发生三件事" class="headerlink" title="在JavaScript执行之前  执行上下文会经理创建阶段在创建阶段会发生三件事"></a>在JavaScript执行之前  执行上下文会经理创建阶段在创建阶段会发生三件事</h4><ul>
+<li><p>this值的决定，即我们熟知的this绑定  在全局执行上下文中 this的值指向全局对象 在浏览器中this引用window对象，在函数执行上下文中，this的值取决于该函数是如何被调用的，如果他被一个引用对象调用，那么this会设置成那个对象，否则this的值被设置为全局对象或者undefined (严格模式下)</p>
+</li>
+<li><p>创建词法环境组件  词法环境是一种规范类型 ，基于ECMAScript代码的词法嵌套结构来定义标识符和具体变量和函数的关联。一个词法环境由环境记录器和一个可能的引用外部词法环境的空值组成 环境记录器是存储变量和函数生命的实际位置  外部环境引用以为着它可以访问其父级词法环境（作用域），环境齐鲁漆也分为两种类型第一种是声明式环境记录器 用来存储变量函数和参数  另一种是对象环境记录器 用来定义在全局上下文中的变量和函数的关系  简而言之 在全局环境中环境记录器是对象环境记录器 在对象环境中 环境记录器是声明式环境记录器  </p>
+<p>注意：对于函数环境，声明式环境记录器还包含了一个传递给函数的arguments对象，此对象存储索引和参数的映射 和传递给函数的参数的参数length</p>
+<p>变量环境同样是一个词法环境，其环境记录器持有变量生命语句在执行上下文中创建的绑定关系 变量环境也是一个词法环境 所以他有着上面定义的词法环境的所有属性 在ES6 中 词法环境和变量环境的一个不同就是前者被用来存储函数的声明和变量 （let 和const）绑定，而后者只用来存储var变量绑定</p>
+</li>
+<li><p>创建变量环境组件 </p>
+</li>
+</ul>
+</li>
+<li><p>执行阶段</p>
+<p>在此阶段 完成对所有这些变量的分配 最后执行代码。</p>
+<p>注意：在执行阶段 如果JavaScript引擎不能再源码中生命的实际位置找到let变量的值 他会被赋值为undefined </p>
+</li>
+</ol>
 ]]></content>
       <categories>
         <category>JavaScript</category>
