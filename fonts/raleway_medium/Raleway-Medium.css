@@ -1,14 +1,1 @@
-@font-face {
-    font-family: "Raleway-Medium";
-    src: url("Raleway-Medium.eot"); /* IE9 */
-    src: url("Raleway-Medium.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
-    
-    url("Raleway-Medium.woff") format("woff"), /* chrome、firefox */
-    url("Raleway-Medium.ttf") format("truetype"), /* chrome、firefox、opera、Safari, Android, iOS 4.2+ */
-    
-    url("Raleway-Medium.svg#Raleway-Medium") format("svg"); /* iOS 4.1- */
-    font-style: normal;
-    font-weight: normal;
-}
-
-
+@font-face{font-family:Raleway-Medium;src:url(Raleway-Medium.eot);src:url(Raleway-Medium.eot?#iefix) format("embedded-opentype"),url(Raleway-Medium.woff) format("woff"),url(Raleway-Medium.ttf) format("truetype"),url(Raleway-Medium.svg#Raleway-Medium) format("svg");font-style:normal;font-weight:400}
