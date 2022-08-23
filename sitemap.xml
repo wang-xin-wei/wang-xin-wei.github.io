@@ -153,20 +153,6 @@
   </url>
   
   <url>
-    <loc>http://blog.wangxinwei.cn/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/</loc>
-    <lastmod>2022-08-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://blog.wangxinwei.cn/tags/Firefox/</loc>
-    <lastmod>2022-08-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>http://blog.wangxinwei.cn/tags/hexo/</loc>
     <lastmod>2022-08-23</lastmod>
     <changefreq>weekly</changefreq>
@@ -195,7 +181,14 @@
   </url>
   
   <url>
-    <loc>http://blog.wangxinwei.cn/tags/%E9%9D%A2%E8%AF%95/</loc>
+    <loc>http://blog.wangxinwei.cn/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/</loc>
+    <lastmod>2022-08-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.wangxinwei.cn/tags/Firefox/</loc>
     <lastmod>2022-08-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -210,6 +203,13 @@
   
   <url>
     <loc>http://blog.wangxinwei.cn/tags/Promise/</loc>
+    <lastmod>2022-08-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.wangxinwei.cn/tags/%E9%9D%A2%E8%AF%95/</loc>
     <lastmod>2022-08-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -232,13 +232,6 @@
   </url>
   
   <url>
-    <loc>http://blog.wangxinwei.cn/categories/%E6%B5%8F%E8%A7%88%E5%99%A8/</loc>
-    <lastmod>2022-08-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>http://blog.wangxinwei.cn/categories/hexo/</loc>
     <lastmod>2022-08-23</lastmod>
     <changefreq>weekly</changefreq>
@@ -247,6 +240,13 @@
   
   <url>
     <loc>http://blog.wangxinwei.cn/categories/Linux/</loc>
+    <lastmod>2022-08-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.wangxinwei.cn/categories/%E6%B5%8F%E8%A7%88%E5%99%A8/</loc>
     <lastmod>2022-08-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
