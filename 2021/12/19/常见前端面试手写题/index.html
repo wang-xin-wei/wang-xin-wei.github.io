@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  
+  <meta name="keywords" content="千城墨白,博客,blog,记录生活">
+  
+  
+  <meta name="description" content="千城墨白,博客,blog,记录生活">
+  
+  <title>
+    常见前端面试手写题 |
+    
+    千城墨白
+  </title>
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+    
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <main class="content">
+    <section class="outer">
+  <article id="post-常见前端面试手写题" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+
+<h1 class="article-title" itemprop="name">
+  常见前端面试手写题
+</h1>
+
+
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2021/12/19/%E5%B8%B8%E8%A7%81%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95%E6%89%8B%E5%86%99%E9%A2%98/" class="article-date">
+  <time datetime="2021-12-19T05:43:12.000Z" itemprop="datePublished">2021-12-19</time>
+</a>
+      
+<div class="article-category">
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+</div>
+
+      <br>
+      <i class="fe fe-bar-chart"></i> <span></span> <span class="post-count">1.1k</span>字&emsp;&emsp;
+      <i class="fe fe-clock"></i> <span></span> <span class="post-count">6</span>分钟
+    </div>
+    
+
+    
+
+    
+    
+<div class="tocbot"></div>
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+      
+      <blockquote>
+<p>本文中的方法均为网上整理，主要为了平时找起来比较方便，由于人数较多就不一个一个写上了，侵删</p>
+</blockquote>
+<span id="more"></span>
+
+<h2 id="面试常问"><a href="#面试常问" class="headerlink" title="面试常问"></a>面试常问</h2><h3 id="1-手写ajax"><a href="#1-手写ajax" class="headerlink" title="1. 手写ajax"></a>1. 手写ajax</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> ajax = &#123;</span><br><span class="line">    <span class="function"><span class="title">get</span>(<span class="params">url, callback</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> xhr = <span class="keyword">new</span> XMLHttpRequest()</span><br><span class="line">        <span class="comment">//第三个表示是否异步执行操作，默认为true   </span></span><br><span class="line">        <span class="comment">//完整参数为 xhr.open(method, url, async, user, password); 具体解释可以查看 MDN</span></span><br><span class="line">        xhr.open(<span class="string">&#x27;GET&#x27;</span>, url, <span class="literal">true</span>)</span><br><span class="line">        xhr.onreadystatechange = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="comment">// readyState == 4说明请求已完成</span></span><br><span class="line">            <span class="keyword">if</span> (xhr.readyState === <span class="number">4</span>) &#123;</span><br><span class="line">                callback(xhr.responeText)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        xhr.send()</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="function"><span class="title">post</span>(<span class="params">url, data, callback</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> xhr = <span class="keyword">new</span> XMLHttpRequest()</span><br><span class="line">        xhr.open(<span class="string">&#x27;POST&#x27;</span>, url, <span class="literal">true</span>)</span><br><span class="line">        xhr.setRequestHeader(<span class="string">&#x27;Content-type&#x27;</span>,<span class="string">&#x27;application/x-www-form-urlencoded&#x27;</span>)</span><br><span class="line">        xhr.onreadystatechange = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (xhr.readyState === <span class="number">4</span>) &#123;</span><br><span class="line">                callback(xhr.responeText)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        xhr.send(data)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-函数防抖"><a href="#2-函数防抖" class="headerlink" title="2. 函数防抖"></a>2. 函数防抖</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123; function &#125;</span> <span class="variable">func</span></span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123; number &#125;</span> </span>wait 延迟执行毫秒数</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123; boolean &#125;</span> </span>immediate  true 表立即执行，false 表非立即执行</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="title">debounce</span>(<span class="params">func,wait,immediate</span>)</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> timeout;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">let</span> context = <span class="built_in">this</span>;</span><br><span class="line">        <span class="keyword">let</span> args = <span class="built_in">arguments</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (timeout) <span class="built_in">clearTimeout</span>(timeout);</span><br><span class="line">        <span class="keyword">if</span> (immediate) &#123;</span><br><span class="line">            <span class="keyword">let</span> callNow = !timeout;</span><br><span class="line">            timeout = <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">                timeout = <span class="literal">null</span>;</span><br><span class="line">            &#125;, wait);</span><br><span class="line">            <span class="keyword">if</span> (callNow) func.apply(context, args)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            timeout = <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">                func.apply(context, args)</span><br><span class="line">            &#125;, wait);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-函数节流"><a href="#3-函数节流" class="headerlink" title="3. 函数节流"></a>3. 函数节流</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123; function &#125;</span> </span>func 函数</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123; number &#125;</span> </span>wait 延迟执行毫秒数</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123; number &#125;</span> </span>type 1 表时间戳版，2 表定时器版</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="title">throttle</span>(<span class="params">func, wait ,type</span>)</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> previous, timeout;</span><br><span class="line">    <span class="keyword">if</span>(type===<span class="number">1</span>)&#123;</span><br><span class="line">        previous = <span class="number">0</span>;</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(type===<span class="number">2</span>)&#123;</span><br><span class="line">        timeout = <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">let</span> context = <span class="built_in">this</span>;</span><br><span class="line">        <span class="keyword">let</span> args = <span class="built_in">arguments</span>;</span><br><span class="line">        <span class="keyword">if</span>(type===<span class="number">1</span>)&#123;</span><br><span class="line">            <span class="keyword">let</span> now = <span class="built_in">Date</span>.now();</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (now - previous &gt; wait) &#123;</span><br><span class="line">                func.apply(context, args);</span><br><span class="line">                previous = now;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(type===<span class="number">2</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span> (!timeout) &#123;</span><br><span class="line">                timeout = <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">                    timeout = <span class="literal">null</span>;</span><br><span class="line">                    func.apply(context, args)</span><br><span class="line">                &#125;, wait)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-数组去重"><a href="#4-数组去重" class="headerlink" title="4. 数组去重"></a>4. 数组去重</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//除了该方法 还有很多方法可以实现数组去重 如：ES6的Set/递归去重等等</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">unique</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> newArr = []</span><br><span class="line">    arr.reduce(<span class="function">(<span class="params">pre, next</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (!pre[next]) &#123;</span><br><span class="line">            pre[next] = <span class="number">1</span></span><br><span class="line">            newArr.push(next)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> pre</span><br><span class="line">    &#125;, &#123;&#125;)</span><br><span class="line">    <span class="keyword">return</span> newArr</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-数组扁平化"><a href="#5-数组扁平化" class="headerlink" title="5. 数组扁平化"></a>5. 数组扁平化</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">flatten</span>(<span class="params">arr</span>)</span> &#123;</span><br><span class="line">  <span class="keyword">var</span> result = [];</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>, len = arr.length; i &lt; len; i++) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">Array</span>.isArray(arr[i])) &#123;</span><br><span class="line">      result = result.concat(flatten(arr[i]))</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">      result.push(arr[i])</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//第二种</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">flatten</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> arr.reduce(<span class="function">(<span class="params">result, item</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> result.concat(<span class="built_in">Array</span>.isArray(item) ? flatten(item) : item);</span><br><span class="line">      &#125;, []);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-对象扁平化"><a href="#6-对象扁平化" class="headerlink" title="6. 对象扁平化"></a>6. 对象扁平化</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">flat</span>(<span class="params">obj, key = <span class="string">&quot;&quot;</span>, res = &#123;&#125;, isArray = <span class="literal">false</span></span>) </span>&#123;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">let</span> [k, v] <span class="keyword">of</span> <span class="built_in">Object</span>.entries(obj)) &#123;</span><br><span class="line">		<span class="keyword">if</span> (<span class="built_in">Array</span>.isArray(v)) &#123;</span><br><span class="line">			<span class="keyword">let</span> tmp = isArray ? key + <span class="string">&quot;[&quot;</span> + k + <span class="string">&quot;]&quot;</span> : key + k</span><br><span class="line">			flat(v, tmp, res, <span class="literal">true</span>)</span><br><span class="line">		&#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">typeof</span> v === <span class="string">&quot;object&quot;</span>) &#123;</span><br><span class="line">			<span class="keyword">let</span> tmp = isArray ? key + <span class="string">&quot;[&quot;</span> + k + <span class="string">&quot;].&quot;</span> : key + k + <span class="string">&quot;.&quot;</span></span><br><span class="line">			flat(v, tmp, res)</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="keyword">let</span> tmp = isArray ? key + <span class="string">&quot;[&quot;</span> + k + <span class="string">&quot;]&quot;</span> : key + k</span><br><span class="line">			res[tmp] = v</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> res</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="7-深拷贝"><a href="#7-深拷贝" class="headerlink" title="7. 深拷贝"></a>7. 深拷贝</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">deepClone</span>(<span class="params">target</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> result;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> target === <span class="string">&#x27;object&#x27;</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">Array</span>.isArray(target)) &#123;</span><br><span class="line">            result = [];</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">let</span> i <span class="keyword">in</span> target) &#123;</span><br><span class="line">                result.push(deepClone(target[i]))</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span>(target===<span class="literal">null</span>) &#123;</span><br><span class="line">            result = <span class="literal">null</span>; </span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span>(target.constructor===<span class="built_in">RegExp</span>)&#123;</span><br><span class="line">            result = target;</span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            result = &#123;&#125;;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">let</span> i <span class="keyword">in</span> target) &#123;</span><br><span class="line">                result[i] = deepClone(target[i]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        result = target;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="8-实现bind"><a href="#8-实现bind" class="headerlink" title="8. 实现bind"></a>8. 实现bind</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.MyBind = <span class="function"><span class="keyword">function</span> (<span class="params">context, ...args</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> self = <span class="built_in">this</span>;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> self.apply(context, args);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="9-实现apply"><a href="#9-实现apply" class="headerlink" title="9. 实现apply"></a>9. 实现apply</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.myApply = <span class="function"><span class="keyword">function</span> (<span class="params">context, args</span>) </span>&#123;</span><br><span class="line">  context.fn = <span class="built_in">this</span>;</span><br><span class="line">  <span class="keyword">let</span> res;</span><br><span class="line">  <span class="keyword">if</span> (!args)&#123;</span><br><span class="line">    res = context.fn();</span><br><span class="line">  &#125; <span class="keyword">else</span>  &#123;</span><br><span class="line">    res = context.fn(...args)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="10-实现call"><a href="#10-实现call" class="headerlink" title="10. 实现call"></a>10. 实现call</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.myCall = <span class="function"><span class="keyword">function</span> (<span class="params">context, ...rest</span>) </span>&#123;</span><br><span class="line">  context.fn = <span class="built_in">this</span>;</span><br><span class="line">  <span class="keyword">var</span> result = context.fn(...rest);</span><br><span class="line">  <span class="keyword">delete</span> context.fn;</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="11-实现instanceof"><a href="#11-实现instanceof" class="headerlink" title="11.实现instanceof"></a>11.实现instanceof</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">myInstanceOf</span>(<span class="params">left, right</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> prototype = right.prototype;</span><br><span class="line">  left = left.__proto__;</span><br><span class="line">  <span class="keyword">while</span>(<span class="literal">true</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (!left) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">if</span> (left == prototype) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    left = left.__proto__;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="12-实现new"><a href="#12-实现new" class="headerlink" title="12. 实现new"></a>12. 实现new</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">myNew</span> (<span class="params">fun, ...args</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> obj = &#123;&#125;;</span><br><span class="line">  obj.__proto__ = fun.prototype;</span><br><span class="line">  <span class="keyword">let</span> res = fun.apply(obj, args);</span><br><span class="line">  <span class="keyword">return</span> res <span class="keyword">instanceof</span> <span class="built_in">Object</span> ? res : obj;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="13-函数柯里化"><a href="#13-函数柯里化" class="headerlink" title="13. 函数柯里化"></a>13. 函数柯里化</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">curry</span>(<span class="params">...args1</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> x = args1.reduce(<span class="function">(<span class="params">prev, next</span>) =&gt;</span> &#123;<span class="keyword">return</span> prev+next;&#125;)</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">...args2</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (args2.length == <span class="number">0</span>) <span class="keyword">return</span> x;</span><br><span class="line">    <span class="keyword">let</span> y = args2.reduce(<span class="function">(<span class="params">prev, next</span>) =&gt;</span> &#123;<span class="keyword">return</span> prev+next;&#125;)</span><br><span class="line">    <span class="keyword">return</span> curry(x+y)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="14-快速排序"><a href="#14-快速排序" class="headerlink" title="14. 快速排序"></a>14. 快速排序</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">quicksort</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (arr.length &lt;= <span class="number">1</span>) <span class="keyword">return</span> arr;</span><br><span class="line">  <span class="keyword">let</span> pivotIndex = arr.length &gt;&gt; <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">let</span> pivot = arr.splice(pivotIndex, <span class="number">1</span>)[<span class="number">0</span>];</span><br><span class="line">  <span class="keyword">let</span> left = [];</span><br><span class="line">  <span class="keyword">let</span> right = [];</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; arr.length; i++) &#123;</span><br><span class="line">    <span class="keyword">if</span> (arr[i] &lt;= pivot)  &#123;</span><br><span class="line">      left.push(arr[i]);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      right.push(arr[i]);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> quicksort(left).concat(pivot, quicksort(right));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="15-发布订阅者模式"><a href="#15-发布订阅者模式" class="headerlink" title="15. 发布订阅者模式"></a>15. 发布订阅者模式</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">EventEmitter</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="title">constructor</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.events = &#123;&#125;;</span><br><span class="line">  &#125;</span><br><span class="line">  on (eventName, callback) &#123;</span><br><span class="line">    <span class="keyword">if</span>(!<span class="built_in">this</span>.events[eventName]) &#123;</span><br><span class="line">      <span class="built_in">this</span>.events[eventName] = [callback];</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="built_in">this</span>.events[eventName].push(callback);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="title">emit</span>(<span class="params">eventName, ...args</span>)</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.events[eventName].forEach(<span class="function"><span class="params">fn</span> =&gt;</span> fn.apply(<span class="built_in">this</span>, args));</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="title">once</span>(<span class="params">eventName, callback</span>)</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> fn = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">      callback();</span><br><span class="line">      <span class="built_in">this</span>.remove(eventName, fn);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">this</span>.on(eventName, fn)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="title">remove</span>(<span class="params">eventName, callback</span>)</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.events[eventName] = <span class="built_in">this</span>.events[eventName].filter(<span class="function"><span class="params">fn</span> =&gt;</span> fn != callback);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="16-实现map方法"><a href="#16-实现map方法" class="headerlink" title="16. 实现map方法"></a>16. 实现map方法</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Array</span>.prototype.myMap = <span class="function"><span class="keyword">function</span>(<span class="params">fn, thisValue</span>) </span>&#123;</span><br><span class="line">     <span class="keyword">let</span> res = []</span><br><span class="line">     thisValue = thisValue||[]</span><br><span class="line">     <span class="keyword">let</span> arr = <span class="built_in">this</span></span><br><span class="line">     <span class="keyword">for</span>(<span class="keyword">let</span> i <span class="keyword">in</span> arr) &#123;</span><br><span class="line">        res.push(fn(arr[i]))</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">return</span> res</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <!-- <a data-url="http://wxwgd.com/2021/12/19/%E5%B8%B8%E8%A7%81%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95%E6%89%8B%E5%86%99%E9%A2%98/" data-id="cl767kh4k000jyotl7on2dfm4" class="article-share-link">
+        分享
+      </a> -->
+      
+        <div style="text-align:center;color: #ccc;font-size:14px;">------------- 本文&nbsp;<i class="fe fe-smile"></i>&nbsp; 结束 -------------</div>
+      
+      
+<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95%E9%A2%98/" rel="tag">面试题</a></li></ul>
+
+    </footer>
+
+  </div>
+
+  
+  
+<nav class="article-nav">
+  
+  <a href="/2021/12/20/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95%E4%B9%8B%E6%B5%8F%E8%A7%88%E5%99%A8/" class="article-nav-link">
+    <strong class="article-nav-caption">前一篇</strong>
+    <div class="article-nav-title">
+      
+      前端面试之浏览器
+      
+    </div>
+  </a>
+  
+  
+  <a href="/2021/12/06/hexo%E5%B0%86gitpage%E9%A1%B5%E9%9D%A2%E7%BB%91%E5%AE%9A%E5%88%B0%E8%87%AA%E5%B7%B1%E7%9A%84%E5%9F%9F%E5%90%8D/" class="article-nav-link">
+    <strong class="article-nav-caption">后一篇</strong>
+    <div class="article-nav-title">hexo将gitpage页面绑定到自己的域名</div>
+  </a>
+  
+</nav>
+
+  
+
+  
+  
+<div class="vcomments" id="vcomments"></div>
+
+<script src="https://unpkg.com/valine/dist/Valine.min.js"></script>
+
+<script>
+  new Valine({
+    el: '#vcomments',
+    appId: '2jI9t7zCvDNRQaX2Ve60gfUh-gzGzoHsz',
+    appKey: 'kYCOfraJGWpe3yJ4fDleSxLG',
+    notify: 'false',
+    verify: 'true',
+    avatar: 'mp',
+    pageSize: '10',
+    placeholder: '请输入...'
+  })
+</script>
+
+  
+  
+
+</article>
+</section>
+    <footer class="footer">
+  <div class="outer">
+    <ul class="list-inline">
+      <li> <span><a target="_blank" href="https://beian.miit.gov.cn">鲁ICP备20011949号-1</a></span> </li>
+      <li> 千城墨白 &copy; 2022 </li>
+      <br>
+      <li> <span>Powered by</span> <a href="http://hexo.io/" target="_blank">Hexo</a> </li>
+      <li> <span>theme</span> <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank">Ocean</a> </li>
+    </ul>
+  </div>
+</footer>
+  </main>
+  <aside class="sidebar">
+    <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="https://cdn.wangxinwei.cn/shark.svg" alt="千城墨白"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/gallery">相册</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="搜索">
+        <i class="fe fe-search"></i>
+        搜索
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+  </aside>
+  
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/copybtn.js"></script>
+
+
+
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+  });
+</script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+</body>
+
+</html>

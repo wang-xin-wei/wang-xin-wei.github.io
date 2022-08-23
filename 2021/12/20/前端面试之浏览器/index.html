@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  
+  <meta name="keywords" content="千城墨白,博客,blog,记录生活">
+  
+  
+  <meta name="description" content="千城墨白,博客,blog,记录生活">
+  
+  <title>
+    前端面试之浏览器 |
+    
+    千城墨白
+  </title>
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+    
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <main class="content">
+    <section class="outer">
+  <article id="post-前端面试之浏览器" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+
+<h1 class="article-title" itemprop="name">
+  前端面试之浏览器
+</h1>
+
+
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2021/12/20/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95%E4%B9%8B%E6%B5%8F%E8%A7%88%E5%99%A8/" class="article-date">
+  <time datetime="2021-12-20T01:40:42.000Z" itemprop="datePublished">2021-12-20</time>
+</a>
+      
+<div class="article-category">
+  <a class="article-category-link" href="/categories/%E6%B5%8F%E8%A7%88%E5%99%A8/">浏览器</a>
+</div>
+
+      <br>
+      <i class="fe fe-bar-chart"></i> <span></span> <span class="post-count">2.9k</span>字&emsp;&emsp;
+      <i class="fe fe-clock"></i> <span></span> <span class="post-count">10</span>分钟
+    </div>
+    
+
+    
+
+    
+    
+<div class="tocbot"></div>
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+      
+      <h3 id="1-从输入url到页面加载完成，经历了什么？"><a href="#1-从输入url到页面加载完成，经历了什么？" class="headerlink" title="1. 从输入url到页面加载完成，经历了什么？"></a>1. 从输入url到页面加载完成，经历了什么？</h3><span id="more"></span>
+
+<ul>
+<li>浏览器从url中解析出服务器的主机名 如: <code>www.xxx.com</code></li>
+<li>浏览器将服务器的主机名转换成ip地址：DNS解析</li>
+<li>浏览器与web服务器建立起一条tcp连接 ：三次握手</li>
+<li>浏览器向web服务器发送一条http请求报文</li>
+<li>web服务器向浏览器回送一条http响应报文，返回用户所需的资源</li>
+<li>关闭tcp连接 ：四次挥手</li>
+<li>浏览器解析web服务器返回的资源（html,css,javascript等） 构建DOM树、CSSOM树 、渲染树</li>
+<li>浏览器绘制页面，页面展示</li>
+</ul>
+<h3 id="2-回流和重绘"><a href="#2-回流和重绘" class="headerlink" title="2. 回流和重绘"></a>2. 回流和重绘</h3><ul>
+<li><p>定义：</p>
+<p>回流：当DOM更改浏览器必须重新处理和绘制部分或全部页面时，就会产生回流 –&gt;比如元素的宽高发生变化</p>
+<p>重绘：当DOM更改浏览器不需要重新绘制部分或全部页面时，产生重绘  –&gt;比如元素的背景色发生变化</p>
+<p>由此可得：重绘不一定导致回流，但是回流一定会导致重绘</p>
+</li>
+<li><p>怎样避免回流或重绘？</p>
+<p>要避免回流或者重绘，最直接的方法就是避免引发回流和重绘的DOM操作</p>
+</li>
+<li><p>触发条件：</p>
+<p>重绘：不触发回流，但是又会改变DOM，都会触发重绘，比如background、color、visibility:hidden等（要区分与display:none的差别</p>
+<p>visibility:hidden虽然被隐藏，但是仍然占据着页面上的空间，display:none被隐藏不会占据页面上的空间）</p>
+<p>回流：改变DOM的几何属性，如：width、height、margin、padding等都会触发回流</p>
+</li>
+<li><p>如何减少回流和重绘？</p>
+<p>原因：频繁的回流和重绘会导致浏览器卡顿和掉帧，所以需要减少回流和重绘的情况</p>
+<p>解决办法：</p>
+<ol>
+<li>避免逐项更改样式，最好一次性更改style属性</li>
+<li>避免循环操作DOM，可以使用文档碎片（documentFragment）</li>
+<li>避免循环读取offsetLeft等属性</li>
+<li>避免使用table布局（很小的操作可能会导致整体重新布局）</li>
+<li>减少使用display:none,可以使用visibility:hidden替代</li>
+</ol>
+</li>
+</ul>
+<h3 id="3-localStorage、sessionStorage与cookie的区别"><a href="#3-localStorage、sessionStorage与cookie的区别" class="headerlink" title="3.localStorage、sessionStorage与cookie的区别"></a>3.localStorage、sessionStorage与cookie的区别</h3><p>共同点：</p>
+<ul>
+<li>都保存在浏览器端并且同源</li>
+</ul>
+<p>不同点：</p>
+<ul>
+<li>大小不同：cookie数据不能超过4K，webStorage可以达到5M</li>
+<li>有效期不同：cookie在设置的过期时间之前一直有效，即使浏览器被关闭，localstroage永久有效，sessionStorage仅在浏览器窗口关闭前有效</li>
+<li>作用域不同：不同浏览器不能共享localstorage和sessionStorage 不同会话不共享sessionStorage</li>
+<li>cookie存储内容会随着请求发送到服务器 webStorage不会被发送到服务器</li>
+<li>webStorage支持事件通知机制，cookie则不支持</li>
+<li>webStorage自带API接口，cookie没有</li>
+</ul>
+<p>优缺点：</p>
+<p>webStorage存储空间更大，可以达到5M，操作更方便，有专门的api可以调用，且更安全，cookie存储空间较小，没有单独的api可以调用，需要自己封装，不太方便，且cookie会在http请求中携带，可能会被修改或截取</p>
+<h3 id="4-同源策略和跨域"><a href="#4-同源策略和跨域" class="headerlink" title="4.同源策略和跨域"></a>4.同源策略和跨域</h3><p>同源策略：同源策略指两个地址协议、域名、端口三者必须相同</p>
+<p>跨域：如果两个地址不同源就会导致跨域，跨域是指一个域去请求另一个域下的资源</p>
+<p>为什么要使用同源策略？</p>
+<p><strong>同源策略</strong>是一个重要的安全策略，它用于限制一个origin的文档或者它加载的脚本如何能与另一个源的资源进行交互。它能帮助阻隔恶意文档，减少可能被攻击的媒介。</p>
+<p>常用跨域解决方案：</p>
+<ul>
+<li>CORS 跨域资源共享</li>
+<li>Nginx 代理</li>
+<li>Jsonp （有缺陷，只能使用get请求）</li>
+</ul>
+<h3 id="5-浏览器缓存机制"><a href="#5-浏览器缓存机制" class="headerlink" title="5. 浏览器缓存机制"></a>5. 浏览器缓存机制</h3><ul>
+<li><p>什么是缓存？</p>
+<p>当第一个请求资源完成后，根据相应的缓存机制，将一些静态资源存储在本地磁盘当中，这样下次请求资源的时候，浏览器直接从本地缓存中读取文件，不需要再次发送请求。这样可以减少了网络延迟，加快了页面响应速度，增强了用户体验；减少了网络带宽消耗；减轻了服务器的压力。</p>
+</li>
+<li><p>缓存类型：</p>
+<ol>
+<li>强缓存 – 不会向服务器发送请求，直接从缓存中读取资源</li>
+<li>协商缓存 – 向服务器发送请求，服务器会根据这个请求的request header的一些参数来判断是否需要重新请求数据</li>
+</ol>
+</li>
+<li><p>如何使用和注意点：</p>
+<ul>
+<li><p>对于频繁变动的资源需要使用Cache-Control: no-cache使浏览器每次都请求服务器</p>
+</li>
+<li><p>不常变动的资源，给它的 Cache-Control 配置一个很大的 max-age=31536000 (一年)，这样浏览器之后请求相同的 URL 会命中强缓存。而为了解决更新的问题，就需要在文件名中添加 hash，之后更改hash，从而达到更改请求路径的目的。</p>
+</li>
+<li><p>html文件不要设置强缓存</p>
+</li>
+<li><p>CSS、JS、图片等资源，可以设置一个长时间的强缓存。更改文件的时候，配合hash值，这样一旦文件发生了改变，那么浏览器直接去请求新的资源，在文件不变动的情况下，直接使用本地缓存，不去向浏览器请求。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="6-SEO优化"><a href="#6-SEO优化" class="headerlink" title="6. SEO优化"></a>6. SEO优化</h3><ul>
+<li><p>减少http请求，合理设置http缓存</p>
+<p>http协议是无状态的应用层协议，意味着每次http请求都需要建立通信链路、进行数据传输，而在服务器端，每个http都需要启动独立的线程去处理。这些通信和服务的开销都很昂贵，减少http请求的数目可有效提高访问性能。</p>
+<p>缓存参考上文浏览器缓存机制</p>
+</li>
+<li><p>使用gzip压缩</p>
+<p>在服务器端对文件进行压缩，在浏览器端对文件解压缩，可有效减少通信传输的数据量。如果可以的话，尽可能的将外部的脚本、样式进行合并，多个合为一个。文本文件的压缩效率可达到80%以上，因此HTML、CSS、javascript文件启用GZip压缩可达到较好的效果。但是压缩对服务器和浏览器产生一定的压力，在通信带宽良好，而服务器资源不足的情况下要权衡考虑。</p>
+</li>
+<li><p>使用雪碧图</p>
+<p>合并 CSS图片，减少请求数</p>
+</li>
+<li><p>css放在页面的最上方，js放在页面的最下方</p>
+<p>浏览器会在下载完成全部CSS之后才对整个页面进行渲染，因此最好的做法是将CSS放在页面最上面，让浏览器尽快下载CSS。如果将 CSS放在其他地方比如 BODY中，则浏览器有可能还未下载和解析到 CSS就已经开始渲染页面了，这就导致页面由无 CSS状态跳转到 CSS状态，用户体验比较糟糕，所以可以考虑将CSS放在HEAD中。</p>
+<p>Javascript则相反，浏览器在加载javascript后立即执行，有可能会阻塞整个页面，造成页面显示缓慢，因此javascript最好放在页面最下面。但如果页面解析时就需要用到javascript，这时放到底部就不合适了。</p>
+</li>
+<li><p>减少使用cookie</p>
+<p>一方面，cookie包含在每次请求和响应中，太大的cookie会严重影响数据传输，因此哪些数据需要写入cookie需要慎重考虑，尽量减少cookie中传输的数据量。另一方面，对于某些静态资源的访问，如CSS、script等，发送cookie没有意义，可以考虑静态资源使用独立域名访问，避免请求静态资源时发送cookie，减少cookie传输次数。</p>
+</li>
+<li><p>网站结构尽量简单</p>
+<p>减少代码的层级，有利于搜索引擎优化和爬虫的爬取</p>
+</li>
+<li><p>使用语义化的标签</p>
+<p>对于各种不同的内容尽量使用不同的标签，如：p、h1、main、nav等，不要所有内容都使用div容器，排版清晰，img标签添加alt和title属性，br标签只在文本内换行时使用等</p>
+</li>
+<li><p>控制页面的文件大小</p>
+<p>页面太大会导致加载速度较慢，用户体验较差</p>
+</li>
+<li><p>给网站添加正确的description描述以及keywords关键字</p>
+</li>
+</ul>
+<h3 id="7-事件机制"><a href="#7-事件机制" class="headerlink" title="7. 事件机制"></a>7. 事件机制</h3><ul>
+<li><p>事件触发的三个阶段</p>
+<ol>
+<li><p>捕获阶段： 事件对象(event object) 从 window 派发到 目标对象父级的过程。</p>
+</li>
+<li><p>触发阶段：事件对象派发到目标元素时的阶段，如果事件类型指示其不冒泡，那事件传播将在此阶段终止。</p>
+</li>
+<li><p>冒泡阶段：和捕获相反，是以目标对象父级到 window 的过程。</p>
+<p>注意：在任一阶段调用 <code>stopPropagation</code>都将终止本次事件的传播。</p>
+</li>
+</ol>
+</li>
+<li><p>阻止冒泡和默认事件</p>
+<p>阻止冒泡：调用 <code>stopPropagation</code> 严格来说不是阻止冒泡，是阻止事件传播，捕获阶段也可以直接阻止。</p>
+<p>组织默认事件：调用 <code>preventDefault </code>则是阻止默认事件。</p>
+</li>
+</ul>
+<h3 id="8-web安全"><a href="#8-web安全" class="headerlink" title="8. web安全"></a>8. web安全</h3><ul>
+<li><p>XSS攻击</p>
+<p>定义：跨站脚本攻击，因为缩写和 CSS重叠，所以只能叫 XSS。跨站脚本攻击是指通过存在安全漏洞的Web网站注册用户的浏览器内运行非法的HTML标签或JavaScript进行的一种攻击。</p>
+<p>原理：XSS 的原理是恶意攻击者往 Web 页面里插入恶意可执行网页脚本代码，当用户浏览该页之时，嵌入其中 Web 里面的脚本代码会被执行，从而可以达到攻击者盗取用户信息或其他侵犯用户安全隐私的目的。</p>
+<p>危害：利用虚假的输入表单骗取用户个人信息等</p>
+<p>如何处理：</p>
+<ul>
+<li>Web应用程序在设置cookie时，将其属性设为HttpOnly，就可以避免该网页的cookie被客户端恶意JavaScript窃取，保护用户cookie信息。</li>
+<li>转义输入输入的内容，对引号、尖括号、斜杠进行转义</li>
+</ul>
+</li>
+<li><p>CSRF攻击</p>
+<p>定义：即跨站请求伪造，是一种常见的Web攻击，它利用用户已登录的身份，在用户毫不知情的情况下，以用户的名义完成非法操作。</p>
+<p>原理：登录受信任的网站A，并在本地生成Cookie，在不登出A的情况下，访问危险网站B</p>
+<p>危害：泄露个人隐私，盗用个人账号，侵犯你的财产安全等</p>
+<p>如何处理：</p>
+<ul>
+<li>组织第三方网站请求接口</li>
+<li>请求时附带验证信息，token，session等</li>
+<li>get请求不对数据进行修改</li>
+<li>不让第三方网站访问到用户的cookie</li>
+</ul>
+</li>
+<li><p>SQL注入</p>
+<p>定义：SQL注入是一种常见的Web安全漏洞，攻击者利用这个漏洞，可以访问或修改数据，或者利用潜在的数据库漏洞进行攻击。</p>
+<p>危害：获取数据库的信息，后台管理员的账号和密码，或用户的敏感信息等</p>
+<p>如何处理：</p>
+<ul>
+<li>严格限制web应用的数据库操作权限</li>
+<li>后端代码检查输入的数据是否合格</li>
+<li>对进入数据库的特殊字符进行转义或编码处理</li>
+<li>所有的查询语句建议使用数据库提供的参数化查询接口</li>
+</ul>
+</li>
+</ul>
+<p>注意：这里仅仅是对web安全进行简单说明，还有很多其他的攻击方式，可以自行搜索</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <!-- <a data-url="http://wxwgd.com/2021/12/20/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95%E4%B9%8B%E6%B5%8F%E8%A7%88%E5%99%A8/" data-id="cl767kh4h000ayotl6cgd96o8" class="article-share-link">
+        分享
+      </a> -->
+      
+        <div style="text-align:center;color: #ccc;font-size:14px;">------------- 本文&nbsp;<i class="fe fe-smile"></i>&nbsp; 结束 -------------</div>
+      
+      
+<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" rel="tag">浏览器</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
+
+    </footer>
+
+  </div>
+
+  
+  
+<nav class="article-nav">
+  
+  <a href="/2021/12/20/%E6%9C%80%E5%89%8D%E7%9A%84vue%E9%9D%A2%E8%AF%95%E9%A2%98%E5%8A%A0%E8%AF%A6%E8%A7%A3/" class="article-nav-link">
+    <strong class="article-nav-caption">前一篇</strong>
+    <div class="article-nav-title">
+      
+      最全的vue面试题+详解
+      
+    </div>
+  </a>
+  
+  
+  <a href="/2021/12/19/%E5%B8%B8%E8%A7%81%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95%E6%89%8B%E5%86%99%E9%A2%98/" class="article-nav-link">
+    <strong class="article-nav-caption">后一篇</strong>
+    <div class="article-nav-title">常见前端面试手写题</div>
+  </a>
+  
+</nav>
+
+  
+
+  
+  
+<div class="vcomments" id="vcomments"></div>
+
+<script src="https://unpkg.com/valine/dist/Valine.min.js"></script>
+
+<script>
+  new Valine({
+    el: '#vcomments',
+    appId: '2jI9t7zCvDNRQaX2Ve60gfUh-gzGzoHsz',
+    appKey: 'kYCOfraJGWpe3yJ4fDleSxLG',
+    notify: 'false',
+    verify: 'true',
+    avatar: 'mp',
+    pageSize: '10',
+    placeholder: '请输入...'
+  })
+</script>
+
+  
+  
+
+</article>
+</section>
+    <footer class="footer">
+  <div class="outer">
+    <ul class="list-inline">
+      <li> <span><a target="_blank" href="https://beian.miit.gov.cn">鲁ICP备20011949号-1</a></span> </li>
+      <li> 千城墨白 &copy; 2022 </li>
+      <br>
+      <li> <span>Powered by</span> <a href="http://hexo.io/" target="_blank">Hexo</a> </li>
+      <li> <span>theme</span> <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank">Ocean</a> </li>
+    </ul>
+  </div>
+</footer>
+  </main>
+  <aside class="sidebar">
+    <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="https://cdn.wangxinwei.cn/shark.svg" alt="千城墨白"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/gallery">相册</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="搜索">
+        <i class="fe fe-search"></i>
+        搜索
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+  </aside>
+  
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/copybtn.js"></script>
+
+
+
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+  });
+</script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+</body>
+
+</html>

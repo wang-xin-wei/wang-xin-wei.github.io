@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  
+  <meta name="keywords" content="千城墨白,博客,blog,记录生活">
+  
+  
+  <meta name="description" content="千城墨白,博客,blog,记录生活">
+  
+  <title>
+    JavaScript 垃圾回收机制 |
+    
+    千城墨白
+  </title>
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+    
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <main class="content">
+    <section class="outer">
+  <article id="post-JavaScript垃圾回收机制" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+
+<h1 class="article-title" itemprop="name">
+  JavaScript 垃圾回收机制
+</h1>
+
+
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2021/12/02/JavaScript%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/" class="article-date">
+  <time datetime="2021-12-02T09:55:07.000Z" itemprop="datePublished">2021-12-02</time>
+</a>
+      
+<div class="article-category">
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+</div>
+
+      <br>
+      <i class="fe fe-bar-chart"></i> <span></span> <span class="post-count">931</span>字&emsp;&emsp;
+      <i class="fe fe-clock"></i> <span></span> <span class="post-count">3</span>分钟
+    </div>
+    
+
+    
+
+    
+    
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+      
+      <blockquote>
+<p>垃圾回收有两种方式，即标记清理和引用计数</p>
+</blockquote>
+<span id="more"></span>
+
+<p>标记清理：</p>
+<p>JavaScript最常用的垃圾回收策略是标记清理，垃圾回收程序运行的时候，会标记内存中存储的所有的变量（标记方法多种），然后他会将所有在上下文中的变量以及被在上下文中的变量引用的变量的标记去掉。再次之后再被加上标记的变量就是待删除的了，因为在上下文中的变量都访问不到它了，随后垃圾回收程序做一次内存清理，销毁带标记的所有值并收回它们的内存。</p>
+<p>引用计数：</p>
+<p>另外一种不太常用的策略就是引用计数，思路是对每个值都记录他被引用的次数，声明变量并给他赋一个引用值时，这个值的引用数为1，如果同一个值又被赋值给另一个变量，那么引用次数加1，如果保存对该值引用的变量被其他值覆盖了，那么引用数减1，当一个值的引用数为0时，就说明没办法在访问这个值了，就可以安全的收回该内存了，垃圾回收程序下次运行的时候就会释放引用数为0的值的内存</p>
+<p>引用计数存在的问题：</p>
+<p>如下：对象A中有一个指针指向对象B，对象B也引用了对象A。</p>
+<p> 在引用计数策略下，  对象A 和 对象B 在函数结束后还会存在，因为它们的引用数永远不会变成 0。如果函数被多次调 用，则会导致大量内存永远不会被释放。 而使用标记清理则不会出现这种问题</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">problem</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"> <span class="keyword">let</span> objectA = <span class="keyword">new</span> <span class="built_in">Object</span>();</span><br><span class="line"> <span class="keyword">let</span> objectB = <span class="keyword">new</span> <span class="built_in">Object</span>();</span><br><span class="line"> objectA.someOtherObject = objectB;</span><br><span class="line"> objectB.anotherObject = objectA;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+<p>第二个例子：</p>
+<p>在 IE8 及更早版本的 IE 中，并非所有对象都是原生 JavaScript 对象。BOM 和 DOM 中的对象是 C++ 实现的组件对象模型（COM，Component Object Model）对象，而 COM 对象使用引用计数实现垃圾回 收。因此，即使这些版本 IE 的 JavaScript 引擎使用标记清理，JavaScript 存取的 COM 对象依旧使用引用 计数。换句话说，只要涉及 COM 对象，就无法避开循环引用问题。下面这个简单的例子展示了涉及 COM 对象的循环引用问题： </p>
+<p>这个例子在一个 DOM 对象（element）和一个原生 JavaScript 对象（myObject）之间制造了循环 引用。myObject 变量有一个名为 element 的属性指向 DOM 对象 element，而 element 对象有一个 someObject 属性指回 myObject 对象。由于存在循环引用，因此 DOM 元素的内存永远不会被回收， 即使它已经被从页面上删除了也是如此。 </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> element = <span class="built_in">document</span>.getElementById(<span class="string">&quot;some_element&quot;</span>);</span><br><span class="line"><span class="keyword">let</span> myObject = <span class="keyword">new</span> <span class="built_in">Object</span>();</span><br><span class="line">myObject.element = element;</span><br><span class="line">element.someObject = myObject; </span><br></pre></td></tr></table></figure>
+
+<p>为避免类似的循环引用问题，应该在确保不使用的情况下切断原生 JavaScript 对象与 DOM 元素之 间的连接。比如，通过以下代码可以清除前面的例子中建立的循环引用： </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">myObject.element = null;</span><br><span class="line">element.someObject = null; </span><br></pre></td></tr></table></figure>
+
+<p>把变量设置为 null 实际上会切断变量与其之前引用值之间的关系。当下次垃圾回收程序运行时， 这些值就会被删除，内存也会被回收。 为了补救这一点，IE9 把 BOM 和 DOM 对象都改成了 JavaScript 对象，这同时也避免了由于存在两 套垃圾回收算法而导致的问题，还消除了常见的内存泄漏现象。 </p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <!-- <a data-url="http://wxwgd.com/2021/12/02/JavaScript%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/" data-id="cl767kh4a0001yotl0lfi9i12" class="article-share-link">
+        分享
+      </a> -->
+      
+        <div style="text-align:center;color: #ccc;font-size:14px;">------------- 本文&nbsp;<i class="fe fe-smile"></i>&nbsp; 结束 -------------</div>
+      
+      
+<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li></ul>
+
+    </footer>
+
+  </div>
+
+  
+  
+<nav class="article-nav">
+  
+  <a href="/2021/12/06/firefox%20%E6%89%93%E5%BC%80%E7%BD%91%E7%AB%99%E8%A2%AB%E9%99%90%E5%88%B6/" class="article-nav-link">
+    <strong class="article-nav-caption">前一篇</strong>
+    <div class="article-nav-title">
+      
+      firefox打开网站被限制
+      
+    </div>
+  </a>
+  
+  
+</nav>
+
+  
+
+  
+  
+<div class="vcomments" id="vcomments"></div>
+
+<script src="https://unpkg.com/valine/dist/Valine.min.js"></script>
+
+<script>
+  new Valine({
+    el: '#vcomments',
+    appId: '2jI9t7zCvDNRQaX2Ve60gfUh-gzGzoHsz',
+    appKey: 'kYCOfraJGWpe3yJ4fDleSxLG',
+    notify: 'false',
+    verify: 'true',
+    avatar: 'mp',
+    pageSize: '10',
+    placeholder: '请输入...'
+  })
+</script>
+
+  
+  
+
+</article>
+</section>
+    <footer class="footer">
+  <div class="outer">
+    <ul class="list-inline">
+      <li> <span><a target="_blank" href="https://beian.miit.gov.cn">鲁ICP备20011949号-1</a></span> </li>
+      <li> 千城墨白 &copy; 2022 </li>
+      <br>
+      <li> <span>Powered by</span> <a href="http://hexo.io/" target="_blank">Hexo</a> </li>
+      <li> <span>theme</span> <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank">Ocean</a> </li>
+    </ul>
+  </div>
+</footer>
+  </main>
+  <aside class="sidebar">
+    <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="https://cdn.wangxinwei.cn/shark.svg" alt="千城墨白"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/gallery">相册</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="搜索">
+        <i class="fe fe-search"></i>
+        搜索
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+  </aside>
+  
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/copybtn.js"></script>
+
+
+
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+  });
+</script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+</body>
+
+</html>
