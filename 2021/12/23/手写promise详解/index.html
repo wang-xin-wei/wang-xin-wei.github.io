@@ -82,7 +82,7 @@
       <h2 id="1-什么是Promise"><a href="#1-什么是Promise" class="headerlink" title="1. 什么是Promise?"></a>1. 什么是Promise?</h2><p>Promise 是异步编程的一种解决方案： 从语法上讲，promise是一个对象，从它可以获取异步操作的消息；从本意上讲，它是承诺，承诺它过一段时间会给你一个结果。 promise有三种状态：**pending(等待态)，fulfiled(成功态)，rejected(失败态)**；状态一旦改变，就不会再变。创造promise实例后，它会立即执行。</p>
 <span id="more"></span>
 
-<h2 id="2-Promise-的状态"><a href="#2-Promise-的状态" class="headerlink" title="2. Promise 的状态"></a>2. Promise 的状态</h2><p>一个 <code>Promise</code> 必然处于以下几种状态之一：</p>
+<h2 id="2-Promise-的状态"><a href="#2-Promise-的状态" class="headerlink" title="2. Promise 的状态:"></a>2. Promise 的状态:</h2><p>一个 <code>Promise</code> 必然处于以下几种状态之一：</p>
 <ul>
 <li><em>待定（pending）</em>: 初始状态，既没有被兑现，也没有被拒绝。</li>
 <li><em>已兑现（fulfilled）</em>: 意味着操作成功完成。</li>
@@ -91,7 +91,7 @@
 <p>待定状态的 Promise 对象要么会通过一个值<em>被兑现（fulfilled）</em>，要么会通过一个原因（错误）<em>被拒绝（rejected）</em>。当这些情况之一发生时，我们用 promise 的 then 方法排列起来的相关处理程序就会被调用。如果 promise 在一个相应的处理程序被绑定时就已经被兑现或被拒绝了，那么这个处理程序就会被调用，因此在完成异步操作和绑定处理方法之间不会存在竞争状态。</p>
 <p>因为 <code>Promise.prototype.then</code> 和 <code>Promise.prototype.catch</code> 方法返回的是 promise， 所以它们可以被链式调用。</p>
 <p><img src="https://cdn.wangxinwei.cn/qiniuimg/image-20211223152803272.png" alt="image-20211223152803272"></p>
-<h2 id="3-Promise的基本结构"><a href="#3-Promise的基本结构" class="headerlink" title="3. Promise的基本结构"></a>3. Promise的基本结构</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> p = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>)=&gt;</span>&#123;</span><br><span class="line">    resolve(<span class="string">&#x27;成功&#x27;</span>)</span><br><span class="line">&#125;).then(<span class="function"><span class="params">value</span>=&gt;</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(value)  <span class="comment">//成功</span></span><br><span class="line">&#125;,<span class="function"><span class="params">reason</span>=&gt;</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(reason)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="3-Promise的基本结构"><a href="#3-Promise的基本结构" class="headerlink" title="3. Promise的基本结构:"></a>3. Promise的基本结构:</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> p = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>)=&gt;</span>&#123;</span><br><span class="line">    resolve(<span class="string">&#x27;成功&#x27;</span>)</span><br><span class="line">&#125;).then(<span class="function"><span class="params">value</span>=&gt;</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(value)  <span class="comment">//成功</span></span><br><span class="line">&#125;,<span class="function"><span class="params">reason</span>=&gt;</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(reason)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 
 <p>上面定义了一个简单的Promise实例，我们可以看到Promise接收了一个函数作为参数 我们将它称之为执行器<code>executor</code><br><code>executor</code>接收两个参数，分别为<code>resolve</code>和<code>reject</code>，这两个参数也是函数，然后还有一个then方法，这里then方法也接收了两个参数<code>onFulfilled</code> 和 <code>onRejected</code>,这两个参数也是函数</p>
 <p>如果在Promise中执行resolve方法 那么resolve返回的值会被then方法的第一个参数接收到，并且状态变成fulfilled</p>
@@ -115,7 +115,7 @@
       
     </div>
     <footer class="article-footer">
-      <!-- <a data-url="http://blog.wangxinwei.cn/2021/12/23/%E6%89%8B%E5%86%99promise%E8%AF%A6%E8%A7%A3/" data-id="cl768k60h000fpktl9grwhf40" class="article-share-link">
+      <!-- <a data-url="http://blog.wangxinwei.cn/2021/12/23/%E6%89%8B%E5%86%99promise%E8%AF%A6%E8%A7%A3/" data-id="cl769l3zt000j5wtl04jg98lh" class="article-share-link">
         分享
       </a> -->
       
