@@ -69,7 +69,7 @@
     <h1 class="page-type-title"></h1>
     
     
-    <article id="post-手写promise详解" class="article article-type-post" itemscope
+    <article id="post-深浅拷贝" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
   <div class="article-inner">
     
@@ -77,7 +77,7 @@
       
 
 <h2 itemprop="name">
-  <a class="article-title" href="/2021/12/23/%E6%89%8B%E5%86%99promise%E8%AF%A6%E8%A7%A3/">手写promise详解</a>
+  <a class="article-title" href="/2022/08/24/%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D/">JavaScript深浅拷贝</a>
 </h2>
 
 
@@ -87,17 +87,17 @@
 
     
     <div class="article-meta">
-      <a href="/2021/12/23/%E6%89%8B%E5%86%99promise%E8%AF%A6%E8%A7%A3/" class="article-date">
-  <time datetime="2021-12-23T07:18:37.000Z" itemprop="datePublished">2021-12-23</time>
+      <a href="/2022/08/24/%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D/" class="article-date">
+  <time datetime="2022-08-24T00:57:12.000Z" itemprop="datePublished">2022-08-24</time>
 </a>
       
 <div class="article-category">
-  <a class="article-category-link" href="/categories/%E6%BA%90%E7%A0%81/">源码</a>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
 </div>
 
       <br>
-      <i class="fe fe-bar-chart"></i> <span></span> <span class="post-count">1.7k</span>字&emsp;&emsp;
-      <i class="fe fe-clock"></i> <span></span> <span class="post-count">6</span>分钟
+      <i class="fe fe-bar-chart"></i> <span></span> <span class="post-count">972</span>字&emsp;&emsp;
+      <i class="fe fe-clock"></i> <span></span> <span class="post-count">4</span>分钟
     </div>
     
 
@@ -111,10 +111,10 @@
         
       
       
-        <h2 id="1-什么是Promise"><a href="#1-什么是Promise" class="headerlink" title="1. 什么是Promise?"></a>1. 什么是Promise?</h2><p>Promise 是异步编程的一种解决方案： 从语法上讲，promise是一个对象，从它可以获取异步操作的消息；从本意上讲，它是承诺，承诺它过一段时间会给你一个结果。 promise有三种状态：**pending(等待态)，fulfiled(成功态)，rejected(失败态)**；状态一旦改变，就不会再变。创造promise实例后，它会立即执行。</p>
+        <p><img src="https://cdn.wangxinwei.cn/image-20220824101631144.png" alt="image-20220824101631144"></p>
         
           <p>
-            <a class="article-more-link" href="/2021/12/23/%E6%89%8B%E5%86%99promise%E8%AF%A6%E8%A7%A3/">
+            <a class="article-more-link" href="/2022/08/24/%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D/">
               阅读全文...
             </a>
           </p>
@@ -122,7 +122,147 @@
       
     </div>
     <footer class="article-footer">
-      <!-- <a data-url="http://blog.wangxinwei.cn/2021/12/23/%E6%89%8B%E5%86%99promise%E8%AF%A6%E8%A7%A3/" data-id="cl769pp84000fz0tlejnd3vil" class="article-share-link">
+      <!-- <a data-url="http://wxwgd.com/2022/08/24/%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D/" data-id="cl77ntzo3000jpgtl4y118nkd" class="article-share-link">
+        分享
+      </a> -->
+      
+      
+<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95%E9%A2%98/" rel="tag">面试题</a></li></ul>
+
+    </footer>
+
+  </div>
+
+  
+
+  
+
+</article>
+    
+    <article id="post-this-call-apply-bind" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+
+<h2 itemprop="name">
+  <a class="article-title" href="/2022/08/22/this-call-apply-bind/">this/call/apply/bind</a>
+</h2>
+
+
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2022/08/22/this-call-apply-bind/" class="article-date">
+  <time datetime="2022-08-22T06:57:12.000Z" itemprop="datePublished">2022-08-22</time>
+</a>
+      
+<div class="article-category">
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+</div>
+
+      <br>
+      <i class="fe fe-bar-chart"></i> <span></span> <span class="post-count">1.4k</span>字&emsp;&emsp;
+      <i class="fe fe-clock"></i> <span></span> <span class="post-count">5</span>分钟
+    </div>
+    
+
+    
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+        
+      
+      
+        <p><img src="https://cdn.wangxinwei.cn/image-20220824142502121.png" alt="image-20220824142502121"></p>
+        
+          <p>
+            <a class="article-more-link" href="/2022/08/22/this-call-apply-bind/">
+              阅读全文...
+            </a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <!-- <a data-url="http://wxwgd.com/2022/08/22/this-call-apply-bind/" data-id="cl77ntzny0007pgtldfptgp2a" class="article-share-link">
+        分享
+      </a> -->
+      
+      
+<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95%E9%A2%98/" rel="tag">面试题</a></li></ul>
+
+    </footer>
+
+  </div>
+
+  
+
+  
+
+</article>
+    
+    <article id="post-手写promise" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+
+<h2 itemprop="name">
+  <a class="article-title" href="/2021/12/23/%E6%89%8B%E5%86%99promise/">手写promise</a>
+</h2>
+
+
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2021/12/23/%E6%89%8B%E5%86%99promise/" class="article-date">
+  <time datetime="2021-12-23T07:18:37.000Z" itemprop="datePublished">2021-12-23</time>
+</a>
+      
+<div class="article-category">
+  <a class="article-category-link" href="/categories/%E6%BA%90%E7%A0%81/">源码</a>
+</div>
+
+      <br>
+      <i class="fe fe-bar-chart"></i> <span></span> <span class="post-count">1.7k</span>字&emsp;&emsp;
+      <i class="fe fe-clock"></i> <span></span> <span class="post-count">7</span>分钟
+    </div>
+    
+
+    
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+        
+      
+      
+        <img src="https://cdn.wangxinwei.cn/image-20220824142803593.png" alt="image-20220824142803593" style="zoom: 200%;" />
+        
+          <p>
+            <a class="article-more-link" href="/2021/12/23/%E6%89%8B%E5%86%99promise/">
+              阅读全文...
+            </a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <!-- <a data-url="http://wxwgd.com/2021/12/23/%E6%89%8B%E5%86%99promise/" data-id="cl77ntzo0000apgtlhxp081g4" class="article-share-link">
         分享
       </a> -->
       
@@ -161,9 +301,13 @@
   <time datetime="2021-12-20T08:39:17.000Z" itemprop="datePublished">2021-12-20</time>
 </a>
       
+<div class="article-category">
+  <a class="article-category-link" href="/categories/Vue/">Vue</a>
+</div>
+
       <br>
-      <i class="fe fe-bar-chart"></i> <span></span> <span class="post-count">2.7k</span>字&emsp;&emsp;
-      <i class="fe fe-clock"></i> <span></span> <span class="post-count">10</span>分钟
+      <i class="fe fe-bar-chart"></i> <span></span> <span class="post-count">1.9k</span>字&emsp;&emsp;
+      <i class="fe fe-clock"></i> <span></span> <span class="post-count">8</span>分钟
     </div>
     
 
@@ -177,7 +321,8 @@
         
       
       
-        <blockquote>
+        <p><img src="https://cdn.wangxinwei.cn/image-20220824143050257.png" alt="image-20220824143050257"></p>
+<blockquote>
 <p>本文转自掘金@Big shark@LX </p>
 <p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6961222829979697165">原文地址</a></p>
 </blockquote>
@@ -191,11 +336,13 @@
       
     </div>
     <footer class="article-footer">
-      <!-- <a data-url="http://blog.wangxinwei.cn/2021/12/20/%E6%89%8B%E5%86%99vue2-0%E6%BA%90%E7%A0%81%E4%B9%8B%E5%93%8D%E5%BA%94%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%8E%9F%E7%90%86/" data-id="cl769pp88000oz0tl37fn6j6r" class="article-share-link">
+      <!-- <a data-url="http://wxwgd.com/2021/12/20/%E6%89%8B%E5%86%99vue2-0%E6%BA%90%E7%A0%81%E4%B9%8B%E5%93%8D%E5%BA%94%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%8E%9F%E7%90%86/" data-id="cl77ntzo1000epgtl5wwphd91" class="article-share-link">
         分享
       </a> -->
       
       
+<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue/" rel="tag">Vue</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%BA%90%E7%A0%81/" rel="tag">源码</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
+
     </footer>
 
   </div>
@@ -262,7 +409,7 @@
       
     </div>
     <footer class="article-footer">
-      <!-- <a data-url="http://blog.wangxinwei.cn/2021/12/20/%E6%9C%80%E5%89%8D%E7%9A%84vue%E9%9D%A2%E8%AF%95%E9%A2%98%E5%8A%A0%E8%AF%A6%E8%A7%A3/" data-id="cl769pp89000rz0tl1y3afny4" class="article-share-link">
+      <!-- <a data-url="http://wxwgd.com/2021/12/20/%E6%9C%80%E5%89%8D%E7%9A%84vue%E9%9D%A2%E8%AF%95%E9%A2%98%E5%8A%A0%E8%AF%A6%E8%A7%A3/" data-id="cl77ntzo3000mpgtl8rghcht0" class="article-share-link">
         分享
       </a> -->
       
@@ -332,7 +479,7 @@
       
     </div>
     <footer class="article-footer">
-      <!-- <a data-url="http://blog.wangxinwei.cn/2021/12/20/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95%E4%B9%8B%E6%B5%8F%E8%A7%88%E5%99%A8/" data-id="cl769pp85000jz0tl8n8w8eka" class="article-share-link">
+      <!-- <a data-url="http://wxwgd.com/2021/12/20/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95%E4%B9%8B%E6%B5%8F%E8%A7%88%E5%99%A8/" data-id="cl77ntznv0003pgtl4e469ebl" class="article-share-link">
         分享
       </a> -->
       
@@ -376,8 +523,8 @@
 </div>
 
       <br>
-      <i class="fe fe-bar-chart"></i> <span></span> <span class="post-count">1.1k</span>字&emsp;&emsp;
-      <i class="fe fe-clock"></i> <span></span> <span class="post-count">6</span>分钟
+      <i class="fe fe-bar-chart"></i> <span></span> <span class="post-count">937</span>字&emsp;&emsp;
+      <i class="fe fe-clock"></i> <span></span> <span class="post-count">5</span>分钟
     </div>
     
 
@@ -404,152 +551,12 @@
       
     </div>
     <footer class="article-footer">
-      <!-- <a data-url="http://blog.wangxinwei.cn/2021/12/19/%E5%B8%B8%E8%A7%81%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95%E6%89%8B%E5%86%99%E9%A2%98/" data-id="cl769pp84000ez0tl2fsq4k8r" class="article-share-link">
+      <!-- <a data-url="http://wxwgd.com/2021/12/19/%E5%B8%B8%E8%A7%81%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95%E6%89%8B%E5%86%99%E9%A2%98/" data-id="cl77ntznz0009pgtl37gb0hfg" class="article-share-link">
         分享
       </a> -->
       
       
 <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95%E9%A2%98/" rel="tag">面试题</a></li></ul>
-
-    </footer>
-
-  </div>
-
-  
-
-  
-
-</article>
-    
-    <article id="post-hexo将gitpage页面绑定到自己的域名" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-  <div class="article-inner">
-    
-    <header class="article-header">
-      
-
-<h2 itemprop="name">
-  <a class="article-title" href="/2021/12/06/hexo%E5%B0%86gitpage%E9%A1%B5%E9%9D%A2%E7%BB%91%E5%AE%9A%E5%88%B0%E8%87%AA%E5%B7%B1%E7%9A%84%E5%9F%9F%E5%90%8D/">hexo将gitpage页面绑定到自己的域名</a>
-</h2>
-
-
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2021/12/06/hexo%E5%B0%86gitpage%E9%A1%B5%E9%9D%A2%E7%BB%91%E5%AE%9A%E5%88%B0%E8%87%AA%E5%B7%B1%E7%9A%84%E5%9F%9F%E5%90%8D/" class="article-date">
-  <time datetime="2021-12-06T08:18:27.000Z" itemprop="datePublished">2021-12-06</time>
-</a>
-      
-<div class="article-category">
-  <a class="article-category-link" href="/categories/hexo/">hexo</a>
-</div>
-
-      <br>
-      <i class="fe fe-bar-chart"></i> <span></span> <span class="post-count">341</span>字&emsp;&emsp;
-      <i class="fe fe-clock"></i> <span></span> <span class="post-count">1</span>分钟
-    </div>
-    
-
-    
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-      
-        
-      
-      
-        <h3 id="1-准备一个域名"><a href="#1-准备一个域名" class="headerlink" title="1. 准备一个域名"></a>1. 准备一个域名</h3>
-        
-          <p>
-            <a class="article-more-link" href="/2021/12/06/hexo%E5%B0%86gitpage%E9%A1%B5%E9%9D%A2%E7%BB%91%E5%AE%9A%E5%88%B0%E8%87%AA%E5%B7%B1%E7%9A%84%E5%9F%9F%E5%90%8D/">
-              阅读全文...
-            </a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <!-- <a data-url="http://blog.wangxinwei.cn/2021/12/06/hexo%E5%B0%86gitpage%E9%A1%B5%E9%9D%A2%E7%BB%91%E5%AE%9A%E5%88%B0%E8%87%AA%E5%B7%B1%E7%9A%84%E5%9F%9F%E5%90%8D/" data-id="cl769pp7x0003z0tl9run28xw" class="article-share-link">
-        分享
-      </a> -->
-      
-      
-<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/github/" rel="tag">github</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li></ul>
-
-    </footer>
-
-  </div>
-
-  
-
-  
-
-</article>
-    
-    <article id="post-hexo执行hexo d 会导致自定义域名丢失的问题" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-  <div class="article-inner">
-    
-    <header class="article-header">
-      
-
-<h2 itemprop="name">
-  <a class="article-title" href="/2021/12/06/hexo%E6%89%A7%E8%A1%8Chexo%20d%20%E4%BC%9A%E5%AF%BC%E8%87%B4%E8%87%AA%E5%AE%9A%E4%B9%89%E5%9F%9F%E5%90%8D%E4%B8%A2%E5%A4%B1%E7%9A%84%E9%97%AE%E9%A2%98/">hexo执行 hexo d 会导致自定义域名丢失的问题</a>
-</h2>
-
-
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2021/12/06/hexo%E6%89%A7%E8%A1%8Chexo%20d%20%E4%BC%9A%E5%AF%BC%E8%87%B4%E8%87%AA%E5%AE%9A%E4%B9%89%E5%9F%9F%E5%90%8D%E4%B8%A2%E5%A4%B1%E7%9A%84%E9%97%AE%E9%A2%98/" class="article-date">
-  <time datetime="2021-12-06T07:36:45.000Z" itemprop="datePublished">2021-12-06</time>
-</a>
-      
-<div class="article-category">
-  <a class="article-category-link" href="/categories/hexo/">hexo</a>
-</div>
-
-      <br>
-      <i class="fe fe-bar-chart"></i> <span></span> <span class="post-count">116</span>字&emsp;&emsp;
-      <i class="fe fe-clock"></i> <span></span> <span class="post-count">1</span>分钟
-    </div>
-    
-
-    
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-      
-        
-      
-      
-        <h3 id="1-原因"><a href="#1-原因" class="headerlink" title="1.原因"></a>1.原因</h3>
-        
-          <p>
-            <a class="article-more-link" href="/2021/12/06/hexo%E6%89%A7%E8%A1%8Chexo%20d%20%E4%BC%9A%E5%AF%BC%E8%87%B4%E8%87%AA%E5%AE%9A%E4%B9%89%E5%9F%9F%E5%90%8D%E4%B8%A2%E5%A4%B1%E7%9A%84%E9%97%AE%E9%A2%98/">
-              阅读全文...
-            </a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <!-- <a data-url="http://blog.wangxinwei.cn/2021/12/06/hexo%E6%89%A7%E8%A1%8Chexo%20d%20%E4%BC%9A%E5%AF%BC%E8%87%B4%E8%87%AA%E5%AE%9A%E4%B9%89%E5%9F%9F%E5%90%8D%E4%B8%A2%E5%A4%B1%E7%9A%84%E9%97%AE%E9%A2%98/" data-id="cl769pp820009z0tl7rk1fvzt" class="article-share-link">
-        分享
-      </a> -->
-      
-      
-<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/github/" rel="tag">github</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li></ul>
 
     </footer>
 
@@ -588,7 +595,7 @@
 </div>
 
       <br>
-      <i class="fe fe-bar-chart"></i> <span></span> <span class="post-count">1.1k</span>字&emsp;&emsp;
+      <i class="fe fe-bar-chart"></i> <span></span> <span class="post-count">1k</span>字&emsp;&emsp;
       <i class="fe fe-clock"></i> <span></span> <span class="post-count">3</span>分钟
     </div>
     
@@ -614,7 +621,7 @@
       
     </div>
     <footer class="article-footer">
-      <!-- <a data-url="http://blog.wangxinwei.cn/2021/12/06/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87/" data-id="cl769pp86000kz0tl72qmbe61" class="article-share-link">
+      <!-- <a data-url="http://wxwgd.com/2021/12/06/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87/" data-id="cl77ntzo1000fpgtl5lr9cu4c" class="article-share-link">
         分享
       </a> -->
       
@@ -631,7 +638,7 @@
 
 </article>
     
-    <article id="post-ubuntu中n切换node版本无效的解决办法" class="article article-type-post" itemscope
+    <article id="post-JavaScript垃圾回收机制" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
   <div class="article-inner">
     
@@ -639,7 +646,7 @@
       
 
 <h2 itemprop="name">
-  <a class="article-title" href="/2021/12/06/ubuntu%E4%B8%ADn%E5%88%87%E6%8D%A2node%E7%89%88%E6%9C%AC%E6%97%A0%E6%95%88%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/">ubuntu中n切换node版本无效的解决办法</a>
+  <a class="article-title" href="/2021/12/02/JavaScript%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/">JavaScript 垃圾回收机制</a>
 </h2>
 
 
@@ -649,17 +656,17 @@
 
     
     <div class="article-meta">
-      <a href="/2021/12/06/ubuntu%E4%B8%ADn%E5%88%87%E6%8D%A2node%E7%89%88%E6%9C%AC%E6%97%A0%E6%95%88%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/" class="article-date">
-  <time datetime="2021-12-06T07:09:25.000Z" itemprop="datePublished">2021-12-06</time>
+      <a href="/2021/12/02/JavaScript%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/" class="article-date">
+  <time datetime="2021-12-02T09:55:07.000Z" itemprop="datePublished">2021-12-02</time>
 </a>
       
 <div class="article-category">
-  <a class="article-category-link" href="/categories/Linux/">Linux</a>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
 </div>
 
       <br>
-      <i class="fe fe-bar-chart"></i> <span></span> <span class="post-count">32</span>字&emsp;&emsp;
-      <i class="fe fe-clock"></i> <span></span> <span class="post-count">1</span>分钟
+      <i class="fe fe-bar-chart"></i> <span></span> <span class="post-count">931</span>字&emsp;&emsp;
+      <i class="fe fe-clock"></i> <span></span> <span class="post-count">3</span>分钟
     </div>
     
 
@@ -673,10 +680,10 @@
         
       
       
-        <h3 id="1-使用vim打开-bash-profile-文件"><a href="#1-使用vim打开-bash-profile-文件" class="headerlink" title="1.使用vim打开 .bash_profile 文件"></a>1.使用vim打开 <code>.bash_profile</code> 文件</h3>
+        <p><strong>垃圾回收有两种方式，即标记清理和引用计数</strong></p>
         
           <p>
-            <a class="article-more-link" href="/2021/12/06/ubuntu%E4%B8%ADn%E5%88%87%E6%8D%A2node%E7%89%88%E6%9C%AC%E6%97%A0%E6%95%88%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/">
+            <a class="article-more-link" href="/2021/12/02/JavaScript%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/">
               阅读全文...
             </a>
           </p>
@@ -684,84 +691,12 @@
       
     </div>
     <footer class="article-footer">
-      <!-- <a data-url="http://blog.wangxinwei.cn/2021/12/06/ubuntu%E4%B8%ADn%E5%88%87%E6%8D%A2node%E7%89%88%E6%9C%AC%E6%97%A0%E6%95%88%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/" data-id="cl769pp810007z0tl1olo58yt" class="article-share-link">
+      <!-- <a data-url="http://wxwgd.com/2021/12/02/JavaScript%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/" data-id="cl77ntznt0001pgtld0h4e4tn" class="article-share-link">
         分享
       </a> -->
       
       
-<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Node/" rel="tag">Node</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ubuntu/" rel="tag">Ubuntu</a></li></ul>
-
-    </footer>
-
-  </div>
-
-  
-
-  
-
-</article>
-    
-    <article id="post-firefox 打开网站被限制" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-  <div class="article-inner">
-    
-    <header class="article-header">
-      
-
-<h2 itemprop="name">
-  <a class="article-title" href="/2021/12/06/firefox%20%E6%89%93%E5%BC%80%E7%BD%91%E7%AB%99%E8%A2%AB%E9%99%90%E5%88%B6/">firefox打开网站被限制</a>
-</h2>
-
-
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2021/12/06/firefox%20%E6%89%93%E5%BC%80%E7%BD%91%E7%AB%99%E8%A2%AB%E9%99%90%E5%88%B6/" class="article-date">
-  <time datetime="2021-12-06T07:03:07.000Z" itemprop="datePublished">2021-12-06</time>
-</a>
-      
-<div class="article-category">
-  <a class="article-category-link" href="/categories/%E6%B5%8F%E8%A7%88%E5%99%A8/">浏览器</a>
-</div>
-
-      <br>
-      <i class="fe fe-bar-chart"></i> <span></span> <span class="post-count">126</span>字&emsp;&emsp;
-      <i class="fe fe-clock"></i> <span></span> <span class="post-count">1</span>分钟
-    </div>
-    
-
-    
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-      
-        
-      
-      
-        <blockquote>
-<p>具体原因是此网址使用了一个通常用于网络浏览以外目的的端口。出于安全原因，Firefox 取消了该请求。</p>
-</blockquote>
-        
-          <p>
-            <a class="article-more-link" href="/2021/12/06/firefox%20%E6%89%93%E5%BC%80%E7%BD%91%E7%AB%99%E8%A2%AB%E9%99%90%E5%88%B6/">
-              阅读全文...
-            </a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <!-- <a data-url="http://blog.wangxinwei.cn/2021/12/06/firefox%20%E6%89%93%E5%BC%80%E7%BD%91%E7%AB%99%E8%A2%AB%E9%99%90%E5%88%B6/" data-id="cl769pp83000az0tl07gtbk08" class="article-share-link">
-        分享
-      </a> -->
-      
-      
-<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Firefox/" rel="tag">Firefox</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/" rel="tag">浏览器</a></li></ul>
+<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li></ul>
 
     </footer>
 
@@ -776,10 +711,6 @@
   </article>
   
 
-  
-  <nav class="page-nav">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">下一页</a>
-  </nav>
   
 </section>
 </div>
@@ -810,6 +741,14 @@
     </li>
     
     <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
       <a class="nav-item-link" href="/archives">归档</a>
     </li>
     
@@ -819,14 +758,6 @@
     
     <li class="nav-item">
       <a class="nav-item-link" href="/about">关于</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/categories">分类</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/tags">标签</a>
     </li>
     
     <li class="nav-item">

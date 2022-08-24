@@ -1,12 +1,160 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>手写promise详解</title>
-    <url>/2021/12/23/%E6%89%8B%E5%86%99promise%E8%AF%A6%E8%A7%A3/</url>
-    <content><![CDATA[<h2 id="1-什么是Promise"><a href="#1-什么是Promise" class="headerlink" title="1. 什么是Promise?"></a>1. 什么是Promise?</h2><p>Promise 是异步编程的一种解决方案： 从语法上讲，promise是一个对象，从它可以获取异步操作的消息；从本意上讲，它是承诺，承诺它过一段时间会给你一个结果。 promise有三种状态：**pending(等待态)，fulfiled(成功态)，rejected(失败态)**；状态一旦改变，就不会再变。创造promise实例后，它会立即执行。</p>
+    <title>JavaScript深浅拷贝</title>
+    <url>/2022/08/24/%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D/</url>
+    <content><![CDATA[<p><img src="https://cdn.wangxinwei.cn/image-20220824101631144.png" alt="image-20220824101631144"></p>
 <span id="more"></span>
 
-<h2 id="2-Promise-的状态"><a href="#2-Promise-的状态" class="headerlink" title="2. Promise 的状态:"></a>2. Promise 的状态:</h2><p>一个 <code>Promise</code> 必然处于以下几种状态之一：</p>
+<h2 id="1、浅拷贝"><a href="#1、浅拷贝" class="headerlink" title="1、浅拷贝"></a>1、浅拷贝</h2><p>定义：浅拷贝是创建一个新对象，这个对象有着原始对象属性值的一份精确拷贝。如果属性是基本类型，拷贝的就是基本类型的值，如果属性是引用类型，拷贝的就是内存地址 ，所以<strong>如果其中一个对象改变了这个地址，就会影响到另一个对象</strong>。</p>
+<p><strong>实现方式：</strong></p>
+<p><strong>第一种：引用复制</strong></p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">shallowClone</span>(<span class="params">target</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 只拷贝对象</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> target !== <span class="string">&#x27;object&#x27;</span>) <span class="keyword">return</span>;</span><br><span class="line">    <span class="comment">// 根据obj的类型判断是新建一个数组还是对象</span></span><br><span class="line">    <span class="keyword">var</span> newObj = target <span class="keyword">instanceof</span> <span class="built_in">Array</span> ? [] : &#123;&#125;;</span><br><span class="line">    <span class="comment">// 遍历obj，并且判断是obj的属性才拷贝</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> key <span class="keyword">in</span> target) &#123;</span><br><span class="line">        <span class="keyword">if</span> (target.hasOwnProperty(key)) &#123;</span><br><span class="line">            newObj[key] = target[key];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> newObj;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>第二种：<code>object.assgin()</code></strong></p>
+<p><code>Object.assign() </code>方法可以把任意多个的源对象自身的可枚举属性拷贝给目标对象，然后返回目标对象。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> obj1 = &#123; <span class="attr">person</span>: &#123;<span class="attr">name</span>: <span class="string">&quot;张三&quot;</span>, <span class="attr">age</span>: <span class="number">18</span>&#125;,<span class="attr">job</span>:<span class="string">&#x27;web&#x27;</span> &#125;;</span><br><span class="line"><span class="keyword">let</span> obj2 = <span class="built_in">Object</span>.assign(&#123;&#125;, obj1);</span><br></pre></td></tr></table></figure>
+
+<p><strong>第三种：展开运算符…</strong></p>
+<p>展开运算符是一个 <code> es6</code> 特性，它提供了一种非常方便的方式来执行浅拷贝，这与  <code>Object.assign ()</code> 的功能相同。</p>
+<p>提示：<code>...</code> 实现的是对象第一层的深拷贝。后面的只是拷贝的引用值。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> obj1 = &#123; <span class="attr">person</span>: &#123;<span class="attr">name</span>: <span class="string">&quot;张三&quot;</span>, <span class="attr">age</span>: <span class="number">18</span>&#125;,<span class="attr">job</span>:<span class="string">&#x27;web&#x27;</span> &#125;;</span><br><span class="line"><span class="keyword">let</span> obj2 = &#123;...obj1&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><strong>第四种：<code>Array.prototype.concat()</code></strong></p>
+<p>提示：<code>concat</code>只是对数组的第一层进行深拷贝</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> arr = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,&#123;<span class="attr">name</span>:<span class="string">&#x27;zhangsan&#x27;</span>&#125;]</span><br><span class="line"><span class="keyword">let</span> arr2 = arr.concat()</span><br></pre></td></tr></table></figure>
+
+<p><strong>第五种：<code>Array.prototype.slice()</code></strong></p>
+<p>提示：<code>slice</code> 只是对数组的第一层进行深拷贝</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> arr = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,&#123;<span class="attr">name</span>:<span class="string">&#x27;zhangsan&#x27;</span>&#125;]</span><br><span class="line"><span class="keyword">let</span> arr2 = arr.slice()</span><br></pre></td></tr></table></figure>
+
+<h2 id="2、深拷贝"><a href="#2、深拷贝" class="headerlink" title="2、深拷贝"></a>2、深拷贝</h2><p>定义：深拷贝是将一个对象从内存中完整的拷贝一份出来,从堆内存中开辟一个新的区域存放新对象,且<strong>修改新对象不会影响原对象</strong>。</p>
+<p><strong>实现方式：</strong></p>
+<p><strong>第一种：最简单的方法</strong></p>
+<p>缺陷：undefined、function、symbol会在转换的过程中被忽略</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> cloneArray = <span class="built_in">JSON</span>.parse(<span class="built_in">JSON</span>.stringify(originArray)</span><br></pre></td></tr></table></figure>
+
+<p><strong>第二种：递归拷贝</strong></p>
+<p>缺陷：无法解决循环引用的问题</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">deepClone</span>(<span class="params">target</span>)</span>&#123;</span><br><span class="line"> 	<span class="keyword">if</span>(<span class="keyword">typeof</span> target !== <span class="string">&#x27;object&#x27;</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> target</span><br><span class="line">    &#125;   </span><br><span class="line">    <span class="keyword">const</span> cloneTarget = <span class="built_in">Array</span>.isArray(target) ? [] : &#123;&#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">const</span> key <span class="keyword">in</span> target)&#123;</span><br><span class="line">        cloneTarget[key] = deepClone(target[key])</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> cloneTarget</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>第三种：解决循环引用的问题</strong></p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">deepClone</span>(<span class="params">source, hash = <span class="keyword">new</span> <span class="built_in">WeakMap</span>()</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> source !== <span class="string">&#x27;object&#x27;</span> || source === <span class="literal">null</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> source;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (hash.has(source)) &#123;</span><br><span class="line">    <span class="keyword">return</span> hash.get(source);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> target = <span class="built_in">Array</span>.isArray(source) ? [] : &#123;&#125;;</span><br><span class="line">  <span class="built_in">Reflect</span>.ownKeys(source).forEach(<span class="function"><span class="params">key</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> val = source[key];</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> val === <span class="string">&#x27;object&#x27;</span> &amp;&amp; val != <span class="literal">null</span>) &#123;</span><br><span class="line">      target[key] = deepClone(val, hash);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      target[key] = val;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="keyword">return</span> target;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="3、总结"><a href="#3、总结" class="headerlink" title="3、总结"></a>3、总结</h2><h3 id="3-1赋值和深浅拷贝的区别"><a href="#3-1赋值和深浅拷贝的区别" class="headerlink" title="3.1赋值和深浅拷贝的区别"></a>3.1赋值和深浅拷贝的区别</h3><ul>
+<li>当我们把一个对象赋值给一个新的变量时，赋的其实是该对象在栈中的地址，而不是堆中的数据。也就是两个对象指向的是同一个存储空间，无论哪个对象发生改变，其实都是改变的存储空间的内容，因此两个对象是联动的</li>
+<li>浅拷贝：重新在堆中创建内存，拷贝前后对象的基本数据类型互不影响，但拷贝前后对象的引用类型因共享一块内存，会互相影响</li>
+<li>深拷贝：从堆内存中开辟一个新的区域存放新对象，对对象的子对象进行递归拷贝，拷贝前后的两个对象互不影响</li>
+</ul>
+<h3 id="3-2用哪个方法好？"><a href="#3-2用哪个方法好？" class="headerlink" title="3.2用哪个方法好？"></a>3.2用哪个方法好？</h3><p>其实每个方法都有自己的优点和缺点，以及适用场景，在不同的场景使用不同的方法才是最佳实践。另外上述的一些方法并没有考虑太多数据类型，比如<code>date、map、regexp</code>等，可以只作为参考，完整方法可以使用一些工具库，比如<code>lodash</code></p>
+]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>JavaScript</tag>
+        <tag>面试题</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>this/call/apply/bind</title>
+    <url>/2022/08/22/this-call-apply-bind/</url>
+    <content><![CDATA[<p><img src="https://cdn.wangxinwei.cn/image-20220824142502121.png" alt="image-20220824142502121"></p>
+<span id="more"></span>
+
+<h2 id="1、JavaScript中的this"><a href="#1、JavaScript中的this" class="headerlink" title="1、JavaScript中的this"></a>1、JavaScript中的this</h2><p><strong>什么是this?</strong></p>
+<p>在JavaScript中，this关键字执行为当前执行环境的ThisBinding，在绝大部分情况下，函数的调用方式决定了this的值。</p>
+<p>this的指向是调用时决定的，而不是创建时决定的</p>
+<p>在全局执行上下文中 this等价于window对象</p>
+<p>在函数内部，this的值取决于函数被调用的方式</p>
+<ul>
+<li>直接调用 this指向全局变量</li>
+<li>使用call/apply方法 this指向绑定的对象</li>
+<li>bind方法 this将永久的被绑定到bind的第一个参数</li>
+<li>箭头函数 所有的箭头函数都没有自己的this，都指向外层</li>
+</ul>
+<p>其他关于this指向方法</p>
+<ul>
+<li>作为对象的一个方法 this指向调用函数的对象</li>
+<li>作为一个构造函数时 this指向正在构造的新对象</li>
+<li>作为一个dom事件处理函数 this指向触发事件的元素（也就是事件处理绑定的dom节点）</li>
+<li>html标签内联事件处理函数 this指向所在的dom元素</li>
+<li>jQuery的this  在许多情况下this都指向dom元素节点</li>
+</ul>
+<h2 id="2、call-apply-bind"><a href="#2、call-apply-bind" class="headerlink" title="2、call apply bind"></a>2、call apply bind</h2><p><strong>这三个方法都有什么作用？</strong></p>
+<p>这三个方法都可以改变函数体内部的this指向</p>
+<p>call是属于所有Function的方法，也就是<code>Function.prototype.call</code></p>
+<p>call方法调用一个函数，其具有一个指定的this值和分别的提供的参数（参数列表）</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">fun.call(thisArg, arg1, arg2, ...)</span><br></pre></td></tr></table></figure>
+
+<p>其中obj就是this指向，arg是hiding的参数，call方法的用处简而言之就是可以让call中的对象调用当前对象所拥有的function</p>
+<p>apply<code>也是属于所有</code>Function的方法，也就是<code>Function.prototype.apply</code></p>
+<p>apply() 方法调用一个函数, 其具有一个指定的this值，以及作为一个数组（或类似数组的对象）提供的参数。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">fun.apply(obj, [argsArray]);</span><br></pre></td></tr></table></figure>
+
+<p>其中obj就是this指向，<code>argsArray</code>是指定的参数数组。</p>
+<p>bind也是属于所有Function的方法，也就是<code>Function.prototype.bind</code></p>
+<p><strong><code>bind()</code></strong> 方法创建一个新的函数，在 <code>bind()</code> 被调用时，这个新函数的 <code>this</code> 被指定为 <code>bind()</code> 的第一个参数，而其余参数将作为新函数的参数，供调用时使用。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">fun.bind(thisArg[, arg1[, arg2[, ...]]])</span><br></pre></td></tr></table></figure>
+
+<p>其中，<code>thisArg</code>就是<code>this</code>指向，<code>arg</code>是指定的参数。</p>
+<p>可以看出，<code>bind</code>会创建一个新函数（称之为绑定函数），原函数的一个拷贝，也就是说不会像<code>call</code>和<code>apply</code>那样立即执行。</p>
+<p>当这个绑定函数被调用时，它的<code>this</code>值传递给<code>bind</code>的一个参数，执行的参数是传入<code>bind</code>的其它参数和执行绑定函数时传入的参数。</p>
+<p><strong>call方法实现思路：</strong></p>
+<ul>
+<li>将函数设为对象的属性</li>
+<li>执行该函数</li>
+<li>删除该函数</li>
+</ul>
+<p>根据这个思路我们可以实现一个最简单的call方法</p>
+<p>但是还有问题，原版的call方法能给定参数执行函数，并且如果第一个参数可以为null，如果第一个参数为null的话，this指向window，而且call方法是有返回值的。</p>
+<p>将这些功能添加上之后，我们就可以实现一个真正的call方法了</p>
+<p><strong>call方法的实现？</strong></p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.call2 = <span class="function"><span class="keyword">function</span> (<span class="params">context,...args</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> context = <span class="built_in">Object</span>(context) || <span class="built_in">window</span>;</span><br><span class="line">    context.fn = <span class="built_in">this</span>;</span><br><span class="line">    <span class="keyword">var</span> result = context.fn(...args)</span><br><span class="line">    <span class="keyword">delete</span> context.fn</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>apply方法的实现？</strong></p>
+<p>apply方法的实现跟call类似，只是第二个参数换成了一个数组</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.apply = <span class="function"><span class="keyword">function</span> (<span class="params">context, args</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> context = <span class="built_in">Object</span>(context) || <span class="built_in">window</span>;</span><br><span class="line">    context.fn = <span class="built_in">this</span>;</span><br><span class="line">	args = args || []</span><br><span class="line">    <span class="keyword">var</span> result = context.fn(...args)</span><br><span class="line">    <span class="keyword">delete</span> context.fn</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>bind方法的实现？</strong></p>
+<p>上面提到过，bind() 方法会创建一个新函数。当这个新函数被调用时，bind() 的第一个参数将作为它运行时的 this，之后的一序列参数将会在传递的实参前传入作为它的参数。</p>
+<p>根据这些条件我们先来实现最基础的bind</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.bind = <span class="function"><span class="keyword">function</span>(<span class="params">context</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> self = <span class="built_in">this</span></span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        self.apply(context)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后看第二点，可以传入参数，实际上，原版的bind方法不仅可以在调用bind方法的时候传递参数，而且可以在执行返回函数的时候，再传其他的参数</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.bind = <span class="function"><span class="keyword">function</span>(<span class="params">context</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> self = <span class="built_in">this</span></span><br><span class="line">    <span class="keyword">var</span> args = <span class="built_in">Array</span>.prototype.slice.call(<span class="built_in">arguments</span>, <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">var</span> bindArgs = <span class="built_in">Array</span>.prototype.slice.call(<span class="built_in">arguments</span>);</span><br><span class="line">        self.apply(context,args.concat(bindArgs))</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最后一点就是一个绑定函数也能使用new操作符创建对象：这种行为就像把原函数当成构造器。提供的 this 值被忽略，同时调用时的参数被提供给模拟函数。</p>
+<p>也就是说当 bind 返回的函数作为构造函数的时候，bind 时指定的 this 值会失效，但传入的参数依然生效</p>
+<p>再优化一下，最终的实现效果如下</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.bind = <span class="function"><span class="keyword">function</span> (<span class="params">context</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="built_in">this</span> !== <span class="string">&quot;function&quot;</span>) &#123;</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">&quot;must bind to a function&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> self = <span class="built_in">this</span>;</span><br><span class="line">    <span class="keyword">var</span> args = <span class="built_in">Array</span>.prototype.slice.call(<span class="built_in">arguments</span>, <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">var</span> fNOP = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> fbound = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        self.apply(<span class="built_in">this</span> <span class="keyword">instanceof</span> self ? <span class="built_in">this</span> : context, args.concat(<span class="built_in">Array</span>.prototype.slice.call(<span class="built_in">arguments</span>)));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    fNOP.prototype = <span class="built_in">this</span>.prototype;</span><br><span class="line">    fbound.prototype = <span class="keyword">new</span> fNOP();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> fbound;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="3、总结"><a href="#3、总结" class="headerlink" title="3、总结"></a>3、总结</h2><p>三者的相同点和不同点</p>
+<ul>
+<li>三者都是用来改变函数的<code>this</code>指向</li>
+<li>三者的第一个参数都是<code>this</code>指向的对象</li>
+<li><code>bind</code>是返回一个绑定函数可稍后执行，<code>call</code>、<code>apply</code>是立即调用</li>
+<li>三者都可以给定参数传递</li>
+<li><code>call</code>给定参数需要将参数全部列出，<code>apply</code>给定参数数组</li>
+</ul>
+]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>JavaScript</tag>
+        <tag>面试题</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>手写promise</title>
+    <url>/2021/12/23/%E6%89%8B%E5%86%99promise/</url>
+    <content><![CDATA[<img src="https://cdn.wangxinwei.cn/image-20220824142803593.png" alt="image-20220824142803593" style="zoom: 200%;" />
+
+<span id="more"></span>
+
+<h2 id="1-什么是Promise"><a href="#1-什么是Promise" class="headerlink" title="1. 什么是Promise?"></a>1. 什么是Promise?</h2><p>Promise 是异步编程的一种解决方案： 从语法上讲，promise是一个对象，它可以获取异步操作的消息；从本意上讲，它是承诺，承诺它过一段时间会给你一个结果。 promise有三种状态：**pending(等待状态)，fulfiled(成功状态)，rejected(失败状态)**；状态一旦改变，就不会更改。创建promise实例后，它会立即执行。</p>
+<h2 id="2-Promise-的状态"><a href="#2-Promise-的状态" class="headerlink" title="2. Promise 的状态"></a>2. Promise 的状态</h2><p>一个 <code>Promise</code> 必然处于以下几种状态之一：</p>
 <ul>
 <li><em>待定（pending）</em>: 初始状态，既没有被兑现，也没有被拒绝。</li>
 <li><em>已兑现（fulfilled）</em>: 意味着操作成功完成。</li>
@@ -15,26 +163,29 @@
 <p>待定状态的 Promise 对象要么会通过一个值<em>被兑现（fulfilled）</em>，要么会通过一个原因（错误）<em>被拒绝（rejected）</em>。当这些情况之一发生时，我们用 promise 的 then 方法排列起来的相关处理程序就会被调用。如果 promise 在一个相应的处理程序被绑定时就已经被兑现或被拒绝了，那么这个处理程序就会被调用，因此在完成异步操作和绑定处理方法之间不会存在竞争状态。</p>
 <p>因为 <code>Promise.prototype.then</code> 和 <code>Promise.prototype.catch</code> 方法返回的是 promise， 所以它们可以被链式调用。</p>
 <p><img src="https://cdn.wangxinwei.cn/qiniuimg/image-20211223152803272.png" alt="image-20211223152803272"></p>
-<h2 id="3-Promise的基本结构"><a href="#3-Promise的基本结构" class="headerlink" title="3. Promise的基本结构:"></a>3. Promise的基本结构:</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> p = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>)=&gt;</span>&#123;</span><br><span class="line">    resolve(<span class="string">&#x27;成功&#x27;</span>)</span><br><span class="line">&#125;).then(<span class="function"><span class="params">value</span>=&gt;</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(value)  <span class="comment">//成功</span></span><br><span class="line">&#125;,<span class="function"><span class="params">reason</span>=&gt;</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(reason)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="3-Promise的基本结构"><a href="#3-Promise的基本结构" class="headerlink" title="3. Promise的基本结构"></a>3. Promise的基本结构</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> p = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>)=&gt;</span>&#123;</span><br><span class="line">    resolve(<span class="string">&#x27;成功&#x27;</span>)</span><br><span class="line">&#125;).then(<span class="function"><span class="params">value</span>=&gt;</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(value)  <span class="comment">//成功</span></span><br><span class="line">&#125;,<span class="function"><span class="params">reason</span>=&gt;</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(reason)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 
-<p>上面定义了一个简单的Promise实例，我们可以看到Promise接收了一个函数作为参数 我们将它称之为执行器<code>executor</code><br><code>executor</code>接收两个参数，分别为<code>resolve</code>和<code>reject</code>，这两个参数也是函数，然后还有一个then方法，这里then方法也接收了两个参数<code>onFulfilled</code> 和 <code>onRejected</code>,这两个参数也是函数</p>
+<p>上面定义了一个简单的Promise实例，我们可以看到Promise接收了一个函数作为参数 我们将它称之为执行器<code>executor</code><br><code>executor</code>接收两个参数，分别为<code>resolve</code>和<code>reject</code>，这两个参数都是函数，然后还有一个then方法，then方法也接收了两个参数<code>onFulfilled</code> 和 <code>onRejected</code>,这两个参数也是函数</p>
 <p>如果在Promise中执行resolve方法 那么resolve返回的值会被then方法的第一个参数接收到，并且状态变成fulfilled</p>
 <p>如果在Promise中执行reject方法 那么reject返回的值会被then方法的第二个参数接收到，并且状态变成rejected</p>
-<p>then方法的返回值也是一个Promise，所以Promise可以链式调用</p>
-<p>上面基本上介绍了Promise的基本结构，当然还有其他的方法我们这里没有说 ，比如<code>catch</code>方法<code>all</code>方法等，以后再补充，本篇暂时先实现基本的结构和<code>then</code>方法（promise 中最复杂的就是then方法）</p>
 <h2 id="4-实现我们自己的Promise-Class版本"><a href="#4-实现我们自己的Promise-Class版本" class="headerlink" title="4. 实现我们自己的Promise - Class版本"></a>4. 实现我们自己的Promise - Class版本</h2><h3 id="4-1-实现Promise的基本结构"><a href="#4-1-实现Promise的基本结构" class="headerlink" title="4.1 实现Promise的基本结构"></a>4.1 实现Promise的基本结构</h3><p>上面介绍Promise的时候我们已经差不多用我们自己的语言介绍清楚了，不说废话，直接上代码</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> PENDING = <span class="string">&#x27;pending&#x27;</span>  <span class="comment">//定义初始状态</span></span><br><span class="line"><span class="keyword">const</span> FULFILLED = <span class="string">&#x27;fulfilled&#x27;</span>  <span class="comment">//定义成功的状态</span></span><br><span class="line"><span class="keyword">const</span> REJECTED = <span class="string">&#x27;rejected&#x27;</span>   <span class="comment">//定义失败的状态</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyPromise</span> </span>&#123;</span><br><span class="line">    <span class="comment">//执行器</span></span><br><span class="line">    <span class="function"><span class="title">construtor</span>(<span class="params">executor</span>)</span>&#123;</span><br><span class="line">        <span class="comment">//判断executor是不是一个function</span></span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">typeof</span> executor !== <span class="string">&#x27;function&#x27;</span>)&#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">&#x27;executor 必须是一个函数&#x27;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">this</span>.status = PENDING   <span class="comment">//初始化Promise的状态</span></span><br><span class="line">        <span class="built_in">this</span>.result = <span class="literal">null</span>   <span class="comment">//Promise 返回结果</span></span><br><span class="line">        <span class="built_in">this</span>.fulfilledQueues = []   <span class="comment">//成功回调函数队列</span></span><br><span class="line">        <span class="built_in">this</span>.rejectedQueue = []   <span class="comment">//失败回调函数队列</span></span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">        	executor(<span class="built_in">this</span>.resolve.bind(<span class="built_in">this</span>),<span class="built_in">this</span>.reject.bind(<span class="built_in">this</span>)) </span><br><span class="line">        &#125;<span class="keyword">catch</span>(err)&#123;</span><br><span class="line">            <span class="comment">//捕获到错误直接执行reject</span></span><br><span class="line">            <span class="built_in">this</span>.reject(err)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="title">resolve</span>(<span class="params">value</span>)</span>&#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="title">reject</span>(<span class="params">reason</span>)</span>&#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="title">then</span>(<span class="params">onFulfilled,onRejected</span>)</span>&#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> PENDING = <span class="string">&#x27;pending&#x27;</span>  <span class="comment">//定义初始状态</span></span><br><span class="line"><span class="keyword">const</span> FULFILLED = <span class="string">&#x27;fulfilled&#x27;</span>  <span class="comment">//定义成功的状态</span></span><br><span class="line"><span class="keyword">const</span> REJECTED = <span class="string">&#x27;rejected&#x27;</span>   <span class="comment">//定义失败的状态</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyPromise</span> </span>&#123;</span><br><span class="line">    <span class="comment">//执行器</span></span><br><span class="line">    <span class="function"><span class="title">construtor</span>(<span class="params">executor</span>)</span>&#123;</span><br><span class="line">        <span class="comment">//判断executor是不是一个function</span></span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">typeof</span> executor !== <span class="string">&#x27;function&#x27;</span>)&#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">&#x27;executor 必须是一个函数&#x27;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">this</span>.status = PENDING   <span class="comment">//初始化Promise的状态</span></span><br><span class="line">        <span class="built_in">this</span>.result = <span class="literal">undefined</span>   <span class="comment">//Promise 返回结果</span></span><br><span class="line">        <span class="built_in">this</span>.fulfilledQueues = []   <span class="comment">//成功回调函数队列</span></span><br><span class="line">        <span class="built_in">this</span>.rejectedQueue = []   <span class="comment">//失败回调函数队列</span></span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">        	executor(<span class="built_in">this</span>.resolve.bind(<span class="built_in">this</span>),<span class="built_in">this</span>.reject.bind(<span class="built_in">this</span>)) </span><br><span class="line">        &#125;<span class="keyword">catch</span>(err)&#123;</span><br><span class="line">            <span class="comment">//捕获到错误直接执行reject</span></span><br><span class="line">            <span class="built_in">this</span>.reject(err)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="title">resolve</span>(<span class="params">value</span>)</span>&#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="title">reject</span>(<span class="params">reason</span>)</span>&#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="title">then</span>(<span class="params">onFulfilled,onRejected</span>)</span>&#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>这样我们基本的结构就完成了</p>
-<h3 id="4-2-实现resolve和reject方法"><a href="#4-2-实现resolve和reject方法" class="headerlink" title="4.2 实现resolve和reject方法"></a>4.2 实现resolve和reject方法</h3><p>promise执行resolve方法会改变status并将resolve的值赋值给result，而且状态只能由pending变为fulfilled或者rejected，所以执行resolve后明显不能再次调用reject，那么我们需要再加一层判断 判断一下status是不是初始状态，如果不是初始状态就不可以再修改状态了，反之则可以修改</p>
+<h3 id="4-2-实现resolve和reject方法"><a href="#4-2-实现resolve和reject方法" class="headerlink" title="4.2 实现resolve和reject方法"></a>4.2 实现resolve和reject方法</h3><p>promise执行resolve方法会改变status并将resolve的值赋值给result，而且状态只能由pending变为fulfilled或者rejected，所以执行resolve后明显不能再次调用reject，那么我们需要再加一层判断 判断一下status是不是初始状态，如果不是初始状态就不可以再修改状态，反之则可以修改</p>
 <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//成功回调</span></span><br><span class="line"><span class="function"><span class="title">resolve</span>(<span class="params">value</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="built_in">this</span>.status !== PENDING) <span class="keyword">return</span></span><br><span class="line">    <span class="built_in">this</span>.status = fulfilled</span><br><span class="line">    <span class="built_in">this</span>.result = value</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//失败回调</span></span><br><span class="line"><span class="function"><span class="title">reject</span>(<span class="params">reason</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="built_in">this</span>.status !== PENDING) <span class="keyword">return</span></span><br><span class="line">    <span class="built_in">this</span>.status = REJECTED</span><br><span class="line">    <span class="built_in">this</span>.result = reason</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="4-3-实现then方法"><a href="#4-3-实现then方法" class="headerlink" title="4.3 实现then方法"></a>4.3 实现then方法</h3><p>then方法返回的也是一个promise，所以promise可以链式调用，所以需要创建两个回调方法的数组队列，分别存储成功的回调和失败的回调，然后在promise状态为pending的时候，将回调函数放到数组队列中</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="title">then</span>(<span class="params">onFulfilled,onRejected</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; status, result &#125; = <span class="built_in">this</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> MyPromise(<span class="function">(<span class="params">resolveNext,rejectNext</span>)=&gt;</span>&#123;</span><br><span class="line">        <span class="keyword">let</span> fulfilled = <span class="function"><span class="params">value</span> =&gt;</span> &#123;</span><br><span class="line">          <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">typeof</span> onFulfilled !== <span class="string">&#x27;function&#x27;</span>) &#123;</span><br><span class="line">              resolveNext(value)</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">              <span class="keyword">let</span> res =  onFulfilled(value);</span><br><span class="line">              <span class="keyword">if</span> (res <span class="keyword">instanceof</span> MyPromise) &#123;</span><br><span class="line">                <span class="comment">// 如果当前回调函数返回MyPromise对象，必须等待其状态改变后在执行下一个回调</span></span><br><span class="line">                res.then(resolveNext, rejectNext)</span><br><span class="line">              &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="comment">//否则会将返回结果直接作为参数，传入下一个then的回调函数，并立即执行下一个then的回调函数</span></span><br><span class="line">                resolveNext(res)</span><br><span class="line">              &#125;</span><br><span class="line">            &#125;</span><br><span class="line">          &#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">            <span class="comment">// 如果函数执行出错，新的Promise对象的状态为失败</span></span><br><span class="line">            rejectNext(err)</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 封装一个失败时执行的函数</span></span><br><span class="line">        <span class="keyword">let</span> rejected = <span class="function"><span class="params">error</span> =&gt;</span> &#123;</span><br><span class="line">          <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">typeof</span> onRejected !== <span class="string">&#x27;function&#x27;</span>) &#123;</span><br><span class="line">              rejectNext(error)</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">let</span> res = onRejected(error);</span><br><span class="line">                <span class="keyword">if</span> (res <span class="keyword">instanceof</span> MyPromise) &#123;</span><br><span class="line">                  <span class="comment">// 如果当前回调函数返回MyPromise对象，必须等待其状态改变后在执行下一个回调</span></span><br><span class="line">                  res.then(resolveNext, rejectNext)</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                  <span class="comment">//否则会将返回结果直接作为参数，传入下一个then的回调函数，并立即执行下一个then的回调函数</span></span><br><span class="line">                  rejectNext(res)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">          &#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">            <span class="comment">// 如果函数执行出错，新的Promise对象的状态为失败</span></span><br><span class="line">            rejectNext(err)</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//当状态为pending时 将回调函数push到回调函数队列等待执行队列</span></span><br><span class="line">        <span class="keyword">if</span>(status === PENDING)&#123;</span><br><span class="line">        	<span class="built_in">this</span>.fulfilledQueues.push(fulfilled)</span><br><span class="line">            <span class="built_in">this</span>.rejectedQueues.push(rejected)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//状态为fulfilled/rejected 立即执行回调</span></span><br><span class="line">        <span class="keyword">if</span>(status === FULFILLED)&#123;</span><br><span class="line">             fulfilled(result)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(status === REJECTED)&#123;</span><br><span class="line">            rejected(result)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="4-3-实现then方法"><a href="#4-3-实现then方法" class="headerlink" title="4.3 实现then方法"></a>4.3 实现then方法</h3><p><code>then()</code>方法返回的是一个<code>promise</code>，所以需要创建两个回调方法的队列，分别存储成功和失败的回调，然后在promise状态为pending的时候，将回调函数放到数组队列中</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="title">then</span>(<span class="params">onFulfilled,onRejected</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; status, result &#125; = <span class="built_in">this</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> MyPromise(<span class="function">(<span class="params">resolveNext,rejectNext</span>)=&gt;</span>&#123;</span><br><span class="line">        <span class="comment">// 成功时执行函数</span></span><br><span class="line">        <span class="keyword">let</span> fulfilled = <span class="function"><span class="params">value</span> =&gt;</span> &#123;</span><br><span class="line">          <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">typeof</span> onFulfilled !== <span class="string">&#x27;function&#x27;</span>) &#123;</span><br><span class="line">              resolveNext(value)</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">              <span class="keyword">let</span> res =  onFulfilled(value)</span><br><span class="line">              <span class="keyword">if</span> (res <span class="keyword">instanceof</span> MyPromise) &#123;</span><br><span class="line">                <span class="comment">// 如果当前回调函数返回MyPromise对象，必须等待其状态改变后在执行下一个回调</span></span><br><span class="line">                res.then(resolveNext, rejectNext)</span><br><span class="line">              &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="comment">//否则会将返回结果直接作为参数，传入下一个then的回调函数，并立即执行下一个then的回调函数</span></span><br><span class="line">                resolveNext(res)</span><br><span class="line">              &#125;</span><br><span class="line">            &#125;</span><br><span class="line">          &#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">            <span class="comment">// 如果函数执行出错，新的Promise对象的状态为失败</span></span><br><span class="line">            rejectNext(err)</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 失败时执行函数</span></span><br><span class="line">        <span class="keyword">let</span> rejected = <span class="function"><span class="params">error</span> =&gt;</span> &#123;</span><br><span class="line">          <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">typeof</span> onRejected !== <span class="string">&#x27;function&#x27;</span>) &#123;</span><br><span class="line">              rejectNext(error)</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">let</span> res = onRejected(error)</span><br><span class="line">                <span class="keyword">if</span> (res <span class="keyword">instanceof</span> MyPromise) &#123;</span><br><span class="line">                  <span class="comment">// 如果当前回调函数返回MyPromise对象，必须等待其状态改变后在执行下一个回调</span></span><br><span class="line">                  res.then(resolveNext, rejectNext)</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                  <span class="comment">//否则会将返回结果直接作为参数，传入下一个then的回调函数，并立即执行下一个then的回调函数</span></span><br><span class="line">                  resolveNext(res)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">          &#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">            <span class="comment">// 如果函数执行出错，新的Promise对象的状态为失败</span></span><br><span class="line">            rejectNext(err)</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//当状态为pending时 将回调函数push到回调函数队列等待执行队列</span></span><br><span class="line">        <span class="keyword">if</span>(status === PENDING)&#123;</span><br><span class="line">        	<span class="built_in">this</span>.fulfilledQueues.push(fulfilled)</span><br><span class="line">            <span class="built_in">this</span>.rejectedQueues.push(rejected)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//状态为fulfilled/rejected 立即执行回调</span></span><br><span class="line">        <span class="keyword">if</span>(status === FULFILLED)&#123;</span><br><span class="line">             fulfilled(result)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(status === REJECTED)&#123;</span><br><span class="line">            rejected(result)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h3 id="4-4-改造resolve和reject方法"><a href="#4-4-改造resolve和reject方法" class="headerlink" title="4.4 改造resolve和reject方法"></a>4.4 改造resolve和reject方法</h3><p>上面已经将then方法完善完了，新增了回调函数的数组队列，我们需要在resolve/reject方法中循环调用队列中的方法</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//成功回调</span></span><br><span class="line"><span class="function"><span class="title">resolve</span>(<span class="params">value</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">setTimeout</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">     	<span class="keyword">if</span>(<span class="built_in">this</span>.status !== PENDING) <span class="keyword">return</span></span><br><span class="line">        <span class="built_in">this</span>.status = FULFILLED</span><br><span class="line">        <span class="comment">// 依次执行成功队列中的函数，并清空队列</span></span><br><span class="line">        <span class="keyword">const</span> runFulfilled = <span class="function">(<span class="params">value</span>) =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">let</span> cb;</span><br><span class="line">            <span class="keyword">while</span> ((cb = <span class="built_in">this</span>.fulfilledQueues.shift())) &#123;</span><br><span class="line">                cb(value);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        <span class="comment">// 依次执行失败队列中的函数，并清空队列</span></span><br><span class="line">        <span class="keyword">const</span> runRejected = <span class="function">(<span class="params">error</span>) =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">let</span> cb;</span><br><span class="line">            <span class="keyword">while</span> ((cb = <span class="built_in">this</span>.rejectedQueues.shift())) &#123;</span><br><span class="line">                cb(error);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;; </span><br><span class="line">        <span class="comment">//判断value的类型是普通类型还是promise</span></span><br><span class="line">        <span class="keyword">if</span> (value <span class="keyword">instanceof</span> MyPromise) &#123;</span><br><span class="line">            value.then(<span class="function"><span class="params">val</span> =&gt;</span> &#123;</span><br><span class="line">                <span class="built_in">this</span>.result = val</span><br><span class="line">                runFulfilled(val)</span><br><span class="line">            &#125;, <span class="function"><span class="params">err</span> =&gt;</span> &#123;</span><br><span class="line">                <span class="built_in">this</span>.result = err</span><br><span class="line">                runRejected(err)</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="built_in">this</span>.result = value</span><br><span class="line">            runFulfilled(value)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//失败回调</span></span><br><span class="line"><span class="function"><span class="title">reject</span>(<span class="params">reason</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">setTimeout</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">this</span>.status !== PENDING) <span class="keyword">return</span></span><br><span class="line">        <span class="built_in">this</span>.status = REJECTED</span><br><span class="line">        <span class="built_in">this</span>.result = reason</span><br><span class="line">        <span class="keyword">let</span> cb;</span><br><span class="line">        <span class="keyword">while</span> ((cb = <span class="built_in">this</span>.rejectedQueue.shift())) &#123;</span><br><span class="line">            cb(reason);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//成功回调</span></span><br><span class="line"><span class="function"><span class="title">resolve</span>(<span class="params">value</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">setTimeout</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">     	<span class="keyword">if</span>(<span class="built_in">this</span>.status !== PENDING) <span class="keyword">return</span></span><br><span class="line">        <span class="built_in">this</span>.status = FULFILLED</span><br><span class="line">        <span class="comment">// 依次执行成功队列中的函数，并清空队列</span></span><br><span class="line">        <span class="keyword">const</span> runFulfilled = <span class="function">(<span class="params">value</span>) =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">let</span> cb;</span><br><span class="line">            <span class="keyword">while</span> ((cb = <span class="built_in">this</span>.fulfilledQueues.shift())) &#123;</span><br><span class="line">                cb(value);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        <span class="comment">// 依次执行失败队列中的函数，并清空队列</span></span><br><span class="line">        <span class="keyword">const</span> runRejected = <span class="function">(<span class="params">error</span>) =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">let</span> cb;</span><br><span class="line">            <span class="keyword">while</span> ((cb = <span class="built_in">this</span>.rejectedQueues.shift())) &#123;</span><br><span class="line">                cb(error);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;; </span><br><span class="line">        <span class="comment">//判断value的类型是普通类型还是promise</span></span><br><span class="line">        <span class="keyword">if</span> (value <span class="keyword">instanceof</span> MyPromise) &#123;</span><br><span class="line">            value.then(<span class="function"><span class="params">val</span> =&gt;</span> &#123;</span><br><span class="line">                <span class="built_in">this</span>.result = val</span><br><span class="line">                runFulfilled(val)</span><br><span class="line">            &#125;, <span class="function"><span class="params">err</span> =&gt;</span> &#123;</span><br><span class="line">                <span class="built_in">this</span>.result = err</span><br><span class="line">                runRejected(err)</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="built_in">this</span>.result = value</span><br><span class="line">            runFulfilled(value)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,<span class="number">0</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//失败回调</span></span><br><span class="line"><span class="function"><span class="title">reject</span>(<span class="params">reason</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">setTimeout</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">this</span>.status !== PENDING) <span class="keyword">return</span></span><br><span class="line">        <span class="built_in">this</span>.status = REJECTED</span><br><span class="line">        <span class="built_in">this</span>.result = reason</span><br><span class="line">        <span class="keyword">let</span> cb;</span><br><span class="line">        <span class="keyword">while</span> ((cb = <span class="built_in">this</span>.rejectedQueue.shift())) &#123;</span><br><span class="line">            cb(reason);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<p>本篇文章就先写到这里吧，其实promise中比较难的点就是promise的then方法链式调用和then方法返回一个promise这里，其他的地方基本上都比较容易理解，就不一一介绍了，该文章主要是为了学习promise的实现，理解其中的原理，代码方面跟面条大佬的代码基本上是一样的(并不是我不会用自己的方式来写，主要是大佬的代码写的已经很清晰简洁了，让我写也不如大佬写的好，就直接用大佬的代码了，哈哈!)</p>
+<blockquote>
+<p>本文手写源码部分参考自面条_大佬，感谢大佬的代码和讲解</p>
+<p>参考文章地址：<a href="https://juejin.cn/post/6844903665686282253">掘金-面条_</a></p>
+</blockquote>
 ]]></content>
       <categories>
         <category>源码</category>
@@ -47,21 +198,14 @@
   <entry>
     <title>手写vue2.0源码之响应式数据原理</title>
     <url>/2021/12/20/%E6%89%8B%E5%86%99vue2-0%E6%BA%90%E7%A0%81%E4%B9%8B%E5%93%8D%E5%BA%94%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%8E%9F%E7%90%86/</url>
-    <content><![CDATA[<blockquote>
+    <content><![CDATA[<p><img src="https://cdn.wangxinwei.cn/image-20220824143050257.png" alt="image-20220824143050257"></p>
+<blockquote>
 <p>本文转自掘金@Big shark@LX </p>
 <p><a href="https://juejin.cn/post/6961222829979697165">原文地址</a></p>
 </blockquote>
 <span id="more"></span>
 
-<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>时间过得太快 一晃半年都没写文章了 哈哈 如今又到了一年一度的<strong>金三银四</strong>的好时节 我李汉三回来了</p>
-<p>先说一下写此系列的<strong>初衷</strong>–最近公司招聘高级前端岗位 于是面了很多人 这面着面着就有点 <em>痛心疾首</em> 了 因为我发现很多做了五年以上的同学还是停留在业务逻辑层 一般表现为项目经验丰富 做过一些复杂的业务 但是对于框架或者工具的底层源码实现以及 js 的细节掌握并不到位 就比如 Vue 的混入（mixin） 大家基本都知道用它能解决啥问题 但是混入的原理 混入策略 混入顺序等等这些能全部回答出来的就比较少 于是我决定和大家一起手写一遍<strong>Vue2.0</strong>版本的源码 学习优秀源码的思路（后续会加入 3.0 版本）</p>
-<p><strong>适用人群：</strong> 没时间去看官方源码或者看源码看的比较懵而不想去看的同学</p>
-<p><strong>注意</strong>： 我看源码一直保持 28 策略 所谓百分之 20 的代码实现了百分之 80 的功能 所以此系列咱们只关心核心逻辑以及功能的实现 <strong>不包含</strong> 打包构建 类型检查 跨平台 报错提醒 边界处理 兼容处理 SSR（服务端渲染）等</p>
-<blockquote>
-<p>强烈建议 大家有时间还是把核心代码掌握之后再回头去看一遍官方源码</p>
-</blockquote>
-<hr>
-<h3 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h3><p>大家都知道 Vue 的一个核心特点是<strong>数据驱动</strong> 如果按照以往 Jquery 的思想 咱们数据变化了想要同步到视图就必须要手动操作 dom 更新 但是 Vue 帮我们做到了数据变动自动更新视图的功能 那在 Vue 内部就一定有一个机制能监听到数据变化然后触发更新 本篇主要介绍<strong>响应式数据</strong>的原理</p>
+<p>大家都知道 Vue 的一个核心特点是<strong>数据驱动</strong> 如果按照以往 Jquery 的思想 咱们数据变化了想要同步到视图就必须要手动操作 dom 更新 但是 Vue 帮我们做到了数据变动自动更新视图的功能 那在 Vue 内部就一定有一个机制能监听到数据变化然后触发更新 本篇主要介绍<strong>响应式数据</strong>的原理</p>
 <h4 id="1-数据初始化"><a href="#1-数据初始化" class="headerlink" title="1.数据初始化"></a>1.数据初始化</h4><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">new</span> Vue(&#123;</span><br><span class="line">  <span class="attr">el</span>: <span class="string">&quot;#app&quot;</span>,</span><br><span class="line">  router,</span><br><span class="line">  store,</span><br><span class="line">  <span class="attr">render</span>: <span class="function">(<span class="params">h</span>) =&gt;</span> h(App),</span><br><span class="line">&#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>这段代码 大家一定非常熟悉 这就是 Vue 实例化的过程 从 new 操作符 咱们可以看出 Vue 其实就是一个构造函数 没啥特别的 传入的参数就是一个对象 我们叫做 options（选项）</p>
@@ -94,28 +238,15 @@
 <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// src/obserber/array.js</span></span><br><span class="line"><span class="comment">// 先保留数组原型</span></span><br><span class="line"><span class="keyword">const</span> arrayProto = <span class="built_in">Array</span>.prototype;</span><br><span class="line"><span class="comment">// 然后将arrayMethods继承自数组原型</span></span><br><span class="line"><span class="comment">// 这里是面向切片编程思想（AOP）--不破坏封装的前提下，动态的扩展功能</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> arrayMethods = <span class="built_in">Object</span>.create(arrayProto);</span><br><span class="line"><span class="keyword">let</span> methodsToPatch = [</span><br><span class="line">  <span class="string">&quot;push&quot;</span>,</span><br><span class="line">  <span class="string">&quot;pop&quot;</span>,</span><br><span class="line">  <span class="string">&quot;shift&quot;</span>,</span><br><span class="line">  <span class="string">&quot;unshift&quot;</span>,</span><br><span class="line">  <span class="string">&quot;splice&quot;</span>,</span><br><span class="line">  <span class="string">&quot;reverse&quot;</span>,</span><br><span class="line">  <span class="string">&quot;sort&quot;</span>,</span><br><span class="line">];</span><br><span class="line">methodsToPatch.forEach(<span class="function">(<span class="params">method</span>) =&gt;</span> &#123;</span><br><span class="line">  arrayMethods[method] = <span class="function"><span class="keyword">function</span> (<span class="params">...args</span>) </span>&#123;</span><br><span class="line">    <span class="comment">//   这里保留原型方法的执行结果</span></span><br><span class="line">    <span class="keyword">const</span> result = arrayProto[method].apply(<span class="built_in">this</span>, args);</span><br><span class="line">    <span class="comment">// 这句话是关键</span></span><br><span class="line">    <span class="comment">// this代表的就是数据本身 比如数据是&#123;a:[1,2,3]&#125; 那么我们使用a.push(4)  this就是a  ob就是a.__ob__ 这个属性就是上段代码增加的 代表的是该数据已经被响应式观察过了指向Observer实例</span></span><br><span class="line">    <span class="keyword">const</span> ob = <span class="built_in">this</span>.__ob__;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 这里的标志就是代表数组有新增操作</span></span><br><span class="line">    <span class="keyword">let</span> inserted;</span><br><span class="line">    <span class="keyword">switch</span> (method) &#123;</span><br><span class="line">      <span class="keyword">case</span> <span class="string">&quot;push&quot;</span>:</span><br><span class="line">      <span class="keyword">case</span> <span class="string">&quot;unshift&quot;</span>:</span><br><span class="line">        inserted = args;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> <span class="string">&quot;splice&quot;</span>:</span><br><span class="line">        inserted = args.slice(<span class="number">2</span>);</span><br><span class="line">      <span class="keyword">default</span>:</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 如果有新增的元素 inserted是一个数组 调用Observer实例的observeArray对数组每一项进行观测</span></span><br><span class="line">    <span class="keyword">if</span> (inserted) ob.observeArray(inserted);</span><br><span class="line">    <span class="comment">// 之后咱们还可以在这里检测到数组改变了之后从而触发视图更新的操作--后续源码会揭晓</span></span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <h4 id="4-响应式数据的思维导图"><a href="#4-响应式数据的思维导图" class="headerlink" title="4.响应式数据的思维导图"></a>4.响应式数据的思维导图</h4><p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/96313216e0694b589b4584c9e109bb76~tplv-k3u1fbpfcp-watermark.awebp" alt="图片"></p>
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>至此Vue的响应式数据原理已经完结 大家可以看着思维导图自己动手写一遍核心代码哈 需要注意的是 里面对于this的引用很多 不同的环境this的指向不同 大家不要搞混淆  然后目前能实现的功能仅仅是对数据进行了响应式观测 但是对数据修改后怎么导致视图重新渲染 这块还需要结合Watcher和dep 采用观察者模式实现依赖收集和派发更新的过程</p>
-<blockquote>
-<p>如果觉得本文有帮助 记得<strong>点赞三连</strong>哦 十分感谢！</p>
-</blockquote>
-<h2 id="系列链接（后续都会更新完毕）"><a href="#系列链接（后续都会更新完毕）" class="headerlink" title="系列链接（后续都会更新完毕）"></a>系列链接（后续都会更新完毕）</h2><ul>
-<li><a href="https://juejin.cn/post/6935344605424517128">手写 Vue2.0 源码（一）-响应式数据原理</a></li>
-<li><a href="https://juejin.cn/post/6936024530016010276">手写 Vue2.0 源码（二）-模板编译原理</a></li>
-<li><a href="https://juejin.cn/post/6937120983765483528">手写 Vue2.0 源码（三）-初始渲染原理</a></li>
-<li><a href="https://juejin.cn/post/6938221715281575973">手写 Vue2.0 源码（四）-渲染更新原理</a></li>
-<li><a href="https://juejin.cn/post/6939704519668432910">手写 Vue2.0 源码（五）-异步更新原理 </a></li>
-<li><a href="https://juejin.cn/post/6953433215218483236">手写 Vue2.0 源码（六）-diff 算法原理</a></li>
-<li><a href="https://juejin.cn/post/6951671158198501383">手写 Vue2.0 源码（七）-Mixin 混入原理</a></li>
-<li><a href="https://juejin.cn/post/6954173708344770591">手写 Vue2.0 源码（八）-组件原理</a></li>
-<li><a href="https://juejin.cn/post/6954925963226382367">手写 Vue2.0 源码（九）-侦听属性原理</a></li>
-<li><a href="https://juejin.cn/post/6956407362085191717">手写 Vue2.0 源码（十）-计算属性原理</a></li>
-<li><a href="https://juejin.cn/post/6959016804349902884">手写 Vue2.0 源码（十一）-全局 api 原理</a></li>
-<li><a href="https://juejin.cn/post/6961222829979697165">最全的 Vue 面试题+详解答案</a></li>
-<li><a href="https://link.juejin.cn/?target=">手写 vue-router 源码</a></li>
-<li><a href="https://link.juejin.cn/?target=">手写 vuex 源码</a></li>
-<li><a href="https://link.juejin.cn/?target=">手写 vue3.0 源码</a></li>
-</ul>
 ]]></content>
+      <categories>
+        <category>Vue</category>
+      </categories>
+      <tags>
+        <tag>面试</tag>
+        <tag>Vue</tag>
+        <tag>源码</tag>
+      </tags>
   </entry>
   <entry>
     <title>最全的vue面试题+详解</title>
@@ -715,14 +846,6 @@
 
 <h3 id="6-对象扁平化"><a href="#6-对象扁平化" class="headerlink" title="6. 对象扁平化"></a>6. 对象扁平化</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">flat</span>(<span class="params">obj, key = <span class="string">&quot;&quot;</span>, res = &#123;&#125;, isArray = <span class="literal">false</span></span>) </span>&#123;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">let</span> [k, v] <span class="keyword">of</span> <span class="built_in">Object</span>.entries(obj)) &#123;</span><br><span class="line">		<span class="keyword">if</span> (<span class="built_in">Array</span>.isArray(v)) &#123;</span><br><span class="line">			<span class="keyword">let</span> tmp = isArray ? key + <span class="string">&quot;[&quot;</span> + k + <span class="string">&quot;]&quot;</span> : key + k</span><br><span class="line">			flat(v, tmp, res, <span class="literal">true</span>)</span><br><span class="line">		&#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">typeof</span> v === <span class="string">&quot;object&quot;</span>) &#123;</span><br><span class="line">			<span class="keyword">let</span> tmp = isArray ? key + <span class="string">&quot;[&quot;</span> + k + <span class="string">&quot;].&quot;</span> : key + k + <span class="string">&quot;.&quot;</span></span><br><span class="line">			flat(v, tmp, res)</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="keyword">let</span> tmp = isArray ? key + <span class="string">&quot;[&quot;</span> + k + <span class="string">&quot;]&quot;</span> : key + k</span><br><span class="line">			res[tmp] = v</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> res</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="7-深拷贝"><a href="#7-深拷贝" class="headerlink" title="7. 深拷贝"></a>7. 深拷贝</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">deepClone</span>(<span class="params">target</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> result;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> target === <span class="string">&#x27;object&#x27;</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">Array</span>.isArray(target)) &#123;</span><br><span class="line">            result = [];</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">let</span> i <span class="keyword">in</span> target) &#123;</span><br><span class="line">                result.push(deepClone(target[i]))</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span>(target===<span class="literal">null</span>) &#123;</span><br><span class="line">            result = <span class="literal">null</span>; </span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span>(target.constructor===<span class="built_in">RegExp</span>)&#123;</span><br><span class="line">            result = target;</span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            result = &#123;&#125;;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">let</span> i <span class="keyword">in</span> target) &#123;</span><br><span class="line">                result[i] = deepClone(target[i]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        result = target;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="8-实现bind"><a href="#8-实现bind" class="headerlink" title="8. 实现bind"></a>8. 实现bind</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.MyBind = <span class="function"><span class="keyword">function</span> (<span class="params">context, ...args</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> self = <span class="built_in">this</span>;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> self.apply(context, args);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="9-实现apply"><a href="#9-实现apply" class="headerlink" title="9. 实现apply"></a>9. 实现apply</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.myApply = <span class="function"><span class="keyword">function</span> (<span class="params">context, args</span>) </span>&#123;</span><br><span class="line">  context.fn = <span class="built_in">this</span>;</span><br><span class="line">  <span class="keyword">let</span> res;</span><br><span class="line">  <span class="keyword">if</span> (!args)&#123;</span><br><span class="line">    res = context.fn();</span><br><span class="line">  &#125; <span class="keyword">else</span>  &#123;</span><br><span class="line">    res = context.fn(...args)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="10-实现call"><a href="#10-实现call" class="headerlink" title="10. 实现call"></a>10. 实现call</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.myCall = <span class="function"><span class="keyword">function</span> (<span class="params">context, ...rest</span>) </span>&#123;</span><br><span class="line">  context.fn = <span class="built_in">this</span>;</span><br><span class="line">  <span class="keyword">var</span> result = context.fn(...rest);</span><br><span class="line">  <span class="keyword">delete</span> context.fn;</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <h3 id="11-实现instanceof"><a href="#11-实现instanceof" class="headerlink" title="11.实现instanceof"></a>11.实现instanceof</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">myInstanceOf</span>(<span class="params">left, right</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> prototype = right.prototype;</span><br><span class="line">  left = left.__proto__;</span><br><span class="line">  <span class="keyword">while</span>(<span class="literal">true</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (!left) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">if</span> (left == prototype) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    left = left.__proto__;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h3 id="12-实现new"><a href="#12-实现new" class="headerlink" title="12. 实现new"></a>12. 实现new</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">myNew</span> (<span class="params">fun, ...args</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> obj = &#123;&#125;;</span><br><span class="line">  obj.__proto__ = fun.prototype;</span><br><span class="line">  <span class="keyword">let</span> res = fun.apply(obj, args);</span><br><span class="line">  <span class="keyword">return</span> res <span class="keyword">instanceof</span> <span class="built_in">Object</span> ? res : obj;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -747,59 +870,24 @@
       </tags>
   </entry>
   <entry>
-    <title>hexo将gitpage页面绑定到自己的域名</title>
-    <url>/2021/12/06/hexo%E5%B0%86gitpage%E9%A1%B5%E9%9D%A2%E7%BB%91%E5%AE%9A%E5%88%B0%E8%87%AA%E5%B7%B1%E7%9A%84%E5%9F%9F%E5%90%8D/</url>
-    <content><![CDATA[<h3 id="1-准备一个域名"><a href="#1-准备一个域名" class="headerlink" title="1. 准备一个域名"></a>1. 准备一个域名</h3><span id="more"></span>
-<h4 id="1-1-ping-一下自己项目的地址"><a href="#1-1-ping-一下自己项目的地址" class="headerlink" title="1.1 ping 一下自己项目的地址"></a>1.1 ping 一下自己项目的地址</h4><p>即xxx.github.io  获取github的ip地址 </p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ping xxxx.github.io</span><br><span class="line">正在 Ping xxxx.github.io [xxx.xxx.xxx.xxx] 具有 32 字节的数据:</span><br></pre></td></tr></table></figure>
-<h4 id="1-2-添加一条域名解析记录"><a href="#1-2-添加一条域名解析记录" class="headerlink" title="1.2 添加一条域名解析记录"></a>1.2 添加一条域名解析记录</h4><p>记录值为刚才ping自己github项目拿到的ip 如下图：<br><img src="https://cdn.wangxinwei.cn/qiniuimg/step1.png" alt="yuming"></p>
-<h4 id="1-3-再添加一条域名解析记录"><a href="#1-3-再添加一条域名解析记录" class="headerlink" title="1.3 再添加一条域名解析记录"></a>1.3 再添加一条域名解析记录</h4><p>记录值为自己的github项目的地址 即xxx.github.io 如下图：<br><img src="https://cdn.wangxinwei.cn/qiniuimg/step2.png" alt="yuming"></p>
-<h4 id="1-4-在项目根目录中的source目录下添加CNAME文件"><a href="#1-4-在项目根目录中的source目录下添加CNAME文件" class="headerlink" title="1.4 在项目根目录中的source目录下添加CNAME文件"></a>1.4 在项目根目录中的source目录下添加CNAME文件</h4><p>使用编辑器打开后把自己的域名填进去即可。注意：没有后缀名 如下图：<br>注意：执行hexo d 时，hexo会自动清空存储库，删除无关的文件，导致github项目中 setting 里的 Custom domain被重置<br>这里添加的CNAME文件就是为了解决这个问题 添加后就不会出现Custom domain被重置的问题了<br><img src="https://cdn.wangxinwei.cn/qiniuimg/step3.png" alt="yuming"></p>
-<h3 id="2-重新打包一下项目并清除之前的数据"><a href="#2-重新打包一下项目并清除之前的数据" class="headerlink" title="2. 重新打包一下项目并清除之前的数据"></a>2. 重新打包一下项目并清除之前的数据</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">hexo clean  //清除之前的数据</span><br><span class="line">hexo g   //重新生成静态文件</span><br><span class="line">hexo d  //重新部署网站</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="3-打开项目-xxx-github-io-中的settings"><a href="#3-打开项目-xxx-github-io-中的settings" class="headerlink" title="3. 打开项目(xxx.github.io)中的settings"></a>3. 打开项目(xxx.github.io)中的settings</h3><p>下拉找到GitHub Pages 点进去<br>找到 Custom domain，在下方的输入框中输入自己的域名，点击Save<br>如果没有报错的话，过个几分钟应该就可以通过域名访问了</p>
-]]></content>
-      <categories>
-        <category>hexo</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>github</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>hexo执行 hexo d 会导致自定义域名丢失的问题</title>
-    <url>/2021/12/06/hexo%E6%89%A7%E8%A1%8Chexo%20d%20%E4%BC%9A%E5%AF%BC%E8%87%B4%E8%87%AA%E5%AE%9A%E4%B9%89%E5%9F%9F%E5%90%8D%E4%B8%A2%E5%A4%B1%E7%9A%84%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<h3 id="1-原因"><a href="#1-原因" class="headerlink" title="1.原因"></a>1.原因</h3><span id="more"></span>
-
-<h4 id="hexo-d-命令会自动清空存储库，删除无关的文件，会导致github项目中-setting-里的-Custom-domain被重置"><a href="#hexo-d-命令会自动清空存储库，删除无关的文件，会导致github项目中-setting-里的-Custom-domain被重置" class="headerlink" title="hexo d 命令会自动清空存储库，删除无关的文件，会导致github项目中 setting 里的 Custom domain被重置"></a>hexo d 命令会自动清空存储库，删除无关的文件，会导致github项目中 <code>setting</code> 里的 <code>Custom domain</code>被重置</h4><h3 id="2-解决办法"><a href="#2-解决办法" class="headerlink" title="2.解决办法"></a>2.解决办法</h3><h4 id="2-1-在项目的source目录中添加名字为CNAME的文件，注意：没有后缀名，没有点"><a href="#2-1-在项目的source目录中添加名字为CNAME的文件，注意：没有后缀名，没有点" class="headerlink" title="2.1.在项目的source目录中添加名字为CNAME的文件，注意：没有后缀名，没有点"></a>2.1.在项目的source目录中添加名字为<code>CNAME</code>的文件，注意：没有后缀名，没有点</h4><h4 id="2-2-编辑器打开该文件将你自己的域名添加到文件中"><a href="#2-2-编辑器打开该文件将你自己的域名添加到文件中" class="headerlink" title="2.2.编辑器打开该文件将你自己的域名添加到文件中"></a>2.2.编辑器打开该文件将你自己的域名添加到文件中</h4><h4 id="2-3-保存文件后重新执行-hexo-clean-hexo-g-hexo-d重新上传到github即可"><a href="#2-3-保存文件后重新执行-hexo-clean-hexo-g-hexo-d重新上传到github即可" class="headerlink" title="2.3.保存文件后重新执行 hexo clean hexo g hexo d重新上传到github即可"></a>2.3.保存文件后重新执行 <code>hexo clean</code> <code>hexo g</code> <code>hexo d</code>重新上传到github即可</h4>]]></content>
-      <categories>
-        <category>hexo</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>github</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>javascript 执行上下文</title>
     <url>/2021/12/06/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87/</url>
     <content><![CDATA[<h3 id="执行上下文分类"><a href="#执行上下文分类" class="headerlink" title="执行上下文分类"></a>执行上下文分类</h3><span id="more"></span>
 
 <ul>
-<li><p>全局执行上下文  默认/基础上下文 任何不在函数内部的代码都是在全局执行上下文中， 它会执行两件事：创建一个全局的 window 对象（浏览器的情况下），并且设置 <code>this</code> 的值等于这个全局对象。一个程序中只会有一个全局执行上下文。 </p>
+<li><p>全局执行上下文:也称默认/基础上下文,任何不在函数内部的代码都是在全局执行上下文中， 它会执行两件事：创建一个全局的 window 对象（浏览器环境），并且设置 <code>this</code> 的值等于这个全局对象。一个程序中只会有一个全局执行上下文。 </p>
 </li>
-<li><p>函数执行上下文  每当一个函数执行时，都会为该函数创建一个新的上下文，每个函数都有他自己的执行上下文，不过实在函数被调用的时候创建的，函数执行上下文可以有多个，每当一个新的执行上下文被创建 ，他会按定义的顺序执行一系列步骤</p>
+<li><p>函数执行上下文  每当一个函数执行时，都会为该函数创建一个新的上下文，每个函数都有他自己的执行上下文，不过是在函数被调用的时候创建的，函数执行上下文可以有多个，每当一个新的执行上下文被创建 ，他会按定义的顺序执行一系列步骤</p>
 </li>
 <li><p>Eval 函数执行上下文  执行在eval函数内部的代码 ，他会有自己的执行上下文 </p>
 </li>
 </ul>
-<h3 id="执行栈"><a href="#执行栈" class="headerlink" title="执行栈"></a>执行栈</h3><p>执行栈是一种拥有先进先出数据结构的栈，被用来储存代码运行时创建的所有的执行上下文</p>
-<p>当JavaScript引擎第一次遇到你的脚本时，他会创建一个全局的执行上下文并且压入执行上下文栈，每当引擎遇到一个函数调用，他会为该函数创建一个新的执行上下文栈并压入栈的顶部</p>
-<p>引擎会执行那些执行上下文位于栈顶的函数，当该函数执行时，执行上下文从栈中弹出，控制流程到大当前栈中的下一个上下文</p>
+<h3 id="执行栈"><a href="#执行栈" class="headerlink" title="执行栈"></a>执行栈</h3><p>执行栈是一种拥有先进后出的栈结构，被用来储存代码运行时创建的所有的执行上下文</p>
+<p>当JavaScript引擎第一次遇到你的脚本时，他会创建一个全局的执行上下文并且压入执行上下文栈，当引擎遇到一个函数调用，他会为该函数创建一个新的执行上下文栈并压入栈的顶部</p>
+<p>引擎会执行那些执行上下文位于栈顶的函数，当该函数执行时，执行上下文从栈中弹出，控制流程到达当前栈中的下一个上下文</p>
 <h3 id="如何创建执行上下文"><a href="#如何创建执行上下文" class="headerlink" title="如何创建执行上下文"></a>如何创建执行上下文</h3><h4 id="创建执行上下文有两个阶段"><a href="#创建执行上下文有两个阶段" class="headerlink" title="创建执行上下文有两个阶段"></a>创建执行上下文有两个阶段</h4><ol>
 <li><p>创建阶段 </p>
-<h5 id="在JavaScript执行之前-执行上下文会经理创建阶段在创建阶段会发生三件事"><a href="#在JavaScript执行之前-执行上下文会经理创建阶段在创建阶段会发生三件事" class="headerlink" title="在JavaScript执行之前  执行上下文会经理创建阶段在创建阶段会发生三件事"></a>在JavaScript执行之前  执行上下文会经理创建阶段在创建阶段会发生三件事</h5><ul>
+<h5 id="在JavaScript执行之前-执行上下文会经历创建阶段，在创建阶段会发生三件事"><a href="#在JavaScript执行之前-执行上下文会经历创建阶段，在创建阶段会发生三件事" class="headerlink" title="在JavaScript执行之前  执行上下文会经历创建阶段，在创建阶段会发生三件事"></a>在JavaScript执行之前  执行上下文会经历创建阶段，在创建阶段会发生三件事</h5><ul>
 <li><p>this值的决定，即我们熟知的this绑定  在全局执行上下文中 this的值指向全局对象 在浏览器中this引用window对象，在函数执行上下文中，this的值取决于该函数是如何被调用的，如果他被一个引用对象调用，那么this会设置成那个对象，否则this的值被设置为全局对象或者undefined (严格模式下)</p>
 </li>
 <li><p>创建词法环境组件  词法环境是一种规范类型 ，基于ECMAScript代码的词法嵌套结构来定义标识符和具体变量和函数的关联。一个词法环境由环境记录器和一个可能的引用外部词法环境的空值组成 环境记录器是存储变量和函数生命的实际位置  外部环境引用以为着它可以访问其父级词法环境（作用域），环境齐鲁漆也分为两种类型第一种是声明式环境记录器 用来存储变量函数和参数  另一种是对象环境记录器 用来定义在全局上下文中的变量和函数的关系  简而言之 在全局环境中环境记录器是对象环境记录器 在对象环境中 环境记录器是声明式环境记录器  </p>
@@ -824,55 +912,9 @@
       </tags>
   </entry>
   <entry>
-    <title>ubuntu中n切换node版本无效的解决办法</title>
-    <url>/2021/12/06/ubuntu%E4%B8%ADn%E5%88%87%E6%8D%A2node%E7%89%88%E6%9C%AC%E6%97%A0%E6%95%88%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</url>
-    <content><![CDATA[<h3 id="1-使用vim打开-bash-profile-文件"><a href="#1-使用vim打开-bash-profile-文件" class="headerlink" title="1.使用vim打开 .bash_profile 文件"></a>1.使用vim打开 <code>.bash_profile</code> 文件</h3><span id="more"></span>
-
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vim ~/.bash_profile</span><br></pre></td></tr></table></figure>
-
-<h3 id="2-添加下面的代码"><a href="#2-添加下面的代码" class="headerlink" title="2.添加下面的代码"></a>2.添加下面的代码</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">export NODE_HOME=/usr/local</span><br><span class="line">export PATH=$NODE_HOME/bin:$PATH</span><br><span class="line">export NODE_PATH=$NODE_HOME/lib/node_modules:$PATH</span><br></pre></td></tr></table></figure>
-
-
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Ubuntu</tag>
-        <tag>Node</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>firefox打开网站被限制</title>
-    <url>/2021/12/06/firefox%20%E6%89%93%E5%BC%80%E7%BD%91%E7%AB%99%E8%A2%AB%E9%99%90%E5%88%B6/</url>
-    <content><![CDATA[<blockquote>
-<p>具体原因是此网址使用了一个通常用于网络浏览以外目的的端口。出于安全原因，Firefox 取消了该请求。</p>
-</blockquote>
-<span id="more"></span>
-
-<h3 id="解决方法："><a href="#解决方法：" class="headerlink" title="解决方法："></a>解决方法：</h3><ol>
-<li>地址栏中输入：about:config</li>
-<li>点击“接受风险并继续”按钮</li>
-<li>在上面的输入栏中输入：network.security.ports.banned.override</li>
-<li>在下面列表内出现这个选项，有三个方式：布尔值，数值，和字符串，</li>
-<li>选择字符串</li>
-<li>输入你要解除频闭的端口。点+号，就行了。</li>
-</ol>
-]]></content>
-      <categories>
-        <category>浏览器</category>
-      </categories>
-      <tags>
-        <tag>浏览器</tag>
-        <tag>Firefox</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>JavaScript 垃圾回收机制</title>
     <url>/2021/12/02/JavaScript%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/</url>
-    <content><![CDATA[<blockquote>
-<p>垃圾回收有两种方式，即标记清理和引用计数</p>
-</blockquote>
+    <content><![CDATA[<p><strong>垃圾回收有两种方式，即标记清理和引用计数</strong></p>
 <span id="more"></span>
 
 <p>标记清理：</p>

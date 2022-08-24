@@ -57,9 +57,13 @@
   <time datetime="2021-12-20T08:39:17.000Z" itemprop="datePublished">2021-12-20</time>
 </a>
       
+<div class="article-category">
+  <a class="article-category-link" href="/categories/Vue/">Vue</a>
+</div>
+
       <br>
-      <i class="fe fe-bar-chart"></i> <span></span> <span class="post-count">2.7k</span>字&emsp;&emsp;
-      <i class="fe fe-clock"></i> <span></span> <span class="post-count">10</span>分钟
+      <i class="fe fe-bar-chart"></i> <span></span> <span class="post-count">1.9k</span>字&emsp;&emsp;
+      <i class="fe fe-clock"></i> <span></span> <span class="post-count">8</span>分钟
     </div>
     
 
@@ -75,21 +79,14 @@
       
       
       
-      <blockquote>
+      <p><img src="https://cdn.wangxinwei.cn/image-20220824143050257.png" alt="image-20220824143050257"></p>
+<blockquote>
 <p>本文转自掘金@Big shark@LX </p>
 <p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6961222829979697165">原文地址</a></p>
 </blockquote>
 <span id="more"></span>
 
-<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>时间过得太快 一晃半年都没写文章了 哈哈 如今又到了一年一度的<strong>金三银四</strong>的好时节 我李汉三回来了</p>
-<p>先说一下写此系列的<strong>初衷</strong>–最近公司招聘高级前端岗位 于是面了很多人 这面着面着就有点 <em>痛心疾首</em> 了 因为我发现很多做了五年以上的同学还是停留在业务逻辑层 一般表现为项目经验丰富 做过一些复杂的业务 但是对于框架或者工具的底层源码实现以及 js 的细节掌握并不到位 就比如 Vue 的混入（mixin） 大家基本都知道用它能解决啥问题 但是混入的原理 混入策略 混入顺序等等这些能全部回答出来的就比较少 于是我决定和大家一起手写一遍<strong>Vue2.0</strong>版本的源码 学习优秀源码的思路（后续会加入 3.0 版本）</p>
-<p><strong>适用人群：</strong> 没时间去看官方源码或者看源码看的比较懵而不想去看的同学</p>
-<p><strong>注意</strong>： 我看源码一直保持 28 策略 所谓百分之 20 的代码实现了百分之 80 的功能 所以此系列咱们只关心核心逻辑以及功能的实现 <strong>不包含</strong> 打包构建 类型检查 跨平台 报错提醒 边界处理 兼容处理 SSR（服务端渲染）等</p>
-<blockquote>
-<p>强烈建议 大家有时间还是把核心代码掌握之后再回头去看一遍官方源码</p>
-</blockquote>
-<hr>
-<h3 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h3><p>大家都知道 Vue 的一个核心特点是<strong>数据驱动</strong> 如果按照以往 Jquery 的思想 咱们数据变化了想要同步到视图就必须要手动操作 dom 更新 但是 Vue 帮我们做到了数据变动自动更新视图的功能 那在 Vue 内部就一定有一个机制能监听到数据变化然后触发更新 本篇主要介绍<strong>响应式数据</strong>的原理</p>
+<p>大家都知道 Vue 的一个核心特点是<strong>数据驱动</strong> 如果按照以往 Jquery 的思想 咱们数据变化了想要同步到视图就必须要手动操作 dom 更新 但是 Vue 帮我们做到了数据变动自动更新视图的功能 那在 Vue 内部就一定有一个机制能监听到数据变化然后触发更新 本篇主要介绍<strong>响应式数据</strong>的原理</p>
 <h4 id="1-数据初始化"><a href="#1-数据初始化" class="headerlink" title="1.数据初始化"></a>1.数据初始化</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> Vue(&#123;</span><br><span class="line">  <span class="attr">el</span>: <span class="string">&quot;#app&quot;</span>,</span><br><span class="line">  router,</span><br><span class="line">  store,</span><br><span class="line">  <span class="attr">render</span>: <span class="function">(<span class="params">h</span>) =&gt;</span> h(App),</span><br><span class="line">&#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>这段代码 大家一定非常熟悉 这就是 Vue 实例化的过程 从 new 操作符 咱们可以看出 Vue 其实就是一个构造函数 没啥特别的 传入的参数就是一个对象 我们叫做 options（选项）</p>
@@ -122,38 +119,19 @@
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// src/obserber/array.js</span></span><br><span class="line"><span class="comment">// 先保留数组原型</span></span><br><span class="line"><span class="keyword">const</span> arrayProto = <span class="built_in">Array</span>.prototype;</span><br><span class="line"><span class="comment">// 然后将arrayMethods继承自数组原型</span></span><br><span class="line"><span class="comment">// 这里是面向切片编程思想（AOP）--不破坏封装的前提下，动态的扩展功能</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> arrayMethods = <span class="built_in">Object</span>.create(arrayProto);</span><br><span class="line"><span class="keyword">let</span> methodsToPatch = [</span><br><span class="line">  <span class="string">&quot;push&quot;</span>,</span><br><span class="line">  <span class="string">&quot;pop&quot;</span>,</span><br><span class="line">  <span class="string">&quot;shift&quot;</span>,</span><br><span class="line">  <span class="string">&quot;unshift&quot;</span>,</span><br><span class="line">  <span class="string">&quot;splice&quot;</span>,</span><br><span class="line">  <span class="string">&quot;reverse&quot;</span>,</span><br><span class="line">  <span class="string">&quot;sort&quot;</span>,</span><br><span class="line">];</span><br><span class="line">methodsToPatch.forEach(<span class="function">(<span class="params">method</span>) =&gt;</span> &#123;</span><br><span class="line">  arrayMethods[method] = <span class="function"><span class="keyword">function</span> (<span class="params">...args</span>) </span>&#123;</span><br><span class="line">    <span class="comment">//   这里保留原型方法的执行结果</span></span><br><span class="line">    <span class="keyword">const</span> result = arrayProto[method].apply(<span class="built_in">this</span>, args);</span><br><span class="line">    <span class="comment">// 这句话是关键</span></span><br><span class="line">    <span class="comment">// this代表的就是数据本身 比如数据是&#123;a:[1,2,3]&#125; 那么我们使用a.push(4)  this就是a  ob就是a.__ob__ 这个属性就是上段代码增加的 代表的是该数据已经被响应式观察过了指向Observer实例</span></span><br><span class="line">    <span class="keyword">const</span> ob = <span class="built_in">this</span>.__ob__;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 这里的标志就是代表数组有新增操作</span></span><br><span class="line">    <span class="keyword">let</span> inserted;</span><br><span class="line">    <span class="keyword">switch</span> (method) &#123;</span><br><span class="line">      <span class="keyword">case</span> <span class="string">&quot;push&quot;</span>:</span><br><span class="line">      <span class="keyword">case</span> <span class="string">&quot;unshift&quot;</span>:</span><br><span class="line">        inserted = args;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> <span class="string">&quot;splice&quot;</span>:</span><br><span class="line">        inserted = args.slice(<span class="number">2</span>);</span><br><span class="line">      <span class="keyword">default</span>:</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 如果有新增的元素 inserted是一个数组 调用Observer实例的observeArray对数组每一项进行观测</span></span><br><span class="line">    <span class="keyword">if</span> (inserted) ob.observeArray(inserted);</span><br><span class="line">    <span class="comment">// 之后咱们还可以在这里检测到数组改变了之后从而触发视图更新的操作--后续源码会揭晓</span></span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <h4 id="4-响应式数据的思维导图"><a href="#4-响应式数据的思维导图" class="headerlink" title="4.响应式数据的思维导图"></a>4.响应式数据的思维导图</h4><p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/96313216e0694b589b4584c9e109bb76~tplv-k3u1fbpfcp-watermark.awebp" alt="图片"></p>
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>至此Vue的响应式数据原理已经完结 大家可以看着思维导图自己动手写一遍核心代码哈 需要注意的是 里面对于this的引用很多 不同的环境this的指向不同 大家不要搞混淆  然后目前能实现的功能仅仅是对数据进行了响应式观测 但是对数据修改后怎么导致视图重新渲染 这块还需要结合Watcher和dep 采用观察者模式实现依赖收集和派发更新的过程</p>
-<blockquote>
-<p>如果觉得本文有帮助 记得<strong>点赞三连</strong>哦 十分感谢！</p>
-</blockquote>
-<h2 id="系列链接（后续都会更新完毕）"><a href="#系列链接（后续都会更新完毕）" class="headerlink" title="系列链接（后续都会更新完毕）"></a>系列链接（后续都会更新完毕）</h2><ul>
-<li><a target="_blank" rel="noopener" href="https://juejin.cn/post/6935344605424517128">手写 Vue2.0 源码（一）-响应式数据原理</a></li>
-<li><a target="_blank" rel="noopener" href="https://juejin.cn/post/6936024530016010276">手写 Vue2.0 源码（二）-模板编译原理</a></li>
-<li><a target="_blank" rel="noopener" href="https://juejin.cn/post/6937120983765483528">手写 Vue2.0 源码（三）-初始渲染原理</a></li>
-<li><a target="_blank" rel="noopener" href="https://juejin.cn/post/6938221715281575973">手写 Vue2.0 源码（四）-渲染更新原理</a></li>
-<li><a target="_blank" rel="noopener" href="https://juejin.cn/post/6939704519668432910">手写 Vue2.0 源码（五）-异步更新原理 </a></li>
-<li><a target="_blank" rel="noopener" href="https://juejin.cn/post/6953433215218483236">手写 Vue2.0 源码（六）-diff 算法原理</a></li>
-<li><a target="_blank" rel="noopener" href="https://juejin.cn/post/6951671158198501383">手写 Vue2.0 源码（七）-Mixin 混入原理</a></li>
-<li><a target="_blank" rel="noopener" href="https://juejin.cn/post/6954173708344770591">手写 Vue2.0 源码（八）-组件原理</a></li>
-<li><a target="_blank" rel="noopener" href="https://juejin.cn/post/6954925963226382367">手写 Vue2.0 源码（九）-侦听属性原理</a></li>
-<li><a target="_blank" rel="noopener" href="https://juejin.cn/post/6956407362085191717">手写 Vue2.0 源码（十）-计算属性原理</a></li>
-<li><a target="_blank" rel="noopener" href="https://juejin.cn/post/6959016804349902884">手写 Vue2.0 源码（十一）-全局 api 原理</a></li>
-<li><a target="_blank" rel="noopener" href="https://juejin.cn/post/6961222829979697165">最全的 Vue 面试题+详解答案</a></li>
-<li><a href="https://link.juejin.cn/?target=">手写 vue-router 源码</a></li>
-<li><a href="https://link.juejin.cn/?target=">手写 vuex 源码</a></li>
-<li><a href="https://link.juejin.cn/?target=">手写 vue3.0 源码</a></li>
-</ul>
 
       
     </div>
     <footer class="article-footer">
-      <!-- <a data-url="http://blog.wangxinwei.cn/2021/12/20/%E6%89%8B%E5%86%99vue2-0%E6%BA%90%E7%A0%81%E4%B9%8B%E5%93%8D%E5%BA%94%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%8E%9F%E7%90%86/" data-id="cl769pp88000oz0tl37fn6j6r" class="article-share-link">
+      <!-- <a data-url="http://wxwgd.com/2021/12/20/%E6%89%8B%E5%86%99vue2-0%E6%BA%90%E7%A0%81%E4%B9%8B%E5%93%8D%E5%BA%94%E5%BC%8F%E6%95%B0%E6%8D%AE%E5%8E%9F%E7%90%86/" data-id="cl77ntzo1000epgtl5wwphd91" class="article-share-link">
         分享
       </a> -->
       
         <div style="text-align:center;color: #ccc;font-size:14px;">------------- 本文&nbsp;<i class="fe fe-smile"></i>&nbsp; 结束 -------------</div>
       
       
+<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue/" rel="tag">Vue</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%BA%90%E7%A0%81/" rel="tag">源码</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag">面试</a></li></ul>
+
     </footer>
 
   </div>
@@ -162,11 +140,11 @@
   
 <nav class="article-nav">
   
-  <a href="/2021/12/23/%E6%89%8B%E5%86%99promise%E8%AF%A6%E8%A7%A3/" class="article-nav-link">
+  <a href="/2021/12/23/%E6%89%8B%E5%86%99promise/" class="article-nav-link">
     <strong class="article-nav-caption">前一篇</strong>
     <div class="article-nav-title">
       
-      手写promise详解
+      手写promise
       
     </div>
   </a>
@@ -232,6 +210,14 @@
     </li>
     
     <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
       <a class="nav-item-link" href="/archives">归档</a>
     </li>
     
@@ -241,14 +227,6 @@
     
     <li class="nav-item">
       <a class="nav-item-link" href="/about">关于</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/categories">分类</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/tags">标签</a>
     </li>
     
     <li class="nav-item">
