@@ -1,6 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>JavaScript深浅拷贝</title>
+    <url>/2022/08/24/%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D/</url>
+    <content><![CDATA[<p><img src="https://cdn.wangxinwei.cn/image-20220824101631144.png" alt="image-20220824101631144"></p>
+<span id="more"></span>
+
+<h2 id="1、浅拷贝"><a href="#1、浅拷贝" class="headerlink" title="1、浅拷贝"></a>1、浅拷贝</h2><p>定义：浅拷贝是创建一个新对象，这个对象有着原始对象属性值的一份精确拷贝。如果属性是基本类型，拷贝的就是基本类型的值，如果属性是引用类型，拷贝的就是内存地址 ，所以<strong>如果其中一个对象改变了这个地址，就会影响到另一个对象</strong>。</p>
+<p><strong>实现方式：</strong></p>
+<p><strong>第一种：引用复制</strong></p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">shallowClone</span>(<span class="params">target</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 只拷贝对象</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> target !== <span class="string">&#x27;object&#x27;</span>) <span class="keyword">return</span>;</span><br><span class="line">    <span class="comment">// 根据obj的类型判断是新建一个数组还是对象</span></span><br><span class="line">    <span class="keyword">var</span> newObj = target <span class="keyword">instanceof</span> <span class="built_in">Array</span> ? [] : &#123;&#125;;</span><br><span class="line">    <span class="comment">// 遍历obj，并且判断是obj的属性才拷贝</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> key <span class="keyword">in</span> target) &#123;</span><br><span class="line">        <span class="keyword">if</span> (target.hasOwnProperty(key)) &#123;</span><br><span class="line">            newObj[key] = target[key];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> newObj;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>第二种：<code>object.assgin()</code></strong></p>
+<p><code>Object.assign() </code>方法可以把任意多个的源对象自身的可枚举属性拷贝给目标对象，然后返回目标对象。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> obj1 = &#123; <span class="attr">person</span>: &#123;<span class="attr">name</span>: <span class="string">&quot;张三&quot;</span>, <span class="attr">age</span>: <span class="number">18</span>&#125;,<span class="attr">job</span>:<span class="string">&#x27;web&#x27;</span> &#125;;</span><br><span class="line"><span class="keyword">let</span> obj2 = <span class="built_in">Object</span>.assign(&#123;&#125;, obj1);</span><br></pre></td></tr></table></figure>
+
+<p><strong>第三种：展开运算符…</strong></p>
+<p>展开运算符是一个 <code> es6</code> 特性，它提供了一种非常方便的方式来执行浅拷贝，这与  <code>Object.assign ()</code> 的功能相同。</p>
+<p>提示：<code>...</code> 实现的是对象第一层的深拷贝。后面的只是拷贝的引用值。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> obj1 = &#123; <span class="attr">person</span>: &#123;<span class="attr">name</span>: <span class="string">&quot;张三&quot;</span>, <span class="attr">age</span>: <span class="number">18</span>&#125;,<span class="attr">job</span>:<span class="string">&#x27;web&#x27;</span> &#125;;</span><br><span class="line"><span class="keyword">let</span> obj2 = &#123;...obj1&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><strong>第四种：<code>Array.prototype.concat()</code></strong></p>
+<p>提示：<code>concat</code>只是对数组的第一层进行深拷贝</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> arr = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,&#123;<span class="attr">name</span>:<span class="string">&#x27;zhangsan&#x27;</span>&#125;]</span><br><span class="line"><span class="keyword">let</span> arr2 = arr.concat()</span><br></pre></td></tr></table></figure>
+
+<p><strong>第五种：<code>Array.prototype.slice()</code></strong></p>
+<p>提示：<code>slice</code> 只是对数组的第一层进行深拷贝</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> arr = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,&#123;<span class="attr">name</span>:<span class="string">&#x27;zhangsan&#x27;</span>&#125;]</span><br><span class="line"><span class="keyword">let</span> arr2 = arr.slice()</span><br></pre></td></tr></table></figure>
+
+<h2 id="2、深拷贝"><a href="#2、深拷贝" class="headerlink" title="2、深拷贝"></a>2、深拷贝</h2><p>定义：深拷贝是将一个对象从内存中完整的拷贝一份出来,从堆内存中开辟一个新的区域存放新对象,且<strong>修改新对象不会影响原对象</strong>。</p>
+<p><strong>实现方式：</strong></p>
+<p><strong>第一种：最简单的方法</strong></p>
+<p>缺陷：undefined、function、symbol会在转换的过程中被忽略</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> cloneArray = <span class="built_in">JSON</span>.parse(<span class="built_in">JSON</span>.stringify(originArray)</span><br></pre></td></tr></table></figure>
+
+<p><strong>第二种：递归拷贝</strong></p>
+<p>缺陷：无法解决循环引用的问题</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">deepClone</span>(<span class="params">target</span>)</span>&#123;</span><br><span class="line"> 	<span class="keyword">if</span>(<span class="keyword">typeof</span> target !== <span class="string">&#x27;object&#x27;</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> target</span><br><span class="line">    &#125;   </span><br><span class="line">    <span class="keyword">const</span> cloneTarget = <span class="built_in">Array</span>.isArray(target) ? [] : &#123;&#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">const</span> key <span class="keyword">in</span> target)&#123;</span><br><span class="line">        cloneTarget[key] = deepClone(target[key])</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> cloneTarget</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>第三种：解决循环引用的问题</strong></p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">deepClone</span>(<span class="params">source, hash = <span class="keyword">new</span> <span class="built_in">WeakMap</span>()</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> source !== <span class="string">&#x27;object&#x27;</span> || source === <span class="literal">null</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> source;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (hash.has(source)) &#123;</span><br><span class="line">    <span class="keyword">return</span> hash.get(source);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> target = <span class="built_in">Array</span>.isArray(source) ? [] : &#123;&#125;;</span><br><span class="line">  <span class="built_in">Reflect</span>.ownKeys(source).forEach(<span class="function"><span class="params">key</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> val = source[key];</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> val === <span class="string">&#x27;object&#x27;</span> &amp;&amp; val != <span class="literal">null</span>) &#123;</span><br><span class="line">      target[key] = deepClone(val, hash);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      target[key] = val;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="keyword">return</span> target;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="3、总结"><a href="#3、总结" class="headerlink" title="3、总结"></a>3、总结</h2><h3 id="3-1赋值和深浅拷贝的区别"><a href="#3-1赋值和深浅拷贝的区别" class="headerlink" title="3.1赋值和深浅拷贝的区别"></a>3.1赋值和深浅拷贝的区别</h3><ul>
+<li>当我们把一个对象赋值给一个新的变量时，赋的其实是该对象在栈中的地址，而不是堆中的数据。也就是两个对象指向的是同一个存储空间，无论哪个对象发生改变，其实都是改变的存储空间的内容，因此两个对象是联动的</li>
+<li>浅拷贝：重新在堆中创建内存，拷贝前后对象的基本数据类型互不影响，但拷贝前后对象的引用类型因共享一块内存，会互相影响</li>
+<li>深拷贝：从堆内存中开辟一个新的区域存放新对象，对对象的子对象进行递归拷贝，拷贝前后的两个对象互不影响</li>
+</ul>
+<h3 id="3-2用哪个方法好？"><a href="#3-2用哪个方法好？" class="headerlink" title="3.2用哪个方法好？"></a>3.2用哪个方法好？</h3><p>其实每个方法都有自己的优点和缺点，以及适用场景，在不同的场景使用不同的方法才是最佳实践。另外上述的一些方法并没有考虑太多数据类型，比如<code>date、map、regexp</code>等，可以只作为参考，完整方法可以使用一些工具库，比如<code>lodash</code></p>
+]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>面试题</tag>
+        <tag>JavaScript</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>原型和继承</title>
     <url>/2022/08/22/%E5%8E%9F%E5%9E%8B%E5%92%8C%E7%BB%A7%E6%89%BF/</url>
     <content><![CDATA[<p><img src="https://cdn.wangxinwei.cn/qiniuimg/image-20220824214749701.png" alt="image-20220824214749701"></p>
@@ -159,219 +215,6 @@
       </tags>
   </entry>
   <entry>
-    <title>前端面试之浏览器</title>
-    <url>/2021/12/20/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95%E4%B9%8B%E6%B5%8F%E8%A7%88%E5%99%A8/</url>
-    <content><![CDATA[<h3 id="1-从输入url到页面加载完成，经历了什么？"><a href="#1-从输入url到页面加载完成，经历了什么？" class="headerlink" title="1. 从输入url到页面加载完成，经历了什么？"></a>1. 从输入url到页面加载完成，经历了什么？</h3><span id="more"></span>
-
-<ul>
-<li>浏览器从url中解析出服务器的主机名 如: <code>www.xxx.com</code></li>
-<li>浏览器将服务器的主机名转换成ip地址：DNS解析</li>
-<li>浏览器与web服务器建立起一条tcp连接 ：三次握手</li>
-<li>浏览器向web服务器发送一条http请求报文</li>
-<li>web服务器向浏览器回送一条http响应报文，返回用户所需的资源</li>
-<li>关闭tcp连接 ：四次挥手</li>
-<li>浏览器解析web服务器返回的资源（html,css,javascript等） 构建DOM树、CSSOM树 、渲染树</li>
-<li>浏览器绘制页面，页面展示</li>
-</ul>
-<h3 id="2-回流和重绘"><a href="#2-回流和重绘" class="headerlink" title="2. 回流和重绘"></a>2. 回流和重绘</h3><ul>
-<li><p>定义：</p>
-<p>回流：当DOM更改浏览器必须重新处理和绘制部分或全部页面时，就会产生回流 –&gt;比如元素的宽高发生变化</p>
-<p>重绘：当DOM更改浏览器不需要重新绘制部分或全部页面时，产生重绘  –&gt;比如元素的背景色发生变化</p>
-<p>由此可得：重绘不一定导致回流，但是回流一定会导致重绘</p>
-</li>
-<li><p>怎样避免回流或重绘？</p>
-<p>要避免回流或者重绘，最直接的方法就是避免引发回流和重绘的DOM操作</p>
-</li>
-<li><p>触发条件：</p>
-<p>重绘：不触发回流，但是又会改变DOM，都会触发重绘，比如background、color、visibility:hidden等（要区分与display:none的差别</p>
-<p>visibility:hidden虽然被隐藏，但是仍然占据着页面上的空间，display:none被隐藏不会占据页面上的空间）</p>
-<p>回流：改变DOM的几何属性，如：width、height、margin、padding等都会触发回流</p>
-</li>
-<li><p>如何减少回流和重绘？</p>
-<p>原因：频繁的回流和重绘会导致浏览器卡顿和掉帧，所以需要减少回流和重绘的情况</p>
-<p>解决办法：</p>
-<ol>
-<li>避免逐项更改样式，最好一次性更改style属性</li>
-<li>避免循环操作DOM，可以使用文档碎片（documentFragment）</li>
-<li>避免循环读取offsetLeft等属性</li>
-<li>避免使用table布局（很小的操作可能会导致整体重新布局）</li>
-<li>减少使用display:none,可以使用visibility:hidden替代</li>
-</ol>
-</li>
-</ul>
-<h3 id="3-localStorage、sessionStorage与cookie的区别"><a href="#3-localStorage、sessionStorage与cookie的区别" class="headerlink" title="3.localStorage、sessionStorage与cookie的区别"></a>3.localStorage、sessionStorage与cookie的区别</h3><p>共同点：</p>
-<ul>
-<li>都保存在浏览器端并且同源</li>
-</ul>
-<p>不同点：</p>
-<ul>
-<li>大小不同：cookie数据不能超过4K，webStorage可以达到5M</li>
-<li>有效期不同：cookie在设置的过期时间之前一直有效，即使浏览器被关闭，localstroage永久有效，sessionStorage仅在浏览器窗口关闭前有效</li>
-<li>作用域不同：不同浏览器不能共享localstorage和sessionStorage 不同会话不共享sessionStorage</li>
-<li>cookie存储内容会随着请求发送到服务器 webStorage不会被发送到服务器</li>
-<li>webStorage支持事件通知机制，cookie则不支持</li>
-<li>webStorage自带API接口，cookie没有</li>
-</ul>
-<p>优缺点：</p>
-<p>webStorage存储空间更大，可以达到5M，操作更方便，有专门的api可以调用，且更安全，cookie存储空间较小，没有单独的api可以调用，需要自己封装，不太方便，且cookie会在http请求中携带，可能会被修改或截取</p>
-<h3 id="4-同源策略和跨域"><a href="#4-同源策略和跨域" class="headerlink" title="4.同源策略和跨域"></a>4.同源策略和跨域</h3><p>同源策略：同源策略指两个地址协议、域名、端口三者必须相同</p>
-<p>跨域：如果两个地址不同源就会导致跨域，跨域是指一个域去请求另一个域下的资源</p>
-<p>为什么要使用同源策略？</p>
-<p><strong>同源策略</strong>是一个重要的安全策略，它用于限制一个origin的文档或者它加载的脚本如何能与另一个源的资源进行交互。它能帮助阻隔恶意文档，减少可能被攻击的媒介。</p>
-<p>常用跨域解决方案：</p>
-<ul>
-<li>CORS 跨域资源共享</li>
-<li>Nginx 代理</li>
-<li>Jsonp （有缺陷，只能使用get请求）</li>
-</ul>
-<h3 id="5-浏览器缓存机制"><a href="#5-浏览器缓存机制" class="headerlink" title="5. 浏览器缓存机制"></a>5. 浏览器缓存机制</h3><ul>
-<li><p>什么是缓存？</p>
-<p>当第一个请求资源完成后，根据相应的缓存机制，将一些静态资源存储在本地磁盘当中，这样下次请求资源的时候，浏览器直接从本地缓存中读取文件，不需要再次发送请求。这样可以减少了网络延迟，加快了页面响应速度，增强了用户体验；减少了网络带宽消耗；减轻了服务器的压力。</p>
-</li>
-<li><p>缓存类型：</p>
-<ol>
-<li>强缓存 – 不会向服务器发送请求，直接从缓存中读取资源</li>
-<li>协商缓存 – 向服务器发送请求，服务器会根据这个请求的request header的一些参数来判断是否需要重新请求数据</li>
-</ol>
-</li>
-<li><p>如何使用和注意点：</p>
-<ul>
-<li><p>对于频繁变动的资源需要使用Cache-Control: no-cache使浏览器每次都请求服务器</p>
-</li>
-<li><p>不常变动的资源，给它的 Cache-Control 配置一个很大的 max-age=31536000 (一年)，这样浏览器之后请求相同的 URL 会命中强缓存。而为了解决更新的问题，就需要在文件名中添加 hash，之后更改hash，从而达到更改请求路径的目的。</p>
-</li>
-<li><p>html文件不要设置强缓存</p>
-</li>
-<li><p>CSS、JS、图片等资源，可以设置一个长时间的强缓存。更改文件的时候，配合hash值，这样一旦文件发生了改变，那么浏览器直接去请求新的资源，在文件不变动的情况下，直接使用本地缓存，不去向浏览器请求。</p>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="6-SEO优化"><a href="#6-SEO优化" class="headerlink" title="6. SEO优化"></a>6. SEO优化</h3><ul>
-<li><p>减少http请求，合理设置http缓存</p>
-<p>http协议是无状态的应用层协议，意味着每次http请求都需要建立通信链路、进行数据传输，而在服务器端，每个http都需要启动独立的线程去处理。这些通信和服务的开销都很昂贵，减少http请求的数目可有效提高访问性能。</p>
-<p>缓存参考上文浏览器缓存机制</p>
-</li>
-<li><p>使用gzip压缩</p>
-<p>在服务器端对文件进行压缩，在浏览器端对文件解压缩，可有效减少通信传输的数据量。如果可以的话，尽可能的将外部的脚本、样式进行合并，多个合为一个。文本文件的压缩效率可达到80%以上，因此HTML、CSS、javascript文件启用GZip压缩可达到较好的效果。但是压缩对服务器和浏览器产生一定的压力，在通信带宽良好，而服务器资源不足的情况下要权衡考虑。</p>
-</li>
-<li><p>使用雪碧图</p>
-<p>合并 CSS图片，减少请求数</p>
-</li>
-<li><p>css放在页面的最上方，js放在页面的最下方</p>
-<p>浏览器会在下载完成全部CSS之后才对整个页面进行渲染，因此最好的做法是将CSS放在页面最上面，让浏览器尽快下载CSS。如果将 CSS放在其他地方比如 BODY中，则浏览器有可能还未下载和解析到 CSS就已经开始渲染页面了，这就导致页面由无 CSS状态跳转到 CSS状态，用户体验比较糟糕，所以可以考虑将CSS放在HEAD中。</p>
-<p>Javascript则相反，浏览器在加载javascript后立即执行，有可能会阻塞整个页面，造成页面显示缓慢，因此javascript最好放在页面最下面。但如果页面解析时就需要用到javascript，这时放到底部就不合适了。</p>
-</li>
-<li><p>减少使用cookie</p>
-<p>一方面，cookie包含在每次请求和响应中，太大的cookie会严重影响数据传输，因此哪些数据需要写入cookie需要慎重考虑，尽量减少cookie中传输的数据量。另一方面，对于某些静态资源的访问，如CSS、script等，发送cookie没有意义，可以考虑静态资源使用独立域名访问，避免请求静态资源时发送cookie，减少cookie传输次数。</p>
-</li>
-<li><p>网站结构尽量简单</p>
-<p>减少代码的层级，有利于搜索引擎优化和爬虫的爬取</p>
-</li>
-<li><p>使用语义化的标签</p>
-<p>对于各种不同的内容尽量使用不同的标签，如：p、h1、main、nav等，不要所有内容都使用div容器，排版清晰，img标签添加alt和title属性，br标签只在文本内换行时使用等</p>
-</li>
-<li><p>控制页面的文件大小</p>
-<p>页面太大会导致加载速度较慢，用户体验较差</p>
-</li>
-<li><p>给网站添加正确的description描述以及keywords关键字</p>
-</li>
-</ul>
-<h3 id="7-事件机制"><a href="#7-事件机制" class="headerlink" title="7. 事件机制"></a>7. 事件机制</h3><ul>
-<li><p>事件触发的三个阶段</p>
-<ol>
-<li><p>捕获阶段： 事件对象(event object) 从 window 派发到 目标对象父级的过程。</p>
-</li>
-<li><p>触发阶段：事件对象派发到目标元素时的阶段，如果事件类型指示其不冒泡，那事件传播将在此阶段终止。</p>
-</li>
-<li><p>冒泡阶段：和捕获相反，是以目标对象父级到 window 的过程。</p>
-<p>注意：在任一阶段调用 <code>stopPropagation</code>都将终止本次事件的传播。</p>
-</li>
-</ol>
-</li>
-<li><p>阻止冒泡和默认事件</p>
-<p>阻止冒泡：调用 <code>stopPropagation</code> 严格来说不是阻止冒泡，是阻止事件传播，捕获阶段也可以直接阻止。</p>
-<p>组织默认事件：调用 <code>preventDefault </code>则是阻止默认事件。</p>
-</li>
-</ul>
-<h3 id="8-web安全"><a href="#8-web安全" class="headerlink" title="8. web安全"></a>8. web安全</h3><ul>
-<li><p>XSS攻击</p>
-<p>定义：跨站脚本攻击，因为缩写和 CSS重叠，所以只能叫 XSS。跨站脚本攻击是指通过存在安全漏洞的Web网站注册用户的浏览器内运行非法的HTML标签或JavaScript进行的一种攻击。</p>
-<p>原理：XSS 的原理是恶意攻击者往 Web 页面里插入恶意可执行网页脚本代码，当用户浏览该页之时，嵌入其中 Web 里面的脚本代码会被执行，从而可以达到攻击者盗取用户信息或其他侵犯用户安全隐私的目的。</p>
-<p>危害：利用虚假的输入表单骗取用户个人信息等</p>
-<p>如何处理：</p>
-<ul>
-<li>Web应用程序在设置cookie时，将其属性设为HttpOnly，就可以避免该网页的cookie被客户端恶意JavaScript窃取，保护用户cookie信息。</li>
-<li>转义输入输入的内容，对引号、尖括号、斜杠进行转义</li>
-</ul>
-</li>
-<li><p>CSRF攻击</p>
-<p>定义：即跨站请求伪造，是一种常见的Web攻击，它利用用户已登录的身份，在用户毫不知情的情况下，以用户的名义完成非法操作。</p>
-<p>原理：登录受信任的网站A，并在本地生成Cookie，在不登出A的情况下，访问危险网站B</p>
-<p>危害：泄露个人隐私，盗用个人账号，侵犯你的财产安全等</p>
-<p>如何处理：</p>
-<ul>
-<li>组织第三方网站请求接口</li>
-<li>请求时附带验证信息，token，session等</li>
-<li>get请求不对数据进行修改</li>
-<li>不让第三方网站访问到用户的cookie</li>
-</ul>
-</li>
-<li><p>SQL注入</p>
-<p>定义：SQL注入是一种常见的Web安全漏洞，攻击者利用这个漏洞，可以访问或修改数据，或者利用潜在的数据库漏洞进行攻击。</p>
-<p>危害：获取数据库的信息，后台管理员的账号和密码，或用户的敏感信息等</p>
-<p>如何处理：</p>
-<ul>
-<li>严格限制web应用的数据库操作权限</li>
-<li>后端代码检查输入的数据是否合格</li>
-<li>对进入数据库的特殊字符进行转义或编码处理</li>
-<li>所有的查询语句建议使用数据库提供的参数化查询接口</li>
-</ul>
-</li>
-</ul>
-<p>注意：这里仅仅是对web安全进行简单说明，还有很多其他的攻击方式，可以自行搜索</p>
-]]></content>
-      <categories>
-        <category>浏览器</category>
-      </categories>
-      <tags>
-        <tag>浏览器</tag>
-        <tag>面试</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>JavaScript 垃圾回收机制</title>
-    <url>/2021/12/02/JavaScript%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/</url>
-    <content><![CDATA[<p><strong>垃圾回收有两种方式，即标记清理和引用计数</strong></p>
-<span id="more"></span>
-
-<p>标记清理：</p>
-<p>JavaScript最常用的垃圾回收策略是标记清理，垃圾回收程序运行的时候，会标记内存中存储的所有的变量（标记方法多种），然后他会将所有在上下文中的变量以及被在上下文中的变量引用的变量的标记去掉。再次之后再被加上标记的变量就是待删除的了，因为在上下文中的变量都访问不到它了，随后垃圾回收程序做一次内存清理，销毁带标记的所有值并收回它们的内存。</p>
-<p>引用计数：</p>
-<p>另外一种不太常用的策略就是引用计数，思路是对每个值都记录他被引用的次数，声明变量并给他赋一个引用值时，这个值的引用数为1，如果同一个值又被赋值给另一个变量，那么引用次数加1，如果保存对该值引用的变量被其他值覆盖了，那么引用数减1，当一个值的引用数为0时，就说明没办法在访问这个值了，就可以安全的收回该内存了，垃圾回收程序下次运行的时候就会释放引用数为0的值的内存</p>
-<p>引用计数存在的问题：</p>
-<p>如下：对象A中有一个指针指向对象B，对象B也引用了对象A。</p>
-<p> 在引用计数策略下，  对象A 和 对象B 在函数结束后还会存在，因为它们的引用数永远不会变成 0。如果函数被多次调 用，则会导致大量内存永远不会被释放。 而使用标记清理则不会出现这种问题</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">problem</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"> <span class="keyword">let</span> objectA = <span class="keyword">new</span> <span class="built_in">Object</span>();</span><br><span class="line"> <span class="keyword">let</span> objectB = <span class="keyword">new</span> <span class="built_in">Object</span>();</span><br><span class="line"> objectA.someOtherObject = objectB;</span><br><span class="line"> objectB.anotherObject = objectA;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
-
-<p>第二个例子：</p>
-<p>在 IE8 及更早版本的 IE 中，并非所有对象都是原生 JavaScript 对象。BOM 和 DOM 中的对象是 C++ 实现的组件对象模型（COM，Component Object Model）对象，而 COM 对象使用引用计数实现垃圾回 收。因此，即使这些版本 IE 的 JavaScript 引擎使用标记清理，JavaScript 存取的 COM 对象依旧使用引用 计数。换句话说，只要涉及 COM 对象，就无法避开循环引用问题。下面这个简单的例子展示了涉及 COM 对象的循环引用问题： </p>
-<p>这个例子在一个 DOM 对象（element）和一个原生 JavaScript 对象（myObject）之间制造了循环 引用。myObject 变量有一个名为 element 的属性指向 DOM 对象 element，而 element 对象有一个 someObject 属性指回 myObject 对象。由于存在循环引用，因此 DOM 元素的内存永远不会被回收， 即使它已经被从页面上删除了也是如此。 </p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> element = <span class="built_in">document</span>.getElementById(<span class="string">&quot;some_element&quot;</span>);</span><br><span class="line"><span class="keyword">let</span> myObject = <span class="keyword">new</span> <span class="built_in">Object</span>();</span><br><span class="line">myObject.element = element;</span><br><span class="line">element.someObject = myObject; </span><br></pre></td></tr></table></figure>
-
-<p>为避免类似的循环引用问题，应该在确保不使用的情况下切断原生 JavaScript 对象与 DOM 元素之 间的连接。比如，通过以下代码可以清除前面的例子中建立的循环引用： </p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">myObject.element = null;</span><br><span class="line">element.someObject = null; </span><br></pre></td></tr></table></figure>
-
-<p>把变量设置为 null 实际上会切断变量与其之前引用值之间的关系。当下次垃圾回收程序运行时， 这些值就会被删除，内存也会被回收。 为了补救这一点，IE9 把 BOM 和 DOM 对象都改成了 JavaScript 对象，这同时也避免了由于存在两 套垃圾回收算法而导致的问题，还消除了常见的内存泄漏现象。 </p>
-]]></content>
-      <categories>
-        <category>JavaScript</category>
-      </categories>
-      <tags>
-        <tag>JavaScript</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>手写promise</title>
     <url>/2021/12/23/%E6%89%8B%E5%86%99promise/</url>
     <content><![CDATA[<img src="https://cdn.wangxinwei.cn/image-20220824142803593.png" alt="image-20220824142803593" style="zoom: 200%;" />
@@ -418,46 +261,6 @@
       <tags>
         <tag>JavaScript</tag>
         <tag>Promise</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>常见前端面试手写题</title>
-    <url>/2021/12/19/%E5%B8%B8%E8%A7%81%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95%E6%89%8B%E5%86%99%E9%A2%98/</url>
-    <content><![CDATA[<h2 id="面试常问"><a href="#面试常问" class="headerlink" title="面试常问"></a>面试常问</h2><span id="more"></span>
-
-<h3 id="1-手写ajax"><a href="#1-手写ajax" class="headerlink" title="1. 手写ajax"></a>1. 手写ajax</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> ajax = &#123;</span><br><span class="line">    <span class="function"><span class="title">get</span>(<span class="params">url, callback</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> xhr = <span class="keyword">new</span> XMLHttpRequest()</span><br><span class="line">        <span class="comment">//第三个表示是否异步执行操作，默认为true   </span></span><br><span class="line">        <span class="comment">//完整参数为 xhr.open(method, url, async, user, password); 具体解释可以查看 MDN</span></span><br><span class="line">        xhr.open(<span class="string">&#x27;GET&#x27;</span>, url, <span class="literal">true</span>)</span><br><span class="line">        xhr.onreadystatechange = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="comment">// readyState == 4说明请求已完成</span></span><br><span class="line">            <span class="keyword">if</span> (xhr.readyState === <span class="number">4</span>) &#123;</span><br><span class="line">                callback(xhr.responeText)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        xhr.send()</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="function"><span class="title">post</span>(<span class="params">url, data, callback</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> xhr = <span class="keyword">new</span> XMLHttpRequest()</span><br><span class="line">        xhr.open(<span class="string">&#x27;POST&#x27;</span>, url, <span class="literal">true</span>)</span><br><span class="line">        xhr.setRequestHeader(<span class="string">&#x27;Content-type&#x27;</span>,<span class="string">&#x27;application/x-www-form-urlencoded&#x27;</span>)</span><br><span class="line">        xhr.onreadystatechange = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (xhr.readyState === <span class="number">4</span>) &#123;</span><br><span class="line">                callback(xhr.responeText)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        xhr.send(data)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="2-函数防抖"><a href="#2-函数防抖" class="headerlink" title="2. 函数防抖"></a>2. 函数防抖</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123; function &#125;</span> <span class="variable">func</span></span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123; number &#125;</span> </span>wait 延迟执行毫秒数</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123; boolean &#125;</span> </span>immediate  true 表立即执行，false 表非立即执行</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="title">debounce</span>(<span class="params">func,wait,immediate</span>)</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> timeout;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">let</span> context = <span class="built_in">this</span>;</span><br><span class="line">        <span class="keyword">let</span> args = <span class="built_in">arguments</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (timeout) <span class="built_in">clearTimeout</span>(timeout);</span><br><span class="line">        <span class="keyword">if</span> (immediate) &#123;</span><br><span class="line">            <span class="keyword">let</span> callNow = !timeout;</span><br><span class="line">            timeout = <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">                timeout = <span class="literal">null</span>;</span><br><span class="line">            &#125;, wait);</span><br><span class="line">            <span class="keyword">if</span> (callNow) func.apply(context, args)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            timeout = <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">                func.apply(context, args)</span><br><span class="line">            &#125;, wait);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="3-函数节流"><a href="#3-函数节流" class="headerlink" title="3. 函数节流"></a>3. 函数节流</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123; function &#125;</span> </span>func 函数</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123; number &#125;</span> </span>wait 延迟执行毫秒数</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123; number &#125;</span> </span>type 1 表时间戳版，2 表定时器版</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="title">throttle</span>(<span class="params">func, wait ,type</span>)</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> previous, timeout;</span><br><span class="line">    <span class="keyword">if</span>(type===<span class="number">1</span>)&#123;</span><br><span class="line">        previous = <span class="number">0</span>;</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(type===<span class="number">2</span>)&#123;</span><br><span class="line">        timeout = <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">let</span> context = <span class="built_in">this</span>;</span><br><span class="line">        <span class="keyword">let</span> args = <span class="built_in">arguments</span>;</span><br><span class="line">        <span class="keyword">if</span>(type===<span class="number">1</span>)&#123;</span><br><span class="line">            <span class="keyword">let</span> now = <span class="built_in">Date</span>.now();</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (now - previous &gt; wait) &#123;</span><br><span class="line">                func.apply(context, args);</span><br><span class="line">                previous = now;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(type===<span class="number">2</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span> (!timeout) &#123;</span><br><span class="line">                timeout = <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">                    timeout = <span class="literal">null</span>;</span><br><span class="line">                    func.apply(context, args)</span><br><span class="line">                &#125;, wait)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="4-数组去重"><a href="#4-数组去重" class="headerlink" title="4. 数组去重"></a>4. 数组去重</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//除了该方法 还有很多方法可以实现数组去重 如：ES6的Set/递归去重等等</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">unique</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> newArr = []</span><br><span class="line">    arr.reduce(<span class="function">(<span class="params">pre, next</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (!pre[next]) &#123;</span><br><span class="line">            pre[next] = <span class="number">1</span></span><br><span class="line">            newArr.push(next)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> pre</span><br><span class="line">    &#125;, &#123;&#125;)</span><br><span class="line">    <span class="keyword">return</span> newArr</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="5-数组扁平化"><a href="#5-数组扁平化" class="headerlink" title="5. 数组扁平化"></a>5. 数组扁平化</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="title">flatten</span>(<span class="params">arr</span>)</span> &#123;</span><br><span class="line">  <span class="keyword">var</span> result = [];</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>, len = arr.length; i &lt; len; i++) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">Array</span>.isArray(arr[i])) &#123;</span><br><span class="line">      result = result.concat(flatten(arr[i]))</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">      result.push(arr[i])</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//第二种</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">flatten</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> arr.reduce(<span class="function">(<span class="params">result, item</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> result.concat(<span class="built_in">Array</span>.isArray(item) ? flatten(item) : item);</span><br><span class="line">      &#125;, []);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="6-对象扁平化"><a href="#6-对象扁平化" class="headerlink" title="6. 对象扁平化"></a>6. 对象扁平化</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">flat</span>(<span class="params">obj, key = <span class="string">&quot;&quot;</span>, res = &#123;&#125;, isArray = <span class="literal">false</span></span>) </span>&#123;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">let</span> [k, v] <span class="keyword">of</span> <span class="built_in">Object</span>.entries(obj)) &#123;</span><br><span class="line">		<span class="keyword">if</span> (<span class="built_in">Array</span>.isArray(v)) &#123;</span><br><span class="line">			<span class="keyword">let</span> tmp = isArray ? key + <span class="string">&quot;[&quot;</span> + k + <span class="string">&quot;]&quot;</span> : key + k</span><br><span class="line">			flat(v, tmp, res, <span class="literal">true</span>)</span><br><span class="line">		&#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">typeof</span> v === <span class="string">&quot;object&quot;</span>) &#123;</span><br><span class="line">			<span class="keyword">let</span> tmp = isArray ? key + <span class="string">&quot;[&quot;</span> + k + <span class="string">&quot;].&quot;</span> : key + k + <span class="string">&quot;.&quot;</span></span><br><span class="line">			flat(v, tmp, res)</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="keyword">let</span> tmp = isArray ? key + <span class="string">&quot;[&quot;</span> + k + <span class="string">&quot;]&quot;</span> : key + k</span><br><span class="line">			res[tmp] = v</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> res</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="11-实现instanceof"><a href="#11-实现instanceof" class="headerlink" title="11.实现instanceof"></a>11.实现instanceof</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">myInstanceOf</span>(<span class="params">left, right</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> prototype = right.prototype;</span><br><span class="line">  left = left.__proto__;</span><br><span class="line">  <span class="keyword">while</span>(<span class="literal">true</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (!left) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">if</span> (left == prototype) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    left = left.__proto__;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="12-实现new"><a href="#12-实现new" class="headerlink" title="12. 实现new"></a>12. 实现new</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">myNew</span> (<span class="params">fun, ...args</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> obj = &#123;&#125;;</span><br><span class="line">  obj.__proto__ = fun.prototype;</span><br><span class="line">  <span class="keyword">let</span> res = fun.apply(obj, args);</span><br><span class="line">  <span class="keyword">return</span> res <span class="keyword">instanceof</span> <span class="built_in">Object</span> ? res : obj;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="13-函数柯里化"><a href="#13-函数柯里化" class="headerlink" title="13. 函数柯里化"></a>13. 函数柯里化</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">curry</span>(<span class="params">...args1</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> x = args1.reduce(<span class="function">(<span class="params">prev, next</span>) =&gt;</span> &#123;<span class="keyword">return</span> prev+next;&#125;)</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">...args2</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (args2.length == <span class="number">0</span>) <span class="keyword">return</span> x;</span><br><span class="line">    <span class="keyword">let</span> y = args2.reduce(<span class="function">(<span class="params">prev, next</span>) =&gt;</span> &#123;<span class="keyword">return</span> prev+next;&#125;)</span><br><span class="line">    <span class="keyword">return</span> curry(x+y)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="14-快速排序"><a href="#14-快速排序" class="headerlink" title="14. 快速排序"></a>14. 快速排序</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">quicksort</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (arr.length &lt;= <span class="number">1</span>) <span class="keyword">return</span> arr;</span><br><span class="line">  <span class="keyword">let</span> pivotIndex = arr.length &gt;&gt; <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">let</span> pivot = arr.splice(pivotIndex, <span class="number">1</span>)[<span class="number">0</span>];</span><br><span class="line">  <span class="keyword">let</span> left = [];</span><br><span class="line">  <span class="keyword">let</span> right = [];</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; arr.length; i++) &#123;</span><br><span class="line">    <span class="keyword">if</span> (arr[i] &lt;= pivot)  &#123;</span><br><span class="line">      left.push(arr[i]);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      right.push(arr[i]);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> quicksort(left).concat(pivot, quicksort(right));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="15-发布订阅者模式"><a href="#15-发布订阅者模式" class="headerlink" title="15. 发布订阅者模式"></a>15. 发布订阅者模式</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">EventEmitter</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="title">constructor</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.events = &#123;&#125;;</span><br><span class="line">  &#125;</span><br><span class="line">  on (eventName, callback) &#123;</span><br><span class="line">    <span class="keyword">if</span>(!<span class="built_in">this</span>.events[eventName]) &#123;</span><br><span class="line">      <span class="built_in">this</span>.events[eventName] = [callback];</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="built_in">this</span>.events[eventName].push(callback);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="title">emit</span>(<span class="params">eventName, ...args</span>)</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.events[eventName].forEach(<span class="function"><span class="params">fn</span> =&gt;</span> fn.apply(<span class="built_in">this</span>, args));</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="title">once</span>(<span class="params">eventName, callback</span>)</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> fn = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">      callback();</span><br><span class="line">      <span class="built_in">this</span>.remove(eventName, fn);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">this</span>.on(eventName, fn)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="title">remove</span>(<span class="params">eventName, callback</span>)</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.events[eventName] = <span class="built_in">this</span>.events[eventName].filter(<span class="function"><span class="params">fn</span> =&gt;</span> fn != callback);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="16-实现map方法"><a href="#16-实现map方法" class="headerlink" title="16. 实现map方法"></a>16. 实现map方法</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">Array</span>.prototype.myMap = <span class="function"><span class="keyword">function</span>(<span class="params">fn, thisValue</span>) </span>&#123;</span><br><span class="line">     <span class="keyword">let</span> res = []</span><br><span class="line">     thisValue = thisValue||[]</span><br><span class="line">     <span class="keyword">let</span> arr = <span class="built_in">this</span></span><br><span class="line">     <span class="keyword">for</span>(<span class="keyword">let</span> i <span class="keyword">in</span> arr) &#123;</span><br><span class="line">        res.push(fn(arr[i]))</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">return</span> res</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-
-
-
-]]></content>
-      <categories>
-        <category>JavaScript</category>
-      </categories>
-      <tags>
-        <tag>面试题</tag>
-        <tag>JavaScript</tag>
       </tags>
   </entry>
   <entry>
@@ -511,62 +314,6 @@
         <tag>面试</tag>
         <tag>Vue</tag>
         <tag>源码</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>JavaScript深浅拷贝</title>
-    <url>/2022/08/24/%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D/</url>
-    <content><![CDATA[<p><img src="https://cdn.wangxinwei.cn/image-20220824101631144.png" alt="image-20220824101631144"></p>
-<span id="more"></span>
-
-<h2 id="1、浅拷贝"><a href="#1、浅拷贝" class="headerlink" title="1、浅拷贝"></a>1、浅拷贝</h2><p>定义：浅拷贝是创建一个新对象，这个对象有着原始对象属性值的一份精确拷贝。如果属性是基本类型，拷贝的就是基本类型的值，如果属性是引用类型，拷贝的就是内存地址 ，所以<strong>如果其中一个对象改变了这个地址，就会影响到另一个对象</strong>。</p>
-<p><strong>实现方式：</strong></p>
-<p><strong>第一种：引用复制</strong></p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">shallowClone</span>(<span class="params">target</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 只拷贝对象</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> target !== <span class="string">&#x27;object&#x27;</span>) <span class="keyword">return</span>;</span><br><span class="line">    <span class="comment">// 根据obj的类型判断是新建一个数组还是对象</span></span><br><span class="line">    <span class="keyword">var</span> newObj = target <span class="keyword">instanceof</span> <span class="built_in">Array</span> ? [] : &#123;&#125;;</span><br><span class="line">    <span class="comment">// 遍历obj，并且判断是obj的属性才拷贝</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> key <span class="keyword">in</span> target) &#123;</span><br><span class="line">        <span class="keyword">if</span> (target.hasOwnProperty(key)) &#123;</span><br><span class="line">            newObj[key] = target[key];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> newObj;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>第二种：<code>object.assgin()</code></strong></p>
-<p><code>Object.assign() </code>方法可以把任意多个的源对象自身的可枚举属性拷贝给目标对象，然后返回目标对象。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> obj1 = &#123; <span class="attr">person</span>: &#123;<span class="attr">name</span>: <span class="string">&quot;张三&quot;</span>, <span class="attr">age</span>: <span class="number">18</span>&#125;,<span class="attr">job</span>:<span class="string">&#x27;web&#x27;</span> &#125;;</span><br><span class="line"><span class="keyword">let</span> obj2 = <span class="built_in">Object</span>.assign(&#123;&#125;, obj1);</span><br></pre></td></tr></table></figure>
-
-<p><strong>第三种：展开运算符…</strong></p>
-<p>展开运算符是一个 <code> es6</code> 特性，它提供了一种非常方便的方式来执行浅拷贝，这与  <code>Object.assign ()</code> 的功能相同。</p>
-<p>提示：<code>...</code> 实现的是对象第一层的深拷贝。后面的只是拷贝的引用值。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> obj1 = &#123; <span class="attr">person</span>: &#123;<span class="attr">name</span>: <span class="string">&quot;张三&quot;</span>, <span class="attr">age</span>: <span class="number">18</span>&#125;,<span class="attr">job</span>:<span class="string">&#x27;web&#x27;</span> &#125;;</span><br><span class="line"><span class="keyword">let</span> obj2 = &#123;...obj1&#125;;</span><br></pre></td></tr></table></figure>
-
-<p><strong>第四种：<code>Array.prototype.concat()</code></strong></p>
-<p>提示：<code>concat</code>只是对数组的第一层进行深拷贝</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> arr = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,&#123;<span class="attr">name</span>:<span class="string">&#x27;zhangsan&#x27;</span>&#125;]</span><br><span class="line"><span class="keyword">let</span> arr2 = arr.concat()</span><br></pre></td></tr></table></figure>
-
-<p><strong>第五种：<code>Array.prototype.slice()</code></strong></p>
-<p>提示：<code>slice</code> 只是对数组的第一层进行深拷贝</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> arr = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,&#123;<span class="attr">name</span>:<span class="string">&#x27;zhangsan&#x27;</span>&#125;]</span><br><span class="line"><span class="keyword">let</span> arr2 = arr.slice()</span><br></pre></td></tr></table></figure>
-
-<h2 id="2、深拷贝"><a href="#2、深拷贝" class="headerlink" title="2、深拷贝"></a>2、深拷贝</h2><p>定义：深拷贝是将一个对象从内存中完整的拷贝一份出来,从堆内存中开辟一个新的区域存放新对象,且<strong>修改新对象不会影响原对象</strong>。</p>
-<p><strong>实现方式：</strong></p>
-<p><strong>第一种：最简单的方法</strong></p>
-<p>缺陷：undefined、function、symbol会在转换的过程中被忽略</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> cloneArray = <span class="built_in">JSON</span>.parse(<span class="built_in">JSON</span>.stringify(originArray)</span><br></pre></td></tr></table></figure>
-
-<p><strong>第二种：递归拷贝</strong></p>
-<p>缺陷：无法解决循环引用的问题</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">deepClone</span>(<span class="params">target</span>)</span>&#123;</span><br><span class="line"> 	<span class="keyword">if</span>(<span class="keyword">typeof</span> target !== <span class="string">&#x27;object&#x27;</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> target</span><br><span class="line">    &#125;   </span><br><span class="line">    <span class="keyword">const</span> cloneTarget = <span class="built_in">Array</span>.isArray(target) ? [] : &#123;&#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">const</span> key <span class="keyword">in</span> target)&#123;</span><br><span class="line">        cloneTarget[key] = deepClone(target[key])</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> cloneTarget</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>第三种：解决循环引用的问题</strong></p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">deepClone</span>(<span class="params">source, hash = <span class="keyword">new</span> <span class="built_in">WeakMap</span>()</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> source !== <span class="string">&#x27;object&#x27;</span> || source === <span class="literal">null</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> source;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (hash.has(source)) &#123;</span><br><span class="line">    <span class="keyword">return</span> hash.get(source);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> target = <span class="built_in">Array</span>.isArray(source) ? [] : &#123;&#125;;</span><br><span class="line">  <span class="built_in">Reflect</span>.ownKeys(source).forEach(<span class="function"><span class="params">key</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> val = source[key];</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> val === <span class="string">&#x27;object&#x27;</span> &amp;&amp; val != <span class="literal">null</span>) &#123;</span><br><span class="line">      target[key] = deepClone(val, hash);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      target[key] = val;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="keyword">return</span> target;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="3、总结"><a href="#3、总结" class="headerlink" title="3、总结"></a>3、总结</h2><h3 id="3-1赋值和深浅拷贝的区别"><a href="#3-1赋值和深浅拷贝的区别" class="headerlink" title="3.1赋值和深浅拷贝的区别"></a>3.1赋值和深浅拷贝的区别</h3><ul>
-<li>当我们把一个对象赋值给一个新的变量时，赋的其实是该对象在栈中的地址，而不是堆中的数据。也就是两个对象指向的是同一个存储空间，无论哪个对象发生改变，其实都是改变的存储空间的内容，因此两个对象是联动的</li>
-<li>浅拷贝：重新在堆中创建内存，拷贝前后对象的基本数据类型互不影响，但拷贝前后对象的引用类型因共享一块内存，会互相影响</li>
-<li>深拷贝：从堆内存中开辟一个新的区域存放新对象，对对象的子对象进行递归拷贝，拷贝前后的两个对象互不影响</li>
-</ul>
-<h3 id="3-2用哪个方法好？"><a href="#3-2用哪个方法好？" class="headerlink" title="3.2用哪个方法好？"></a>3.2用哪个方法好？</h3><p>其实每个方法都有自己的优点和缺点，以及适用场景，在不同的场景使用不同的方法才是最佳实践。另外上述的一些方法并没有考虑太多数据类型，比如<code>date、map、regexp</code>等，可以只作为参考，完整方法可以使用一些工具库，比如<code>lodash</code></p>
-]]></content>
-      <categories>
-        <category>JavaScript</category>
-      </categories>
-      <tags>
-        <tag>面试题</tag>
-        <tag>JavaScript</tag>
       </tags>
   </entry>
   <entry>
@@ -967,6 +714,227 @@
       </tags>
   </entry>
   <entry>
+    <title>前端面试之浏览器</title>
+    <url>/2021/12/20/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95%E4%B9%8B%E6%B5%8F%E8%A7%88%E5%99%A8/</url>
+    <content><![CDATA[<h3 id="1-从输入url到页面加载完成，经历了什么？"><a href="#1-从输入url到页面加载完成，经历了什么？" class="headerlink" title="1. 从输入url到页面加载完成，经历了什么？"></a>1. 从输入url到页面加载完成，经历了什么？</h3><span id="more"></span>
+
+<ul>
+<li>浏览器从url中解析出服务器的主机名 如: <code>www.xxx.com</code></li>
+<li>浏览器将服务器的主机名转换成ip地址：DNS解析</li>
+<li>浏览器与web服务器建立起一条tcp连接 ：三次握手</li>
+<li>浏览器向web服务器发送一条http请求报文</li>
+<li>web服务器向浏览器回送一条http响应报文，返回用户所需的资源</li>
+<li>关闭tcp连接 ：四次挥手</li>
+<li>浏览器解析web服务器返回的资源（html,css,javascript等） 构建DOM树、CSSOM树 、渲染树</li>
+<li>浏览器绘制页面，页面展示</li>
+</ul>
+<h3 id="2-回流和重绘"><a href="#2-回流和重绘" class="headerlink" title="2. 回流和重绘"></a>2. 回流和重绘</h3><ul>
+<li><p>定义：</p>
+<p>回流：当DOM更改浏览器必须重新处理和绘制部分或全部页面时，就会产生回流 –&gt;比如元素的宽高发生变化</p>
+<p>重绘：当DOM更改浏览器不需要重新绘制部分或全部页面时，产生重绘  –&gt;比如元素的背景色发生变化</p>
+<p>由此可得：重绘不一定导致回流，但是回流一定会导致重绘</p>
+</li>
+<li><p>怎样避免回流或重绘？</p>
+<p>要避免回流或者重绘，最直接的方法就是避免引发回流和重绘的DOM操作</p>
+</li>
+<li><p>触发条件：</p>
+<p>重绘：不触发回流，但是又会改变DOM，都会触发重绘，比如background、color、visibility:hidden等（要区分与display:none的差别</p>
+<p>visibility:hidden虽然被隐藏，但是仍然占据着页面上的空间，display:none被隐藏不会占据页面上的空间）</p>
+<p>回流：改变DOM的几何属性，如：width、height、margin、padding等都会触发回流</p>
+</li>
+<li><p>如何减少回流和重绘？</p>
+<p>原因：频繁的回流和重绘会导致浏览器卡顿和掉帧，所以需要减少回流和重绘的情况</p>
+<p>解决办法：</p>
+<ol>
+<li>避免逐项更改样式，最好一次性更改style属性</li>
+<li>避免循环操作DOM，可以使用文档碎片（documentFragment）</li>
+<li>避免循环读取offsetLeft等属性</li>
+<li>避免使用table布局（很小的操作可能会导致整体重新布局）</li>
+<li>减少使用display:none,可以使用visibility:hidden替代</li>
+</ol>
+</li>
+</ul>
+<h3 id="3-localStorage、sessionStorage与cookie的区别"><a href="#3-localStorage、sessionStorage与cookie的区别" class="headerlink" title="3.localStorage、sessionStorage与cookie的区别"></a>3.localStorage、sessionStorage与cookie的区别</h3><p>共同点：</p>
+<ul>
+<li>都保存在浏览器端并且同源</li>
+</ul>
+<p>不同点：</p>
+<ul>
+<li>大小不同：cookie数据不能超过4K，webStorage可以达到5M</li>
+<li>有效期不同：cookie在设置的过期时间之前一直有效，即使浏览器被关闭，localstroage永久有效，sessionStorage仅在浏览器窗口关闭前有效</li>
+<li>作用域不同：不同浏览器不能共享localstorage和sessionStorage 不同会话不共享sessionStorage</li>
+<li>cookie存储内容会随着请求发送到服务器 webStorage不会被发送到服务器</li>
+<li>webStorage支持事件通知机制，cookie则不支持</li>
+<li>webStorage自带API接口，cookie没有</li>
+</ul>
+<p>优缺点：</p>
+<p>webStorage存储空间更大，可以达到5M，操作更方便，有专门的api可以调用，且更安全，cookie存储空间较小，没有单独的api可以调用，需要自己封装，不太方便，且cookie会在http请求中携带，可能会被修改或截取</p>
+<h3 id="4-同源策略和跨域"><a href="#4-同源策略和跨域" class="headerlink" title="4.同源策略和跨域"></a>4.同源策略和跨域</h3><p>同源策略：同源策略指两个地址协议、域名、端口三者必须相同</p>
+<p>跨域：如果两个地址不同源就会导致跨域，跨域是指一个域去请求另一个域下的资源</p>
+<p>为什么要使用同源策略？</p>
+<p><strong>同源策略</strong>是一个重要的安全策略，它用于限制一个origin的文档或者它加载的脚本如何能与另一个源的资源进行交互。它能帮助阻隔恶意文档，减少可能被攻击的媒介。</p>
+<p>常用跨域解决方案：</p>
+<ul>
+<li>CORS 跨域资源共享</li>
+<li>Nginx 代理</li>
+<li>Jsonp （有缺陷，只能使用get请求）</li>
+</ul>
+<h3 id="5-浏览器缓存机制"><a href="#5-浏览器缓存机制" class="headerlink" title="5. 浏览器缓存机制"></a>5. 浏览器缓存机制</h3><ul>
+<li><p>什么是缓存？</p>
+<p>当第一个请求资源完成后，根据相应的缓存机制，将一些静态资源存储在本地磁盘当中，这样下次请求资源的时候，浏览器直接从本地缓存中读取文件，不需要再次发送请求。这样可以减少了网络延迟，加快了页面响应速度，增强了用户体验；减少了网络带宽消耗；减轻了服务器的压力。</p>
+</li>
+<li><p>缓存类型：</p>
+<ol>
+<li>强缓存 – 不会向服务器发送请求，直接从缓存中读取资源</li>
+<li>协商缓存 – 向服务器发送请求，服务器会根据这个请求的request header的一些参数来判断是否需要重新请求数据</li>
+</ol>
+</li>
+<li><p>如何使用和注意点：</p>
+<ul>
+<li><p>对于频繁变动的资源需要使用Cache-Control: no-cache使浏览器每次都请求服务器</p>
+</li>
+<li><p>不常变动的资源，给它的 Cache-Control 配置一个很大的 max-age=31536000 (一年)，这样浏览器之后请求相同的 URL 会命中强缓存。而为了解决更新的问题，就需要在文件名中添加 hash，之后更改hash，从而达到更改请求路径的目的。</p>
+</li>
+<li><p>html文件不要设置强缓存</p>
+</li>
+<li><p>CSS、JS、图片等资源，可以设置一个长时间的强缓存。更改文件的时候，配合hash值，这样一旦文件发生了改变，那么浏览器直接去请求新的资源，在文件不变动的情况下，直接使用本地缓存，不去向浏览器请求。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="6-SEO优化"><a href="#6-SEO优化" class="headerlink" title="6. SEO优化"></a>6. SEO优化</h3><ul>
+<li><p>减少http请求，合理设置http缓存</p>
+<p>http协议是无状态的应用层协议，意味着每次http请求都需要建立通信链路、进行数据传输，而在服务器端，每个http都需要启动独立的线程去处理。这些通信和服务的开销都很昂贵，减少http请求的数目可有效提高访问性能。</p>
+<p>缓存参考上文浏览器缓存机制</p>
+</li>
+<li><p>使用gzip压缩</p>
+<p>在服务器端对文件进行压缩，在浏览器端对文件解压缩，可有效减少通信传输的数据量。如果可以的话，尽可能的将外部的脚本、样式进行合并，多个合为一个。文本文件的压缩效率可达到80%以上，因此HTML、CSS、javascript文件启用GZip压缩可达到较好的效果。但是压缩对服务器和浏览器产生一定的压力，在通信带宽良好，而服务器资源不足的情况下要权衡考虑。</p>
+</li>
+<li><p>使用雪碧图</p>
+<p>合并 CSS图片，减少请求数</p>
+</li>
+<li><p>css放在页面的最上方，js放在页面的最下方</p>
+<p>浏览器会在下载完成全部CSS之后才对整个页面进行渲染，因此最好的做法是将CSS放在页面最上面，让浏览器尽快下载CSS。如果将 CSS放在其他地方比如 BODY中，则浏览器有可能还未下载和解析到 CSS就已经开始渲染页面了，这就导致页面由无 CSS状态跳转到 CSS状态，用户体验比较糟糕，所以可以考虑将CSS放在HEAD中。</p>
+<p>Javascript则相反，浏览器在加载javascript后立即执行，有可能会阻塞整个页面，造成页面显示缓慢，因此javascript最好放在页面最下面。但如果页面解析时就需要用到javascript，这时放到底部就不合适了。</p>
+</li>
+<li><p>减少使用cookie</p>
+<p>一方面，cookie包含在每次请求和响应中，太大的cookie会严重影响数据传输，因此哪些数据需要写入cookie需要慎重考虑，尽量减少cookie中传输的数据量。另一方面，对于某些静态资源的访问，如CSS、script等，发送cookie没有意义，可以考虑静态资源使用独立域名访问，避免请求静态资源时发送cookie，减少cookie传输次数。</p>
+</li>
+<li><p>网站结构尽量简单</p>
+<p>减少代码的层级，有利于搜索引擎优化和爬虫的爬取</p>
+</li>
+<li><p>使用语义化的标签</p>
+<p>对于各种不同的内容尽量使用不同的标签，如：p、h1、main、nav等，不要所有内容都使用div容器，排版清晰，img标签添加alt和title属性，br标签只在文本内换行时使用等</p>
+</li>
+<li><p>控制页面的文件大小</p>
+<p>页面太大会导致加载速度较慢，用户体验较差</p>
+</li>
+<li><p>给网站添加正确的description描述以及keywords关键字</p>
+</li>
+</ul>
+<h3 id="7-事件机制"><a href="#7-事件机制" class="headerlink" title="7. 事件机制"></a>7. 事件机制</h3><ul>
+<li><p>事件触发的三个阶段</p>
+<ol>
+<li><p>捕获阶段： 事件对象(event object) 从 window 派发到 目标对象父级的过程。</p>
+</li>
+<li><p>触发阶段：事件对象派发到目标元素时的阶段，如果事件类型指示其不冒泡，那事件传播将在此阶段终止。</p>
+</li>
+<li><p>冒泡阶段：和捕获相反，是以目标对象父级到 window 的过程。</p>
+<p>注意：在任一阶段调用 <code>stopPropagation</code>都将终止本次事件的传播。</p>
+</li>
+</ol>
+</li>
+<li><p>阻止冒泡和默认事件</p>
+<p>阻止冒泡：调用 <code>stopPropagation</code> 严格来说不是阻止冒泡，是阻止事件传播，捕获阶段也可以直接阻止。</p>
+<p>组织默认事件：调用 <code>preventDefault </code>则是阻止默认事件。</p>
+</li>
+</ul>
+<h3 id="8-web安全"><a href="#8-web安全" class="headerlink" title="8. web安全"></a>8. web安全</h3><ul>
+<li><p>XSS攻击</p>
+<p>定义：跨站脚本攻击，因为缩写和 CSS重叠，所以只能叫 XSS。跨站脚本攻击是指通过存在安全漏洞的Web网站注册用户的浏览器内运行非法的HTML标签或JavaScript进行的一种攻击。</p>
+<p>原理：XSS 的原理是恶意攻击者往 Web 页面里插入恶意可执行网页脚本代码，当用户浏览该页之时，嵌入其中 Web 里面的脚本代码会被执行，从而可以达到攻击者盗取用户信息或其他侵犯用户安全隐私的目的。</p>
+<p>危害：利用虚假的输入表单骗取用户个人信息等</p>
+<p>如何处理：</p>
+<ul>
+<li>Web应用程序在设置cookie时，将其属性设为HttpOnly，就可以避免该网页的cookie被客户端恶意JavaScript窃取，保护用户cookie信息。</li>
+<li>转义输入输入的内容，对引号、尖括号、斜杠进行转义</li>
+</ul>
+</li>
+<li><p>CSRF攻击</p>
+<p>定义：即跨站请求伪造，是一种常见的Web攻击，它利用用户已登录的身份，在用户毫不知情的情况下，以用户的名义完成非法操作。</p>
+<p>原理：登录受信任的网站A，并在本地生成Cookie，在不登出A的情况下，访问危险网站B</p>
+<p>危害：泄露个人隐私，盗用个人账号，侵犯你的财产安全等</p>
+<p>如何处理：</p>
+<ul>
+<li>组织第三方网站请求接口</li>
+<li>请求时附带验证信息，token，session等</li>
+<li>get请求不对数据进行修改</li>
+<li>不让第三方网站访问到用户的cookie</li>
+</ul>
+</li>
+<li><p>SQL注入</p>
+<p>定义：SQL注入是一种常见的Web安全漏洞，攻击者利用这个漏洞，可以访问或修改数据，或者利用潜在的数据库漏洞进行攻击。</p>
+<p>危害：获取数据库的信息，后台管理员的账号和密码，或用户的敏感信息等</p>
+<p>如何处理：</p>
+<ul>
+<li>严格限制web应用的数据库操作权限</li>
+<li>后端代码检查输入的数据是否合格</li>
+<li>对进入数据库的特殊字符进行转义或编码处理</li>
+<li>所有的查询语句建议使用数据库提供的参数化查询接口</li>
+</ul>
+</li>
+</ul>
+<p>注意：这里仅仅是对web安全进行简单说明，还有很多其他的攻击方式，可以自行搜索</p>
+]]></content>
+      <categories>
+        <category>浏览器</category>
+      </categories>
+      <tags>
+        <tag>浏览器</tag>
+        <tag>面试</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>常见前端面试手写题</title>
+    <url>/2021/12/19/%E5%B8%B8%E8%A7%81%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95%E6%89%8B%E5%86%99%E9%A2%98/</url>
+    <content><![CDATA[<h2 id="面试常问"><a href="#面试常问" class="headerlink" title="面试常问"></a>面试常问</h2><span id="more"></span>
+
+<h3 id="1-手写ajax"><a href="#1-手写ajax" class="headerlink" title="1. 手写ajax"></a>1. 手写ajax</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> ajax = &#123;</span><br><span class="line">    <span class="function"><span class="title">get</span>(<span class="params">url, callback</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> xhr = <span class="keyword">new</span> XMLHttpRequest()</span><br><span class="line">        <span class="comment">//第三个表示是否异步执行操作，默认为true   </span></span><br><span class="line">        <span class="comment">//完整参数为 xhr.open(method, url, async, user, password); 具体解释可以查看 MDN</span></span><br><span class="line">        xhr.open(<span class="string">&#x27;GET&#x27;</span>, url, <span class="literal">true</span>)</span><br><span class="line">        xhr.onreadystatechange = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="comment">// readyState == 4说明请求已完成</span></span><br><span class="line">            <span class="keyword">if</span> (xhr.readyState === <span class="number">4</span>) &#123;</span><br><span class="line">                callback(xhr.responeText)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        xhr.send()</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="function"><span class="title">post</span>(<span class="params">url, data, callback</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> xhr = <span class="keyword">new</span> XMLHttpRequest()</span><br><span class="line">        xhr.open(<span class="string">&#x27;POST&#x27;</span>, url, <span class="literal">true</span>)</span><br><span class="line">        xhr.setRequestHeader(<span class="string">&#x27;Content-type&#x27;</span>,<span class="string">&#x27;application/x-www-form-urlencoded&#x27;</span>)</span><br><span class="line">        xhr.onreadystatechange = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (xhr.readyState === <span class="number">4</span>) &#123;</span><br><span class="line">                callback(xhr.responeText)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        xhr.send(data)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-函数防抖"><a href="#2-函数防抖" class="headerlink" title="2. 函数防抖"></a>2. 函数防抖</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123; function &#125;</span> <span class="variable">func</span></span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123; number &#125;</span> </span>wait 延迟执行毫秒数</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123; boolean &#125;</span> </span>immediate  true 表立即执行，false 表非立即执行</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="title">debounce</span>(<span class="params">func,wait,immediate</span>)</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> timeout;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">let</span> context = <span class="built_in">this</span>;</span><br><span class="line">        <span class="keyword">let</span> args = <span class="built_in">arguments</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (timeout) <span class="built_in">clearTimeout</span>(timeout);</span><br><span class="line">        <span class="keyword">if</span> (immediate) &#123;</span><br><span class="line">            <span class="keyword">let</span> callNow = !timeout;</span><br><span class="line">            timeout = <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">                timeout = <span class="literal">null</span>;</span><br><span class="line">            &#125;, wait);</span><br><span class="line">            <span class="keyword">if</span> (callNow) func.apply(context, args)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            timeout = <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">                func.apply(context, args)</span><br><span class="line">            &#125;, wait);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-函数节流"><a href="#3-函数节流" class="headerlink" title="3. 函数节流"></a>3. 函数节流</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123; function &#125;</span> </span>func 函数</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123; number &#125;</span> </span>wait 延迟执行毫秒数</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param <span class="type">&#123; number &#125;</span> </span>type 1 表时间戳版，2 表定时器版</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="title">throttle</span>(<span class="params">func, wait ,type</span>)</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> previous, timeout;</span><br><span class="line">    <span class="keyword">if</span>(type===<span class="number">1</span>)&#123;</span><br><span class="line">        previous = <span class="number">0</span>;</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(type===<span class="number">2</span>)&#123;</span><br><span class="line">        timeout = <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">let</span> context = <span class="built_in">this</span>;</span><br><span class="line">        <span class="keyword">let</span> args = <span class="built_in">arguments</span>;</span><br><span class="line">        <span class="keyword">if</span>(type===<span class="number">1</span>)&#123;</span><br><span class="line">            <span class="keyword">let</span> now = <span class="built_in">Date</span>.now();</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (now - previous &gt; wait) &#123;</span><br><span class="line">                func.apply(context, args);</span><br><span class="line">                previous = now;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(type===<span class="number">2</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span> (!timeout) &#123;</span><br><span class="line">                timeout = <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">                    timeout = <span class="literal">null</span>;</span><br><span class="line">                    func.apply(context, args)</span><br><span class="line">                &#125;, wait)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-数组去重"><a href="#4-数组去重" class="headerlink" title="4. 数组去重"></a>4. 数组去重</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//除了该方法 还有很多方法可以实现数组去重 如：ES6的Set/递归去重等等</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">unique</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> newArr = []</span><br><span class="line">    arr.reduce(<span class="function">(<span class="params">pre, next</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (!pre[next]) &#123;</span><br><span class="line">            pre[next] = <span class="number">1</span></span><br><span class="line">            newArr.push(next)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> pre</span><br><span class="line">    &#125;, &#123;&#125;)</span><br><span class="line">    <span class="keyword">return</span> newArr</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-数组扁平化"><a href="#5-数组扁平化" class="headerlink" title="5. 数组扁平化"></a>5. 数组扁平化</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="title">flatten</span>(<span class="params">arr</span>)</span> &#123;</span><br><span class="line">  <span class="keyword">var</span> result = [];</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>, len = arr.length; i &lt; len; i++) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">Array</span>.isArray(arr[i])) &#123;</span><br><span class="line">      result = result.concat(flatten(arr[i]))</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">      result.push(arr[i])</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//第二种</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">flatten</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> arr.reduce(<span class="function">(<span class="params">result, item</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> result.concat(<span class="built_in">Array</span>.isArray(item) ? flatten(item) : item);</span><br><span class="line">      &#125;, []);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-对象扁平化"><a href="#6-对象扁平化" class="headerlink" title="6. 对象扁平化"></a>6. 对象扁平化</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">flat</span>(<span class="params">obj, key = <span class="string">&quot;&quot;</span>, res = &#123;&#125;, isArray = <span class="literal">false</span></span>) </span>&#123;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">let</span> [k, v] <span class="keyword">of</span> <span class="built_in">Object</span>.entries(obj)) &#123;</span><br><span class="line">		<span class="keyword">if</span> (<span class="built_in">Array</span>.isArray(v)) &#123;</span><br><span class="line">			<span class="keyword">let</span> tmp = isArray ? key + <span class="string">&quot;[&quot;</span> + k + <span class="string">&quot;]&quot;</span> : key + k</span><br><span class="line">			flat(v, tmp, res, <span class="literal">true</span>)</span><br><span class="line">		&#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">typeof</span> v === <span class="string">&quot;object&quot;</span>) &#123;</span><br><span class="line">			<span class="keyword">let</span> tmp = isArray ? key + <span class="string">&quot;[&quot;</span> + k + <span class="string">&quot;].&quot;</span> : key + k + <span class="string">&quot;.&quot;</span></span><br><span class="line">			flat(v, tmp, res)</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="keyword">let</span> tmp = isArray ? key + <span class="string">&quot;[&quot;</span> + k + <span class="string">&quot;]&quot;</span> : key + k</span><br><span class="line">			res[tmp] = v</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> res</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="11-实现instanceof"><a href="#11-实现instanceof" class="headerlink" title="11.实现instanceof"></a>11.实现instanceof</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">myInstanceOf</span>(<span class="params">left, right</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> prototype = right.prototype;</span><br><span class="line">  left = left.__proto__;</span><br><span class="line">  <span class="keyword">while</span>(<span class="literal">true</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (!left) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">if</span> (left == prototype) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    left = left.__proto__;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="12-实现new"><a href="#12-实现new" class="headerlink" title="12. 实现new"></a>12. 实现new</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">myNew</span> (<span class="params">fun, ...args</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> obj = &#123;&#125;;</span><br><span class="line">  obj.__proto__ = fun.prototype;</span><br><span class="line">  <span class="keyword">let</span> res = fun.apply(obj, args);</span><br><span class="line">  <span class="keyword">return</span> res <span class="keyword">instanceof</span> <span class="built_in">Object</span> ? res : obj;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="13-函数柯里化"><a href="#13-函数柯里化" class="headerlink" title="13. 函数柯里化"></a>13. 函数柯里化</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">curry</span>(<span class="params">...args1</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> x = args1.reduce(<span class="function">(<span class="params">prev, next</span>) =&gt;</span> &#123;<span class="keyword">return</span> prev+next;&#125;)</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">...args2</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (args2.length == <span class="number">0</span>) <span class="keyword">return</span> x;</span><br><span class="line">    <span class="keyword">let</span> y = args2.reduce(<span class="function">(<span class="params">prev, next</span>) =&gt;</span> &#123;<span class="keyword">return</span> prev+next;&#125;)</span><br><span class="line">    <span class="keyword">return</span> curry(x+y)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="14-快速排序"><a href="#14-快速排序" class="headerlink" title="14. 快速排序"></a>14. 快速排序</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">quicksort</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (arr.length &lt;= <span class="number">1</span>) <span class="keyword">return</span> arr;</span><br><span class="line">  <span class="keyword">let</span> pivotIndex = arr.length &gt;&gt; <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">let</span> pivot = arr.splice(pivotIndex, <span class="number">1</span>)[<span class="number">0</span>];</span><br><span class="line">  <span class="keyword">let</span> left = [];</span><br><span class="line">  <span class="keyword">let</span> right = [];</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; arr.length; i++) &#123;</span><br><span class="line">    <span class="keyword">if</span> (arr[i] &lt;= pivot)  &#123;</span><br><span class="line">      left.push(arr[i]);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      right.push(arr[i]);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> quicksort(left).concat(pivot, quicksort(right));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="15-发布订阅者模式"><a href="#15-发布订阅者模式" class="headerlink" title="15. 发布订阅者模式"></a>15. 发布订阅者模式</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">EventEmitter</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="title">constructor</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.events = &#123;&#125;;</span><br><span class="line">  &#125;</span><br><span class="line">  on (eventName, callback) &#123;</span><br><span class="line">    <span class="keyword">if</span>(!<span class="built_in">this</span>.events[eventName]) &#123;</span><br><span class="line">      <span class="built_in">this</span>.events[eventName] = [callback];</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="built_in">this</span>.events[eventName].push(callback);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="title">emit</span>(<span class="params">eventName, ...args</span>)</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.events[eventName].forEach(<span class="function"><span class="params">fn</span> =&gt;</span> fn.apply(<span class="built_in">this</span>, args));</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="title">once</span>(<span class="params">eventName, callback</span>)</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> fn = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">      callback();</span><br><span class="line">      <span class="built_in">this</span>.remove(eventName, fn);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">this</span>.on(eventName, fn)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="title">remove</span>(<span class="params">eventName, callback</span>)</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.events[eventName] = <span class="built_in">this</span>.events[eventName].filter(<span class="function"><span class="params">fn</span> =&gt;</span> fn != callback);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="16-实现map方法"><a href="#16-实现map方法" class="headerlink" title="16. 实现map方法"></a>16. 实现map方法</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">Array</span>.prototype.myMap = <span class="function"><span class="keyword">function</span>(<span class="params">fn, thisValue</span>) </span>&#123;</span><br><span class="line">     <span class="keyword">let</span> res = []</span><br><span class="line">     thisValue = thisValue||[]</span><br><span class="line">     <span class="keyword">let</span> arr = <span class="built_in">this</span></span><br><span class="line">     <span class="keyword">for</span>(<span class="keyword">let</span> i <span class="keyword">in</span> arr) &#123;</span><br><span class="line">        res.push(fn(arr[i]))</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">return</span> res</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>面试题</tag>
+        <tag>JavaScript</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>javascript 执行上下文</title>
     <url>/2021/12/06/%E6%89%A7%E8%A1%8C%E4%B8%8A%E4%B8%8B%E6%96%87/</url>
     <content><![CDATA[<h3 id="执行上下文分类"><a href="#执行上下文分类" class="headerlink" title="执行上下文分类"></a>执行上下文分类</h3><span id="more"></span>
@@ -1000,6 +968,38 @@
 <p>注意：在执行阶段 如果JavaScript引擎不能再源码中生命的实际位置找到let变量的值 他会被赋值为undefined </p>
 </li>
 </ol>
+]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>JavaScript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JavaScript 垃圾回收机制</title>
+    <url>/2021/12/02/JavaScript%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/</url>
+    <content><![CDATA[<p><strong>垃圾回收有两种方式，即标记清理和引用计数</strong></p>
+<span id="more"></span>
+
+<p>标记清理：</p>
+<p>JavaScript最常用的垃圾回收策略是标记清理，垃圾回收程序运行的时候，会标记内存中存储的所有的变量（标记方法多种），然后他会将所有在上下文中的变量以及被在上下文中的变量引用的变量的标记去掉。再次之后再被加上标记的变量就是待删除的了，因为在上下文中的变量都访问不到它了，随后垃圾回收程序做一次内存清理，销毁带标记的所有值并收回它们的内存。</p>
+<p>引用计数：</p>
+<p>另外一种不太常用的策略就是引用计数，思路是对每个值都记录他被引用的次数，声明变量并给他赋一个引用值时，这个值的引用数为1，如果同一个值又被赋值给另一个变量，那么引用次数加1，如果保存对该值引用的变量被其他值覆盖了，那么引用数减1，当一个值的引用数为0时，就说明没办法在访问这个值了，就可以安全的收回该内存了，垃圾回收程序下次运行的时候就会释放引用数为0的值的内存</p>
+<p>引用计数存在的问题：</p>
+<p>如下：对象A中有一个指针指向对象B，对象B也引用了对象A。</p>
+<p> 在引用计数策略下，  对象A 和 对象B 在函数结束后还会存在，因为它们的引用数永远不会变成 0。如果函数被多次调 用，则会导致大量内存永远不会被释放。 而使用标记清理则不会出现这种问题</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">problem</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"> <span class="keyword">let</span> objectA = <span class="keyword">new</span> <span class="built_in">Object</span>();</span><br><span class="line"> <span class="keyword">let</span> objectB = <span class="keyword">new</span> <span class="built_in">Object</span>();</span><br><span class="line"> objectA.someOtherObject = objectB;</span><br><span class="line"> objectB.anotherObject = objectA;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+<p>第二个例子：</p>
+<p>在 IE8 及更早版本的 IE 中，并非所有对象都是原生 JavaScript 对象。BOM 和 DOM 中的对象是 C++ 实现的组件对象模型（COM，Component Object Model）对象，而 COM 对象使用引用计数实现垃圾回 收。因此，即使这些版本 IE 的 JavaScript 引擎使用标记清理，JavaScript 存取的 COM 对象依旧使用引用 计数。换句话说，只要涉及 COM 对象，就无法避开循环引用问题。下面这个简单的例子展示了涉及 COM 对象的循环引用问题： </p>
+<p>这个例子在一个 DOM 对象（element）和一个原生 JavaScript 对象（myObject）之间制造了循环 引用。myObject 变量有一个名为 element 的属性指向 DOM 对象 element，而 element 对象有一个 someObject 属性指回 myObject 对象。由于存在循环引用，因此 DOM 元素的内存永远不会被回收， 即使它已经被从页面上删除了也是如此。 </p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> element = <span class="built_in">document</span>.getElementById(<span class="string">&quot;some_element&quot;</span>);</span><br><span class="line"><span class="keyword">let</span> myObject = <span class="keyword">new</span> <span class="built_in">Object</span>();</span><br><span class="line">myObject.element = element;</span><br><span class="line">element.someObject = myObject; </span><br></pre></td></tr></table></figure>
+
+<p>为避免类似的循环引用问题，应该在确保不使用的情况下切断原生 JavaScript 对象与 DOM 元素之 间的连接。比如，通过以下代码可以清除前面的例子中建立的循环引用： </p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">myObject.element = null;</span><br><span class="line">element.someObject = null; </span><br></pre></td></tr></table></figure>
+
+<p>把变量设置为 null 实际上会切断变量与其之前引用值之间的关系。当下次垃圾回收程序运行时， 这些值就会被删除，内存也会被回收。 为了补救这一点，IE9 把 BOM 和 DOM 对象都改成了 JavaScript 对象，这同时也避免了由于存在两 套垃圾回收算法而导致的问题，还消除了常见的内存泄漏现象。 </p>
 ]]></content>
       <categories>
         <category>JavaScript</category>
